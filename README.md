@@ -59,7 +59,7 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 
 ## 运行范围与跨平台检查
 
-工作台基础服务与自有 worker 面向 Windows、macOS、Linux，使用当前解释器、参数数组、显式 UTF-8、受管理相对路径和单 worker。CI 在三种原生 runner 上分别用 Python 3.11、3.14 构建 wheel、在仓库外安装运行，并执行平台与 API 测试。v0.1.0 的[六组原生检查已全部通过](https://github.com/fengjikui/robot-data-pipeline/actions/runs/40250416133)；记录对应源码 commit、跳过项与 wheel 哈希。
+工作台基础服务与自有 worker 面向 Windows、macOS、Linux，使用当前解释器、参数数组、显式 UTF-8、受管理相对路径和单 worker。CI 在三种原生 runner 上分别用 Python 3.11、3.14 构建 wheel、在仓库外安装运行，并执行平台与 API 测试。v0.1.1 的[六组原生检查已全部通过](https://github.com/fengjikui/robot-data-pipeline/actions/runs/40256534146)；记录对应源码 commit、跳过项与 wheel 哈希。
 
 机器人 Host、PC2、XR 服务和 GPU 训练机可以是不同计算设备。工作台在 Windows 运行，不代表这些厂商工具也支持 Windows。旧 MuJoCo 渲染与报告制作脚本仍有本机资源/字体依赖，未列入基础工作台跨平台承诺。
 

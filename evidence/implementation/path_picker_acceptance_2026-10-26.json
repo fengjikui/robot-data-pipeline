@@ -1,0 +1,103 @@
+{
+  "version": "0.1.1",
+  "source_commit": "86a7299dbd1585acb1979ef8b8fea7ffa073ad06",
+  "run_url": "https://github.com/fengjikui/robot-data-pipeline/actions/runs/40256534146",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "macos-latest / Python 3.11",
+      "job_id": 121359478132,
+      "conclusion": "success",
+      "tests_run": 48,
+      "skipped": 1,
+      "skip_reasons": [
+        "'当前文件系统不能创建仅大小写不同的两个文件'"
+      ],
+      "wheel_install_and_picker_import_pipeline": "passed"
+    },
+    {
+      "name": "windows-latest / Python 3.11",
+      "job_id": 121359478271,
+      "conclusion": "success",
+      "tests_run": 48,
+      "skipped": 2,
+      "skip_reasons": [
+        "'此用例检查 POSIX 对外来 Windows 语法的拒绝；Windows 本机路径另测'",
+        "'当前文件系统不能创建仅大小写不同的两个文件'"
+      ],
+      "wheel_install_and_picker_import_pipeline": "passed"
+    },
+    {
+      "name": "macos-latest / Python 3.14",
+      "job_id": 121359478277,
+      "conclusion": "success",
+      "tests_run": 48,
+      "skipped": 1,
+      "skip_reasons": [
+        "'当前文件系统不能创建仅大小写不同的两个文件'"
+      ],
+      "wheel_install_and_picker_import_pipeline": "passed"
+    },
+    {
+      "name": "ubuntu-latest / Python 3.11",
+      "job_id": 121359478280,
+      "conclusion": "success",
+      "tests_run": 48,
+      "skipped": 0,
+      "skip_reasons": [],
+      "wheel_install_and_picker_import_pipeline": "passed"
+    },
+    {
+      "name": "ubuntu-latest / Python 3.14",
+      "job_id": 121359478293,
+      "conclusion": "success",
+      "tests_run": 48,
+      "skipped": 0,
+      "skip_reasons": [],
+      "wheel_install_and_picker_import_pipeline": "passed"
+    },
+    {
+      "name": "windows-latest / Python 3.14",
+      "job_id": 121359478323,
+      "conclusion": "success",
+      "tests_run": 48,
+      "skipped": 2,
+      "skip_reasons": [
+        "'此用例检查 POSIX 对外来 Windows 语法的拒绝；Windows 本机路径另测'",
+        "'当前文件系统不能创建仅大小写不同的两个文件'"
+      ],
+      "wheel_install_and_picker_import_pipeline": "passed"
+    }
+  ],
+  "wheel": {
+    "file": "robot_data_pipeline-0.1.1-py3-none-any.whl",
+    "source_artifact": "wheel-ubuntu-latest-py3.11",
+    "sha256": "7da6842555a3a7643cdf99ac382b2df919bcf10839fc989567d88c6ce03f8d29",
+    "bytes": 53595
+  },
+  "local_workbench_tests": {
+    "tests_run": 48,
+    "passed": 47,
+    "skipped": 1
+  },
+  "browser_review": {
+    "platform": "macOS in-app browser",
+    "cases": [
+      "open chooser from empty input",
+      "cancel/Escape leaves path and metadata unchanged",
+      "type location and navigate",
+      "filter no match then clear",
+      "open child and return to parent",
+      "choose current directory fills original form",
+      "selected directory imports and worker QC/export succeeds",
+      "missing directory disables confirm, shows readable error and can return home"
+    ],
+    "native_windows_linux_browser_visual_test": false
+  },
+  "scope": "read-only directory picker on the service machine; source data copy still requires explicit import",
+  "limits": [
+    "Only directory path input exists in current UI; task/name/tags stay text",
+    "Workspace remains a launch argument; output/log directories are managed",
+    "No new real-robot, augmentation, training, simulation or deployment backend"
+  ]
+}
