@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-26",
+  "report_revision": "v13",
+  "baseline_workbench_commit": "24aae6eb3b6dbdbb2a46adeed3c9375ebf4523ae",
+  "workbench_execution_version": "0.1.2",
+  "workbench_execution_code_changed": false,
+  "report": {
+    "slide_count": 25,
+    "body_pages": 23,
+    "changed_physical_slides": [
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "preserved_prefix_proto_equality": "slides 1–18 matched before export",
+    "speaker_note_count": 25,
+    "updated_slides_visual_review": "all seven inspected; Chinese line breaks repaired",
+    "package_integrity": "pass",
+    "layout_findings": 0,
+    "layout_warnings": [
+      {
+        "connector_id": "12",
+        "connector_z": 13,
+        "kind": "connector_over_text",
+        "slide": 4,
+        "text_object_id": "3",
+        "text_z": 4
+      },
+      {
+        "kind": "object_outside_slide_boundary",
+        "object_id": "10",
+        "object_kind": "sp",
+        "slide": 15
+      },
+      {
+        "connector_id": "20",
+        "connector_z": 21,
+        "kind": "connector_over_text",
+        "slide": 16,
+        "text_object_id": "19",
+        "text_z": 20
+      },
+      {
+        "connector_id": "26",
+        "connector_z": 27,
+        "kind": "connector_over_text",
+        "slide": 16,
+        "text_object_id": "25",
+        "text_z": 26
+      },
+      {
+        "connector_id": "32",
+        "connector_z": 33,
+        "kind": "connector_over_text",
+        "slide": 16,
+        "text_object_id": "31",
+        "text_z": 32
+      }
+    ],
+    "warnings_in_updated_slides": 0,
+    "native_windows_powerpoint_wps_playback_verified": false
+  },
+  "prototype": {
+    "kind": "standalone HTML/CSS/JS design prototype; all data and states are examples",
+    "browser": "macOS in-app Chromium",
+    "tested_journeys": [
+      "read-only preparation, XR wait and control enable separated",
+      "normal save adds completed demo episode to asset list",
+      "save failure stays isolated; retry saves and then increments completion",
+      "source filtering updates matching inspector; no results clears old inspector",
+      "register external source without files or network acquisition",
+      "missing action units block mapping, reader and train",
+      "mapping does not bypass reader check",
+      "recipe change keeps source evidence/mapping and invalidates reader result",
+      "demo training and evaluation update overview next step",
+      "new completed episode selects a separate demo view with conditions to check",
+      "optional chaining stops for missing source units"
+    ],
+    "fixes_during_review": [
+      "filtered list no longer shows excluded old asset details",
+      "no-match filter clears inspector",
+      "overview next action follows current context",
+      "native form focus restored after redraw"
+    ],
+    "actual_robot_training_deployment_executed": false,
+    "real_user_study_completed": false
+  },
+  "portable_bundle": {
+    "html_targets_checked_after_relocation": 86,
+    "relocation_environment": "macOS temporary directory with Chinese characters and spaces",
+    "zip_crc": "passed",
+    "ppt_and_prototype_bytes": "match final source files",
+    "relative_ppt_prototype_link": "prototype/index.html",
+    "offline_execution": "prototype and local reading pages require no Python/server; external citations require internet"
+  },
+  "roadmap": [
+    "M1 capture and intake, including external source/sample organization",
+    "M2 processing, one recipe training and matching simulation",
+    "M3 bounded deployment and feedback",
+    "M4 extension to selected sources/recipes/bodies"
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/report/具身智能数据管线报告_v13.pptx",
+      "bytes": 8402150,
+      "sha256": "9b3431787b64f7c22dab2427e4ba5c468c30b29368f7c55114d9d5618cad590f"
+    },
+    {
+      "path": "artifacts/report/robot_data_pipeline_report_windows_v13.zip",
+      "bytes": 91366596,
+      "sha256": "49d86ec3e7adc657d8be28e50ffd65056fc64da64a7c7f6e7b6d65b37c7851cf"
+    }
+  ]
+}

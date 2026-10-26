@@ -40,9 +40,16 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 
 本版导入上限为 128 MiB、10000 个文件，单个 JSON 不超过 20 MiB。采用复制模式，源目录保持原样；暂不提供互联网下载和大规模数据流式导入。结构检查支持 Unitree 风格的 28 维双臂双手记录，检查数值、索引与图像路径存在性；不解码图像，不证明同步、标定或任务成功。
 
+## 后续完整方案与交互设计
+
+- [现状问题、平台价值、理想方案与四阶段实现](docs/product/10_整体方案与产品价值_2026-10-26.md)
+- [用户旅程、页面、按钮、状态和异常恢复](docs/product/11_交互逻辑与界面设计说明.md)
+- [开发工作包、依赖与验收映射](docs/product/12_开发工作包与验收映射.md)
+- [独立交互原型](docs/design/workbench_prototype/index.html)：下载源码后可直接打开，全部为示例，不调用硬件或训练器。
+
 ## 报告与设计
 
-- [具身智能数据管线报告 v12，PPT 与 Windows 完整演示包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v12)：目录、23 页正文、启动步骤备查，以及逐页讲稿、官方来源与离线原始资料。完整解压演示包后保持相对目录。
+- [具身智能数据管线报告 v13，PPT 与 Windows 完整演示包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v13)：目录、23 页正文、启动步骤备查及新版后续方案，以及逐页讲稿、官方来源与离线原始资料。完整解压演示包后保持相对目录。
 - [v0.1.2 安装包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.1.2)
 - [路径选择与三平台说明](docs/implementation/07_路径选择与三平台说明.md)
 - [真机采集接入现状与实施顺序](docs/implementation/08_真机采集接入现状与实施顺序.md)

@@ -1,6 +1,7 @@
 """Prepare offline data viewers and a relocatable, self-contained report folder."""
 from pathlib import Path
 import argparse, hashlib, html, json, re, shutil, zipfile
+from urllib.parse import quote
 from markdown_it import MarkdownIt
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -116,6 +117,35 @@ def package():
         s=portable_markdown((ROOT/'docs/report'/source).read_text()).replace('report.pptx',ppt_name);(notes/(name+'.md')).write_text(s)
         body='<nav><a href="../start.html">资料总入口</a><a href="'+name+'.md">Markdown 原稿</a></nav><article>'+render.render(s)+'</article>'
         (notes/(name+'.html')).write_text(page('报告讲稿与说明',body))
+    if int(REV[1:]) >= 13:
+        shutil.copytree(ROOT/'docs/design/workbench_prototype',folder/'prototype')
+        design_sources = {
+            ROOT/'docs/product/10_整体方案与产品价值_2026-10-26.md': 'product_plan',
+            ROOT/'docs/product/11_交互逻辑与界面设计说明.md': 'interaction_design',
+            ROOT/'docs/product/12_开发工作包与验收映射.md': 'implementation_backlog',
+            ROOT/'docs/implementation/08_真机采集接入现状与实施顺序.md': 'capture_status',
+        }
+        for source,name in design_sources.items():
+            def rewrite_link(match):
+                label,target=match.groups()
+                if re.match(r'^[a-z]+:',target) or target.startswith('#'):
+                    return match.group(0)
+                linked=(source.parent/target.split('#')[0]).resolve()
+                if linked in design_sources:
+                    dest=design_sources[linked]+'.md'
+                elif linked == ROOT/'docs/report/12_采集转换训练配置与策略适配.md':
+                    dest='strategy_conversion_guide.md'
+                elif linked == ROOT/'docs/design/workbench_prototype/index.html':
+                    dest='../prototype/index.html'
+                elif linked.is_relative_to(ROOT):
+                    dest='https://github.com/fengjikui/robot-data-pipeline/blob/main/'+quote(linked.relative_to(ROOT).as_posix())
+                else:
+                    raise ValueError('Unexpected design document link')
+                return '['+label+']('+dest+')'
+            s=re.sub(r'\[([^\]]+)\]\(([^)]+)\)',rewrite_link,source.read_text())
+            (notes/(name+'.md')).write_text(s)
+            html_source=re.sub(r'\]\(([a-z_]+)\.md\)',r'](\1.html)',s)
+            (notes/(name+'.html')).write_text(page('方案与交互设计','<nav><a href="../start.html">资料总入口</a><a href="'+name+'.md">Markdown 原稿</a></nav><article>'+render.render(html_source)+'</article>'))
     body='''<h1>具身智能数据管线 · 演示资料</h1><p>离线资料与演示文稿已放在同一目录。先完整解压 ZIP，再打开本页或 report.pptx；复制到 Windows 时保留整个文件夹，无需改成本机绝对路径。</p>
 <h2>演示与讲稿</h2><nav><a href="report.pptx">打开演示 PPT</a><a href="notes/speaker_notes.html">逐页预览与完整讲稿</a></nav>
 <h2>原始采集数据</h2><nav><a href="resources/raw_episode.html">按帧浏览原始 JSON 与图像</a><a href="resources/raw/episode_0006/data.json">原始 data.json</a><a href="notes/raw_episode_guide.html">字段对应与样本边界</a></nav>
@@ -123,6 +153,8 @@ def package():
 <h2>外部数据与采购</h2><nav><a href="notes/external_data_guide.html">外部数据接入阶段与额外处理路径</a></nav>
 <p>原始回放测试样本为167条记录、334张JPG，原始字节保留。LeRobot数据为独立的官方示例，不能当作这段原始回合的转换产物。</p>
 <h2>在 Windows 上使用</h2><ol><li>对ZIP执行“全部解压”，不要从压缩包内部临时打开PPT。</li><li>用桌面版PowerPoint或WPS打开 report.pptx，进入放映后点击资料链接。编辑状态可能需 Ctrl + 单击。</li><li>若本地资料链接被Office策略提示，仍可从本页用Edge/Chrome打开相同的离线浏览页。资料不需要Python、服务器或互联网。</li><li>官方仓库、论文、在线Viewer等外部来源仍需联网；已用于现场查看的数据和讲稿可离线打开。</li></ol><p class="muted">当前已完成目录迁移、相对链接静态检查与离线脚本数据绑定检查；尚未在你的Windows版PowerPoint/WPS实播验证。PPT已嵌入展示用图片与数值，完整原始文件随包，通过相对链接打开。</p>'''
+    if int(REV[1:]) >= 13:
+        body += '''<h2>后续完整方案与交互原型</h2><nav><a href="notes/product_plan.html">现状问题、价值与四阶段路线</a><a href="notes/interaction_design.html">用户旅程与详细交互设计</a><a href="notes/implementation_backlog.html">开发工作包与验收</a><a href="notes/capture_status.html">真机采集当前接入状态</a><a href="prototype/index.html">打开可点击方案原型</a></nav><p>原型全部使用示例状态，不连接机器人，不下载、不训练、不部署。可以演示采集保存失败恢复、外部数据筛选、训练输入差异与配方切换。</p>'''
     (folder/'start.html').write_text(page('演示资料入口',body.replace('report.pptx',ppt_name)))
     (folder/'README.txt').write_text('具身智能数据管线演示包\n\n1. 完整解压ZIP，保持文件夹结构。\n2. 打开 start.html 查看全部资料，或打开 report.pptx 开始报告。\n3. resources包含完整原始回合、原ZIP、离线浏览页及转换后节选；notes包含完整讲稿。\n4. 本地链接相对于 report.pptx，无用户目录或盘符依赖。不要只复制PPT文件。\n5. 图像与关键数值已嵌入PPT；完整原始文件为随包附件，并非OLE嵌入对象。\n6. 外部权威来源链接仍需联网。本包没有宏、可执行安装器或服务要求。\n\n尚未在目标Windows版PowerPoint/WPS实播，建议在报告前打开并点击一次资料入口。\n')
     readme=folder/'README.txt';readme.write_text(readme.read_text().replace('report.pptx',ppt_name))

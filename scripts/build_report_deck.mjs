@@ -9,6 +9,7 @@ import {conversionPolicyContract} from './report_conversion_contract.mjs';
 
 const revision=process.argv[2]||'v1';
 if(!/^v\d+$/.test(revision))throw new Error('Expected a version v1, v2, ...');
+if(Number(revision.slice(1))>=13)throw new Error('For v13 use scripts/refresh_workbench_solution.mjs to preserve the v12 technical section and apply the new solution pages.');
 const build=path.join(ROOT,'.build/full-report',revision);
 const out=path.join(ROOT,'artifacts/report');
 const previews=path.join(out,'full_'+revision);

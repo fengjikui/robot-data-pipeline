@@ -42,7 +42,11 @@ try{
   const overrides=JSON.parse(await fs.readFile(path.join(ROOT,'docs/report/parts/authority_reference_overrides.json'),'utf8'));
   for(const o of overrides){short[String(o.contentPage)]=o.shortScript;const m=metadata.find(x=>x.contentPage===o.contentPage);if(m)m.sources=o.sources;}
 }catch(e){if(e.code!=='ENOENT')throw e;}
-let md=`# 具身智能数据管线：逐页阅读与演讲稿\n\n更新：2026 年 10 月 26 日。共 ${bodyCount} 页正文、1 页目录与 1 页备查，合计 ${slideCount} 张幻灯片。先完整介绍自采到部署，再介绍外部数据接入与采购，最后讲工作台方案。标题为红色，白/浅灰与石墨黑为主体，少量蓝色强调。每页底部约 80 px 留作公司页脚。\n\n每页先给精讲口述，随后保留扩展讲稿。仅在用到官方文档、原作者源码或论文时列出参考资料，自行整理与设计不作为参考。主线精讲按约 20–25 分钟演练，备查页可略讲，实际以演练为准。图形工作台与完整自主搬箱尚未实现，规划页已明确标注。\n\n`;
+if(Number(revision.slice(1))>=13){
+  const solution=JSON.parse(await fs.readFile(path.join(ROOT,'docs/report/parts/workbench_solution_v13.json'),'utf8'));
+  for(const item of solution){short[String(item.contentPage)]=item.shortScript;const m=metadata.find(x=>x.contentPage===item.contentPage);if(m)Object.assign(m,item);}
+}
+let md=`# 具身智能数据管线：逐页阅读与演讲稿\n\n更新：2026 年 10 月 26 日。共 ${bodyCount} 页正文、1 页目录与 1 页备查，合计 ${slideCount} 张幻灯片。先完整介绍自采到部署，再介绍外部数据接入与采购，最后讲工作台方案。标题为红色，白/浅灰与石墨黑为主体，少量蓝色强调。每页底部约 80 px 留作公司页脚。\n\n每页先给精讲口述，随后保留扩展讲稿。仅在用到官方文档、原作者源码或论文时列出参考资料，自行整理与设计不作为参考。主线精讲按约 20–25 分钟演练，备查页可略讲，实际以演练为准。${Number(revision.slice(1))>=13?'v0.1.2 已实现本地导入、结构质检与 JSONL 导出；新页面展示的完整工作流与可点击原型仍属方案，真机采集、训练和部署尚未接入。':'图形工作台与完整自主搬箱尚未实现，规划页已明确标注。'}\n\n`;
 for(let i=0;i<metadata.length;i++){
   const m=metadata[i],stem='page-'+String(i+1).padStart(2,'0');
   let long=await fs.readFile(path.join(build,stem+'.notes.txt'),'utf8');
