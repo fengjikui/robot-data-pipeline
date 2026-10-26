@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-27",
+  "version": "0.2.0",
+  "scope": "任务式界面框架，本机 macOS 浏览器实际操作",
+  "automated_tests": {
+    "total": 53,
+    "passed": 52,
+    "skipped": 1,
+    "skip_reason": "当前文件系统不支持两个仅大小写不同的文件名"
+  },
+  "browser_checks": [
+    "空库主动生成样例",
+    "从任务页串联质检与 JSONL 导出",
+    "查看运行日志和输入快照，点击契约下载",
+    "采集配置保存和刷新保留",
+    "将采集目录带到导入页",
+    "手动导入历史官方原始回合，登记任务与来源",
+    "167 条记录的质检与导出",
+    "重启服务后保持任务输入与作业",
+    "无效接收目录显示错误，可更正并保存"
+  ],
+  "runs": [
+    {
+      "stage": "check_export",
+      "status": "succeeded",
+      "asset_name": "Unitree 官方原始回合（历史样例）",
+      "frames": 167,
+      "is_lerobot_dataset": false
+    },
+    {
+      "stage": "check_export",
+      "status": "succeeded",
+      "asset_name": "合成流程样例（非真机）",
+      "frames": 12,
+      "is_lerobot_dataset": false
+    }
+  ],
+  "wheel_installation_smoke": "已在独立临时虚拟环境、仓库之外安装并验证 UI 静态资源、配置 API、worker、下载产物",
+  "native_picker": "复用既有系统选择器；本轮未进行 Windows / Linux 原生 GUI 点选",
+  "not_implemented": [
+    "采集服务启动与机器人控制",
+    "官方 LeRobot 转换",
+    "增强执行",
+    "模型训练",
+    "闭环仿真",
+    "真机部署",
+    "联网下载和大规模数据流式接入"
+  ],
+  "screenshot": "workbench_v020/task-pipeline.png",
+  "workspace": "独立演示目录 .build/ui-framework-qa，不影响默认用户工作区"
+}

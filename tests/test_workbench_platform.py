@@ -121,6 +121,19 @@ class WorkbenchPlatformAPITests(unittest.TestCase):
         self.assertEqual(status, 200, result)
         return result
 
+    def test_capture_config_api_requires_token_and_roundtrips(self):
+        status,result=self.request('POST','/api/capture/config',{'host':'lab-host'},token=False)
+        self.assertEqual(status,403)
+        directory=self.root/'接收 with spaces';directory.mkdir()
+        status,result=self.request('POST','/api/capture/config',{'host':'lab-host','receive_directory':str(directory)})
+        self.assertEqual(status,200,result)
+        status,state=self.request('GET','/api/state')
+        self.assertEqual(state['capture']['host'],'lab-host')
+        self.assertEqual(state['capture']['receive_directory'],str(directory.resolve()))
+        self.assertEqual(state['jobs'],[])
+        status,result=self.request('POST','/api/capture/config',{'command':'shell'})
+        self.assertEqual(status,400)
+
     def test_empty_start_project_roundtrip_and_utf8(self):
         status, state = self.request("GET", "/api/state")
         self.assertEqual(status, 200)

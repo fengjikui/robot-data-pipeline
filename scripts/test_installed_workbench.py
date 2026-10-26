@@ -35,6 +35,8 @@ try:
     assert len(get('/app.js', 'text/javascript')) > 500
     assert len(get('/styles.css', 'text/css')) > 500
     assert len(get('/path-picker.js', 'text/javascript')) > 500
+    assert len(get('/workbench.js', 'text/javascript')) > 500
+    assert len(get('/workbench.css', 'text/css')) > 500
     def post(path, payload):
         data = json.dumps(payload, ensure_ascii=False).encode('utf-8')
         request = Request(base + path, data=data, headers={
@@ -49,7 +51,9 @@ try:
     shutil.copytree(server.workbench.workspace / asset['path'], source)
     choice = post('/api/paths/pick', {'initial_path': str(source)})
     assert choice['cancelled'] is False and choice['path'] == str(source), choice
-    asset = post('/api/assets/import', {'path': choice['path'], 'name': 'Picked fixture', 'source_kind': 'simulation', '_synthetic': True, 'task': 'SYNTHETIC picker smoke test'})
+    asset = post('/api/assets/import', {'path': choice['path'], 'name': 'Picked fixture', 'source_kind': 'simulation', '_synthetic': True, 'task': 'SYNTHETIC picker smoke test', 'source_reference': 'generated installation fixture'})
+    post('/api/project', {'asset_id': asset['id']})
+    post('/api/capture/config', {'host': 'smoke-host', 'receive_directory': str(source)})
     job = post('/api/jobs', {'asset_id': asset['id'], 'stage': 'check_export'})
     deadline = time.monotonic() + 20
     while time.monotonic() < deadline:
@@ -61,6 +65,9 @@ try:
     result = detail['result']
     assert result['training_ready'] is False
     assert result['contract']['is_lerobot_dataset'] is False
+    assert result['contract']['provenance']['source_reference'] == 'generated installation fixture'
+    assert detail['input']['project']['asset_id'] == asset['id']
+    assert json.loads(get('/api/state'))['capture']['host'] == 'smoke-host'
     for artifact in result['artifacts']:
         assert get(artifact['url']), artifact
     print('Installed wheel: empty UI + synthetic import + real worker QC/export + artifacts PASS')

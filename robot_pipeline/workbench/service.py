@@ -37,7 +37,7 @@ class Workbench:
         self.process=None;self.active_id=None;self.cancelled=set()
         self.thread=threading.Thread(target=self._loop,name='pipeline-job-manager',daemon=True);self.thread.start()
     def state(self):
-        return {'version':__version__,'project':self.store.get('project','current'),'assets':self.store.all('asset'),'jobs':self.store.all('job'),'capabilities':[
+        return {'version':__version__,'project':self.store.get('project','current'),'capture':self.capture_config(),'assets':self.store.all('asset'),'jobs':self.store.all('job'),'capabilities':[
             {'id':'import','name':'来源登记与快照','available':True,'reason':'本机目录、来源与标签，128 MiB / 10000 文件以内'},
             {'id':'check','name':'结构质检','available':True,'reason':'Unitree 原始 JSON 28 维上肢记录；不证明同步或任务成功'},
             {'id':'export','name':'JSONL 导出','available':True,'reason':'项目自有契约；不是官方 LeRobot，尚不能直接训练策略'},
@@ -51,7 +51,26 @@ class Workbench:
         for k in ('task','target','policy'):
             if k in payload:project[k]=text(payload[k],k)
         if project['policy'] not in POLICIES:raise ValueError('不支持此策略选项')
+        if 'asset_id' in payload:
+            asset_id=text(payload['asset_id'],'asset_id',32)
+            if asset_id:self.store.get('asset',asset_id)
+            project['asset_id']=asset_id
         return self.store.put('project',project)
+    def capture_config(self,payload=None):
+        fields={'robot_model':120,'hand':120,'host':200,'pc2':200,'camera':300,'receive_directory':2000}
+        values=self.store.all('capture')
+        config=values[0] if values else {'id':'current',**{key:'' for key in fields}}
+        if payload is None:return config
+        if set(payload)-set(fields):raise ValueError('采集配置包含未知字段')
+        updated=dict(config)
+        for key,value in payload.items():updated[key]=text(value,key,fields[key])
+        if updated['receive_directory']:
+            try:directory=native_input(updated['receive_directory'])
+            except (FileNotFoundError,NotADirectoryError):raise ValueError('本机接收目录不存在，请通过系统选择器选择目录') from None
+            if not directory.is_dir():raise ValueError('本机接收目录不存在，请通过系统选择器选择目录')
+            updated['receive_directory']=str(directory.resolve())
+        updated['updated_at']=now()
+        return self.store.put('capture',updated)
     def import_asset(self,payload):
         source=native_input(payload.get('path',''))
         if not source.is_dir():raise ValueError('导入目标不是目录')
@@ -92,7 +111,7 @@ class Workbench:
                 manifest.append({'path':rel,'bytes':size,'sha256':file_hash(dest)})
             write_json(base/'manifest.json',{'format':'robot_pipeline.asset_snapshot.v1','files':manifest,'bytes':total})
             info=inspect_directory(raw)
-            asset={'id':aid,'name':text(payload.get('name') or source.name,'name',120),'source_kind':kind,'task':text(payload.get('task',''),'task'),'tags':tags,'license':text(payload.get('license','unknown'),'license'),'embodiment':text(payload.get('embodiment','unknown'),'embodiment'),'path':f'assets/{aid}/raw','manifest_path':f'assets/{aid}/manifest.json','manifest_sha256':file_hash(base/'manifest.json'),'created_at':now(),'bytes':total,'file_count':len(entries),'quality':None,'training_ready':False,'synthetic':bool(payload.get('_synthetic',False)),**info}
+            asset={'id':aid,'name':text(payload.get('name') or source.name,'name',120),'source_kind':kind,'source_reference':text(payload.get('source_reference',''),'source_reference',1000),'task':text(payload.get('task',''),'task'),'tags':tags,'license':text(payload.get('license','unknown'),'license'),'embodiment':text(payload.get('embodiment','unknown'),'embodiment'),'path':f'assets/{aid}/raw','manifest_path':f'assets/{aid}/manifest.json','manifest_sha256':file_hash(base/'manifest.json'),'created_at':now(),'bytes':total,'file_count':len(entries),'quality':None,'training_ready':False,'synthetic':bool(payload.get('_synthetic',False)),**info}
             return self.store.put('asset',asset)
         except BaseException:
             shutil.rmtree(base,ignore_errors=True);raise
@@ -124,7 +143,8 @@ class Workbench:
     def detail(self,ident):
         job=self.store.get('job',ident);p=within(self.workspace,f'jobs/{ident}/run.log')
         log=p.read_text(encoding='utf-8',errors='replace')[-100000:] if p.exists() else ''
-        return {'job':job,'log':log,'result':job.get('result')}
+        snapshot=within(self.workspace,f'jobs/{ident}/input.json')
+        return {'job':job,'log':log,'result':job.get('result'),'input':read_json(snapshot) if snapshot.exists() else None}
     def cancel(self,ident):
         with self.lock:
             job=self.store.get('job',ident)

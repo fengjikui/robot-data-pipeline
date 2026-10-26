@@ -88,6 +88,31 @@ class BackendTests(unittest.TestCase):
     def test_rejects_commands_and_invalid_policy(self):
         with self.assertRaises(ValueError):self.app.submit({'asset_id':'anything','stage':'shell'})
         with self.assertRaises(ValueError):self.app.project({'policy':'invented'})
+    def test_task_input_and_capture_configuration_persist_without_running_services(self):
+        asset=self.app.demo()
+        self.app.project({'task':'搬箱 A → B','asset_id':asset['id']})
+        directory=Path(self.tmp.name)/'接收目录 with spaces';directory.mkdir()
+        config=self.app.capture_config({'robot_model':'G1 EDU','hand':'待核对','host':'lab-host','pc2':'192.168.123.164','receive_directory':str(directory)})
+        self.assertEqual(config['receive_directory'],str(directory.resolve()))
+        self.assertEqual(self.app.state()['jobs'],[])
+        self.app.close();self.app=Workbench(self.workspace)
+        self.assertEqual(self.app.state()['project']['asset_id'],asset['id'])
+        self.assertEqual(self.app.state()['capture']['host'],'lab-host')
+        self.app.project({'asset_id':''})
+        self.assertEqual(self.app.state()['project']['asset_id'],'')
+    def test_invalid_configuration_does_not_overwrite_saved_configuration(self):
+        self.app.capture_config({'host':'original'})
+        for payload in ({'host':'changed','receive_directory':str(self.workspace/'missing')},{'host':['not text']},{'command':'anything'}):
+            with self.subTest(payload=payload),self.assertRaises(ValueError):self.app.capture_config(payload)
+            self.assertEqual(self.app.capture_config()['host'],'original')
+    def test_job_detail_keeps_original_task_configuration(self):
+        asset=self.app.demo();self.app.project({'task':'before','asset_id':asset['id']})
+        job=self.app.submit({'asset_id':asset['id'],'stage':'check'})
+        self.app.project({'task':'after','policy':'diffusion'})
+        detail=self.wait(job)
+        self.assertEqual(detail['input']['project']['task'],'before')
+        self.assertEqual(detail['input']['project']['policy'],'act')
+        self.assertEqual(detail['input']['asset']['id'],asset['id'])
     def test_windows_reserved_name_guard_and_posix_source_rejection(self):
         with self.assertRaises(ValueError):safe_relative('CON.txt')
         # Windows treats CON as a device; never open it just to build a fixture.

@@ -128,10 +128,7 @@
       status.append(element("span", null, "status-dot"), document.createTextNode(quality ? (quality.valid ? "结构检查通过" : "发现检查问题") : "尚未检查"));
       item.append(status);
       item.addEventListener("click", () => {
-        state.assetId = asset.id;
-        state.jobId = null;
-        showPanel("quality");
-        render();
+        act(item, () => selectAsset(asset.id));
       });
       $("asset-list").append(item);
     }
@@ -186,7 +183,7 @@
     qualityBadge.className = "badge " + (asset.quality ? (asset.quality.valid ? "good" : "bad") : "neutral");
     const values = [
       ["数据格式", asset.format || "待识别"], ["来源本体", asset.embodiment || "未知"],
-      ["记录数", Number.isFinite(asset.frames) ? String(asset.frames) : "检查后确认"], ["使用条件", asset.license || "待确认"]
+      ["记录数", Number.isFinite(asset.frames) ? String(asset.frames) : "检查后确认"], ["使用条件", asset.license || "待确认"], ["来源记录", asset.source_reference || "待补充"]
     ];
     $("asset-metadata").replaceChildren();
     for (const [term, value] of values) {
@@ -264,6 +261,7 @@
     renderProject();
     renderAssets();
     renderDetail();
+    document.dispatchEvent(new CustomEvent("workbench:state", {detail: {data: state.data, assetId: state.assetId, busy: state.busy}}));
   }
 
   async function refresh({quiet = false} = {}) {
@@ -271,7 +269,8 @@
     state.refreshing = true;
     try {
       state.data = await api("/api/state");
-      if (!(state.data.assets || []).some((asset) => asset.id === state.assetId)) state.assetId = state.data.assets?.[0]?.id || null;
+      if (Object.hasOwn(state.data.project, "asset_id")) state.assetId = state.data.project.asset_id || null;
+      else if (!(state.data.assets || []).some((asset) => asset.id === state.assetId)) state.assetId = state.data.assets?.[0]?.id || null;
       $("connection").textContent = "本地服务已连接";
       $("version").textContent = state.data.version || "";
       render();
@@ -331,6 +330,7 @@
       const result = await api("/api/assets/import", payload);
       const asset = result.asset || result;
       state.assetId = asset.id || null;
+      await api("/api/project", {asset_id: state.assetId || ""});
       state.jobId = null;
       $("import-form").reset();
       setImport(false);
@@ -343,6 +343,7 @@
   $("create-demo").addEventListener("click", () => act($("create-demo"), async () => {
     const result = await api("/api/demo", {});
     state.assetId = (result.asset || result).id || null;
+    await api("/api/project", {asset_id: state.assetId || ""});
     state.jobId = null;
     await refresh();
     notify("已生成合成教学样例，用于体验工作流。它不是真机采集数据。", "success");
@@ -376,6 +377,14 @@
       }
     });
   }
+  async function selectAsset(id) {
+    await api("/api/project", {asset_id: id || ""});
+    state.assetId = id || null;
+    state.jobId = null;
+    showPanel("quality");
+    await refresh();
+  }
+  window.Workbench = {api, notify, refresh, selectAsset, runStage, setImport};
   refresh();
   setInterval(() => { if (!document.hidden && !state.busy) refresh({quiet: true}); }, 3000);
 })();

@@ -18,7 +18,7 @@ window.WorkbenchPathPicker = {
           } else {
             input.value = result.path;
             input.dispatchEvent(new Event('input', {bubbles: true}));
-            notify('目录已选择，核对来源信息后可确认复制入库。', 'success');
+            notify('目录已选择，请核对后保存配置或导入数据。', 'success');
           }
         } catch (error) { notify(error.message, 'error', true); }
         finally {

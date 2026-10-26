@@ -84,6 +84,7 @@ class Handler(BaseHTTPRequestHandler):
             path=urlsplit(self.path).path
             if path=='/api/paths/pick':result=self.server.directory_picker.choose(payload.get('initial_path'))
             elif path=='/api/project':result=app.project(payload)
+            elif path=='/api/capture/config':result=app.capture_config(payload)
             elif path=='/api/assets/import':result=app.import_asset(payload)
             elif path=='/api/demo':result=app.demo()
             elif path=='/api/jobs':result=app.submit(payload)
