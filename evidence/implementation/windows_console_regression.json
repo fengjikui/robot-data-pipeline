@@ -4,10 +4,26 @@
   "first_failure_commit": "06381aa",
   "run_url": "https://github.com/fengjikui/robot-data-pipeline/actions/runs/40249899652",
   "observed_jobs": [
-    {"job_id": 121339321567, "os": "windows-latest", "python": "3.11", "step": "Install and test wheel outside checkout"},
-    {"job_id": 121339321514, "os": "windows-latest", "python": "3.14", "step": "Install and test wheel outside checkout"}
+    {
+      "job_id": 121339321567,
+      "os": "windows-latest",
+      "python": "3.11",
+      "step": "Install and test wheel outside checkout"
+    },
+    {
+      "job_id": 121339321514,
+      "os": "windows-latest",
+      "python": "3.14",
+      "step": "Install and test wheel outside checkout"
+    }
   ],
-  "observed_command": ["<clean-venv-python>", "-I", "-m", "robot_pipeline.workbench", "--help"],
+  "observed_command": [
+    "<clean-venv-python>",
+    "-I",
+    "-m",
+    "robot_pipeline.workbench",
+    "--help"
+  ],
   "bounded_log_evidence": [
     "Successfully installed robot-data-pipeline-0.1.0",
     "argparse.py: parser.print_help() -> file.write(message)",
@@ -21,5 +37,10 @@
     "test_workbench_console.WorkbenchConsoleTests.test_chinese_error_works_with_cp1252_redirected_stderr"
   ],
   "local_regression_result": "2 tests passed on macOS using isolated subprocesses with explicitly forced cp1252 streams",
-  "native_fix_verification": "Pending follow-up CI; consult final acceptance record for later result."
+  "native_fix_verification": {
+    "run_url": "https://github.com/fengjikui/robot-data-pipeline/actions/runs/40250416133",
+    "source_commit": "0fa5b62ec370fc5b2e9caccab03e0d98027710c9",
+    "windows_python_3_11": "success",
+    "windows_python_3_14": "success"
+  }
 }

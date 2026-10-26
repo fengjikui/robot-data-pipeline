@@ -1,0 +1,79 @@
+{
+  "version": "0.1.0",
+  "source_commit": "0fa5b62ec370fc5b2e9caccab03e0d98027710c9",
+  "run_url": "https://github.com/fengjikui/robot-data-pipeline/actions/runs/40250416133",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "windows-latest / Python 3.14",
+      "job_id": 121340985474,
+      "conclusion": "success",
+      "tests_run": 37,
+      "skipped": 2,
+      "test_seconds": 14.462,
+      "installed_wheel_smoke": "passed"
+    },
+    {
+      "name": "macos-latest / Python 3.11",
+      "job_id": 121340985618,
+      "conclusion": "success",
+      "tests_run": 37,
+      "skipped": 1,
+      "test_seconds": 44.33,
+      "installed_wheel_smoke": "passed"
+    },
+    {
+      "name": "windows-latest / Python 3.11",
+      "job_id": 121340985665,
+      "conclusion": "success",
+      "tests_run": 37,
+      "skipped": 2,
+      "test_seconds": 11.452,
+      "installed_wheel_smoke": "passed"
+    },
+    {
+      "name": "ubuntu-latest / Python 3.14",
+      "job_id": 121340985712,
+      "conclusion": "success",
+      "tests_run": 37,
+      "skipped": 0,
+      "test_seconds": 9.056,
+      "installed_wheel_smoke": "passed"
+    },
+    {
+      "name": "macos-latest / Python 3.14",
+      "job_id": 121340985713,
+      "conclusion": "success",
+      "tests_run": 37,
+      "skipped": 1,
+      "test_seconds": 44.843,
+      "installed_wheel_smoke": "passed"
+    },
+    {
+      "name": "ubuntu-latest / Python 3.11",
+      "job_id": 121340985790,
+      "conclusion": "success",
+      "tests_run": 37,
+      "skipped": 0,
+      "test_seconds": 8.557,
+      "installed_wheel_smoke": "passed"
+    }
+  ],
+  "wheel": {
+    "file": "robot_data_pipeline-0.1.0-py3-none-any.whl",
+    "source_artifact": "wheel-ubuntu-latest-py3.11",
+    "sha256": "da3b4ad26167533f94473e9d6b2eaf64e7c8051e92bd7f6c115cf1c3939cee60",
+    "bytes": 47917
+  },
+  "local_full_tests": {
+    "platform": "macOS",
+    "tests_run": 47,
+    "passed": 46,
+    "skipped": 1
+  },
+  "boundaries": [
+    "Native CI covers base workbench, not vendor SDK/GPU training/robot/PowerPoint playback",
+    "Browser visual QA on macOS Chrome; Windows native browser visual QA not performed",
+    "Skipped cases are listed in native job logs and are not counted as executed successes"
+  ]
+}
