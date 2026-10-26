@@ -1,0 +1,23 @@
+usage: scripts/extract_converter_help.py [-h] [OPTIONS]
+
+╭─ options ───────────────────────────────────────────────────╮
+│ -h, --help            show this help message and exit       │
+│ --raw-dir PATH        (required)                            │
+│ --repo-id STR         (required)                            │
+│ --robot-type STR      (required)                            │
+│ --push-to-hub, --no-push-to-hub                             │
+│                       (default: False)                      │
+│ --mode {video,image}  (default: video)                      │
+╰─────────────────────────────────────────────────────────────╯
+╭─ dataset-config options ────────────────────────────────────╮
+│ --dataset-config.use-videos, --dataset-config.no-use-videos │
+│                       (default: True)                       │
+│ --dataset-config.tolerance-s FLOAT                          │
+│                       (default: 0.0001)                     │
+│ --dataset-config.image-writer-processes INT                 │
+│                       (default: 10)                         │
+│ --dataset-config.image-writer-threads INT                   │
+│                       (default: 5)                          │
+│ --dataset-config.video-backend {None}|STR                   │
+│                       (default: None)                       │
+╰─────────────────────────────────────────────────────────────╯

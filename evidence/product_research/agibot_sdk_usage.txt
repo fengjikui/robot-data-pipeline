@@ -1,0 +1,787 @@
+AimDK 使用指南
+☰
+AIMA开放平台
+文档中心
+AimDK A2
+搜索文档…
+⌘K
+中文
+中文
+English
+立即登录
+AimDK A2
+全尺寸人形
+AimDK A2
+全尺寸人形
+AimDK A2-lite
+桌面级
+AimDK A2W
+轮式
+AimDK A3
+下一代
+AimDK A3-ultra
+远征 A3 Ultra
+版本
+v1.2
+v2.1 (Latest)
+v2.0
+v1.3
+v1.2
+开始上手
+二次开发边界说明【重要】【必读】
+AimDK 能力列表
+AimDK 使用指南
+A2 旗舰款仿真使用指南
+交互二次开发指南
+通信协议接口
+AimDK 公共协议
+传感器数据模块
+健康诊断模块
+灯带控制模块
+运动控制模块
+地图管理模块
+动作播放模块
+其他接口
+规划控制模块
+遥控模块
+任务执行引擎模块
+常见问题解答
+版本更新日志
+V0.6 更新日志
+V0.7 更新日志
+V1.0 更新日志
+V1.2 更新日志
+AimDK A2
+·
+开始上手
+·
+AimDK 使用指南
+AimDK 使用指南
+AimDK 使用指南
+AimDK 的概念有别于传统 SDK，传统 SDK 是提供给开发者一个软件包，其中提供动态库和头文件，开发者通过调用动态库中的函数来实现功能；而 AimDK 选择了更适合于机器人开发者的方式，提供给开发者机器人上各个模块的接口，开发者通过调用各个模块的 RPC 接口和 Channel 接口来实现功能。
+本页面包含一份详细的 AimDK 使用指南，带您了解 AimDK 中的各个概念和使用方法。
+系统架构
+机上软件系统架构如下图所示：
+可以看到 AimDK 所处的层级位于机器人软件平台 AIMA 之上，AimDK 中各个模块的接口均以
+文档 + 协议
+的形式进行提供，文档中会介绍各个接口的调用方法，协议中包含各个接口的 protobuf 定义以及 ROS2 的定义，协议文件在 A2 AimDK 仓库的
+protocol
+目录下，若出现协议文件与文档不一致的情况，以协议文件为准。
+AimDK 接口本质上是机上各个软件和算法模块各自提供的接口，有两种形式，一种是 RPC 接口，另一种是 Channel 接口，RPC 接口对应于 ROS2 中的 Service，Channel 接口对应于 ROS2 中的 Topic。
+RPC 接口
+RPC 接口一般为高层控制接口，例如指定机器人导航到特定点、切换运动控制状态机等，AimDK 提供了 HTTP 的调用方式（接口后端中会标注 HTTP 后端），常见的调用方式如下（以命令行脚本为例，实际 HTTP 协议可以被任何语言调用）：
+bash
+复制
+curl
+-i
+-H
+'content-type:application/json'
+\
+-H
+'timeout: 1000'
+\
+-X
+POST
+'http://192.168.100.100:56421/rpc/aimdk.protocol.HalBmsService/GetBmsState'
+\
+-d
+'{}'
+其中
+192.168.100.100
+为机器人 x86 开发板的 IP 地址，提供相应服务的模块位于哪块开发板上即填写对应的 IP 地址，各个模块位于的开发板可以参考
+机上软件分布
+小节。
+56421
+相应服务的 HTTP 端口号，各个模块的 HTTP 端口号可以参考
+机上软件分布
+小节。
+content-type:application/json
+为请求头，表示请求体为 json 格式，必须要加上这个请求头。
+timeout: 1000
+为请求头，表示请求超时时间，单位为毫秒，这里设置为 1000 毫秒，即 1 秒，该字段可以不设置。
+aimdk.protocol.HalBmsService/GetBmsState
+为获取电池状态的 RPC 接口名称，各个接口的具体名称在对应模块的文档和示例中可以找到。
+-d '{}'
+为请求体，这里为空代表其中的字段都为默认值，如果需要传入特定字段，可以传入 json 字符串，例如
+-d '{"bms_state": 1}'
+表示传入 bms_state 字段，值为 1（仅为举例，具体字段名称和值需要参考对应模块的文档和示例）。
+Channel 接口
+Channel 接口一般为相对高频的控制和数据状态获取接口，例如获取机器人当前位置、获取机器人当前运动状态等，AimDK 提供原生 ROS2 的调用方式（接口后端中会标注 ROS2 后端），常见的调用方式如下（以 python 脚本为例，实际 ROS2 接口可以使用任意 ROS2 支持的语言进行开发）：
+python
+复制
+#!/usr/bin/env python3
+import
+rclpy
+from
+rclpy.node
+import
+Node
+from
+rclpy.qos
+import
+QoSHistoryPolicy, QoSProfile, QoSReliabilityPolicy
+from
+sensor_msgs.msg
+import
+Image
+class
+ImageSubscriber
+(
+Node
+):
+def
+__init__
+(self, topic_name:
+str
+):
+super
+().
+__init__
+(
+"image_subscriber"
+)
+self
+.topic_name
+=
+topic_name
+qos_profile
+=
+QoSProfile(
+history
+=
+QoSHistoryPolicy.
+KEEP_LAST
+,
+depth
+=
+10
+,
+reliability
+=
+QoSReliabilityPolicy.
+BEST_EFFORT
+)
+self
+.subscription
+=
+self
+.create_subscription(Image, topic_name,
+self
+.listener_callback, qos_profile)
+self
+.subscription
+def
+listener_callback
+(self, msg: Image):
+self
+.get_logger().info(
+f
+"=== Received
+{self
+.topic_name
+}
+==="
+)
+self
+.get_logger().info(
+f
+"  header:
+{
+msg.header
+}
+"
+)
+self
+.get_logger().info(
+f
+"  width:
+{
+msg.width
+}
+"
+)
+self
+.get_logger().info(
+f
+"  height:
+{
+msg.height
+}
+"
+)
+self
+.get_logger().info(
+f
+"  encoding:
+{
+msg.encoding
+}
+"
+)
+self
+.get_logger().info(
+f
+"  is_bigendian:
+{
+msg.is_bigendian
+}
+"
+)
+self
+.get_logger().info(
+f
+"  step:
+{
+msg.step
+}
+"
+)
+self
+.get_logger().info(
+f
+"  data length:
+{len
+(msg.data)
+}
+"
+)
+def
+main
+(args
+=
+None
+):
+rclpy.init(
+args
+=
+args)
+# 头部相机 color: /aima/hal/rgbd_camera/head_front/color
+# 头部相机 depth: /aima/hal/rgbd_camera/head_front/depth
+# 髋部相机 color: /aima/hal/rgbd_camera/waist_front/color
+# 髋部相机 depth: /aima/hal/rgbd_camera/waist_front/depth
+# 胸部左侧相机 color: /aima/hal/fish_eye_camera/chest_left/color
+# 胸部右侧相机 color: /aima/hal/fish_eye_camera/chest_right/color
+image_node
+=
+ImageSubscriber(
+"/aima/hal/fish_eye_camera/chest_right/color"
+)
+try
+:
+rclpy.spin(image_node)
+except
+KeyboardInterrupt
+:
+pass
+finally
+:
+image_node.destroy_node()
+rclpy.shutdown()
+if
+__name__
+==
+"__main__"
+:
+main()
+在 ORIN 上运行上述脚本前需要设置如下环境变量：
+bash
+复制
+source
+/opt/ros/humble/setup.bash
+export
+ROS_DOMAIN_ID
+=
+232
+export
+ROS_LOCALHOST_ONLY
+=
+0
+export
+FASTRTPS_DEFAULT_PROFILES_FILE
+=
+/agibot/software/v0/entry/bin/cfg/ros_dds_configuration.xml
+一般情况下，请不要修改上述 dds 配置文件，其他配置未经测试，无法保证机上模块间通信正常。
+机上所有 ROS2 的 topic 的默认 qos 设置为
+yaml
+复制
+history
+:
+keep_last
+depth
+:
+10
+reliability
+:
+best_effort
+请在接收和发送对应 topic 时调整 qos 保持一致，避免出现 qos 不兼容导致的无法通信问题。
+机上软件分布
+当前 A2 机器人旗舰款包含两块上位机开发板，分别为 x86_64 架构和 arm64 架构，以下简称为 x86 和 orin 开发板，而基础款机型只有一块 x86 开发板，各个模块在不同开发板上的分布情况如下：
+模块
+模块缩写
+提供的接口功能
+基础款所属开发板
+旗舰款所属开发板
+HTTP 端口号
+运动控制模块
+mc
+控制机器人行走、上肢运动、灵巧手运动、头部运动、手臂末端 SE3 控制
+x86
+x86
+56322
+地图管理模块
+mm
+地图相关信息查询，一般用于配合规控 pnc 进行使用
+无
+orin
+50807
+动作播放模块
+motion_player
+播放预录制动作（底层接口）
+x86
+x86
+56444
+传感器数据接口
+hal-sensor
+获取传感器数据
+无
+orin
+56422
+健康诊断模块
+hds
+告警和异常查询
+x86
+orin
+50587
+遥控模块
+rc
+动作和表情播放（高层接口）
+x86
+x86
+59001
+规划控制模块
+pnc
+规控、导航相关接口
+无
+orin
+53176
+语音代理模块
+agent
+麦克风降噪音频流接口
+无
+orin
+59301
+语音交互模块
+interaction
+tts 播放接口、音频文件播放接口
+无
+orin
+59201
+任务执行引擎模块
+task_engine
+展厅导览任务执行、任务状态查询
+无
+orin
+57881
+其他接口
+other
+电池电量查询、急停状态查询等
+无
+orin
+视具体示例而定
+A2 机器人上为两块开发板都预留了调试接口，位于机器人背部后侧，旗舰款从机器背后看，左边为 orin 调试口，右边为 x86 调试口，orin 调试口 IP 为固定的
+192.168.2.50
+，x86 调试口采用 DHCP 获取 IP 地址，获取到的 IP 地址可以通过
+ip addr
+命令查看，基础款则只有 x86 调试口，同样采用 DHCP 获取 IP 地址。
+A2 旗舰款上，orin 和 x86 开发板之间通过网线进行连接，互相通信可以使用
+192.168.100.100
+（x86 开发板） 和
+192.168.100.110
+（orin 开发板） 两个 IP 地址。
+二开程序部署
+不允许在 x86 开发板上部署程序
+x86 上运行着运控软件，在 x86 上部署程序可能因操作系统调度、CPU 负载、内存占用等因素导致运控程序异常，从而造成机器人出现异常甚至摔倒等情形。
+简单二次开发程序
+调用基本 RPC 接口进行高层控制，基于智元软件、算法进行展厅导览、语音交互等功能的开发程序
+推荐部署在三方电脑（如笔记本电脑）或三方工控机上，并使用 HTTP 协议进行调用
+复杂二次开发程序
+需要调用 Channel 接口进行数据获取和机器人持续控制等，开发具身 AI 算法等
+推荐部署在 orin 开发板上或三方工控机上，并使用 ROS2 进行开发
+此时 RPC 接口仍然使用 HTTP 协议进行调用，Channel 接口使用 ROS2 进行调用
+典型场景调用指引
+AimDK 中接口按照模块进行划分，有时可能难以找到想要调用的某个接口位于哪个模块，有些功能需要调用多个模块的接口进行配合，还需要一些前置条件，本文档将针对一些典型场景以逐步骤的表格形式列出。
+场景一：机器人基础行走
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+切换运动控制 Action 至名字带有 LOCOMOTION 的模式
+运动控制模块
+RPC
+pb:/aimdk.protocol.McActionService/SetAction
+Action 状态机切换见
+相应文档
+2
+调用机器人下肢控制指令
+运动控制模块
+Channel
+/motion/control/locomotion_velocity
+以 20~100 Hz 的频率持续发送指令（包含前进速度、侧向速度、旋转速度三个参数）即可
+可参考
+examples/mc/walk.py
+示例。
+场景二：机器人上肢运动控制
+机器人上肢控制有两种模式，一种是使用 PLANNING_MOVE 接口给末端发送 SE3 位姿，另一种是使用 JOINT_SERVO 接口给上肢各关节发送弧度值（该指令透传给硬件抽象层，直接控制硬件，需要保证发送的值不产生跳变，且不能与当前状态间隔太远）。
+末端 SE3 控制：
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+切换运动控制 Action 至带有 PLANNING_MOVE 后缀的模式
+运动控制模块
+RPC
+pb:/aimdk.protocol.McActionService/SetAction
+Action 状态机切换见
+相应文档
+2
+调用末端 SE3 控制指令
+运动控制模块
+RPC
+pb:/aimdk.protocol.McMotionService/PlanningMove
+可参考
+examples/mc/planning_move.py
+示例。
+关节弧度控制：
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+关闭 motion_player
+无
+在 ORIN 上执行
+aima em stop-app motion_player
+前置条件
+如果 motion_player 处于开启状态且运控处于带有 JOINT_SERVO 后缀的状态，则 motion_player 会持续给手臂发送运动指令，导致上肢运动控制失效或干扰，严重时会导致手臂抖动甚至电机损坏
+2
+切换运动控制 Action 至带有 JOINT_SERVO 后缀的模式
+运动控制模块
+RPC
+pb:/aimdk.protocol.McActionService/SetAction
+Action 状态机切换见
+相应文档
+3
+调用透传手臂控制指令
+运动控制模块
+Channel
+/motion/control/arm_joint_command
+持续传入双臂的关节弧度值，即可实现上肢运动控制，支持控制频率 20-100 Hz
+可参考
+examples/mc/arm.py
+示例。
+场景三：机器人头部控制
+头部控制同时有 Channel 接口（
+/motion/control/neck_command
+）和 RPC 接口（
+pb:/aimdk.protocol.McMotionService/SetNeckCommand
+），这里以头部控制 RPC 接口为例，介绍头部控制的过程。
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+关闭 motion_player
+无
+在 ORIN 上执行
+aima em stop-app motion_player
+前置条件
+如果 motion_player 处于开启状态且运控处于带有 JOINT_SERVO 后缀的状态，则 motion_player 会持续给头部发送运动指令，导致头部运动控制失效或干扰，严重时会导致头部抖动甚至电机损坏
+2
+调用机器人头部运动接口
+运动控制模块
+RPC
+pb:/aimdk.protocol.McMotionService/SetNeckCommand
+传入头部摇头和点头两个关节的弧度值，基础款仅有一个摇头关节可以控制
+3
+获取机器人头部运动状态（可选）
+运动控制模块
+RPC
+pb:/aimdk.protocol.McDataService/GetNeckState
+RPC 接口可参考
+examples/mc/set_neck_command.py
+示例。Channel 接口可参考
+examples/mc/neck.py
+示例。
+场景四：机器人灵巧手控制
+同时有 Channel 接口和 RPC 接口，
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+关闭 motion_player
+无
+在 ORIN 上执行
+aima em stop-app motion_player
+前置条件
+如果 motion_player 处于开启状态且运控处于带有 JOINT_SERVO 后缀的状态，则 motion_player 会持续给灵巧手发送运动指令，导致灵巧手运动控制失效或干扰，严重时会导致灵巧手抖动甚至电机损坏
+2
+调用机器人灵巧手运动接口
+运动控制模块
+RPC
+pb:/aimdk.protocol.McMotionService/SetHandCommand
+传入灵巧手五个关节的弧度值和力矩，控制逻辑为满足弧度或力矩其一运动即会停止
+3
+获取机器人灵巧手运动状态（可选）
+运动控制模块
+RPC
+pb:/aimdk.protocol.McDataService/GetHandState
+RPC 接口可参考
+examples/mc/set_hand_command.py
+示例。Channel 接口可参考
+examples/mc/hand.py
+示例。
+场景五：机器人播放预录制动作
+预录制动作的播放接口有两个模块都有提供，分别是
+动作播放模块
+和
+遥控模块
+，其中动作播放模块提供底层能力，其接口有暂停等较为复杂的控制，遥控模块基于动作播放模块的能力进行了一层封装，提供了更为简单的动作播放接口，仅能启动和复位。
+以下以遥控模块为例，介绍预录制动作的播放过程。
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+切换运动控制 Action 至带有 JOINT_SERVO 后缀的模式
+运动控制模块
+RPC
+pb:/aimdk.protocol.McActionService/SetAction
+Action 状态机切换见
+相应文档
+2
+获取动作列表（可选，如果需要播放的动作 id 已知，则可以跳过该步骤）
+遥控模块
+RPC
+pb:/aimdk.protocol.RcMotionPlayerService/GetMotionList
+从返回的动作列表中选择某个动作，使用其 id 作为下一步请求的输入
+3
+播放预录制动作
+遥控模块
+RPC
+pb:/aimdk.protocol.RcMotionPlayerService/PlayerMotion
+场景六：机器人播放预定义表情
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+获取表情列表（可选，如果需要播放的表情 id 已知，则可以跳过该步骤）
+遥控模块
+RPC
+pb:/aimdk.protocol.RcEmoticonPlayerService/GetEmotionList
+从返回的表情列表中选择某个表情，使用其 id 作为下一步请求的输入
+2
+播放表情
+遥控模块
+RPC
+pb:/aimdk.protocol.RcEmoticonPlayerService/PlayerEmotion
+场景七：获取机器人当前位置
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+在 AimMaster 上操作重定位成功
+无
+无
+前置条件
+2
+获取机器人当前位姿
+tf 模块
+Channel
+\tf
+从 \tf 中获取 map 到 base_link 的变换，即可得到机器人的当前位姿
+场景八：机器人导航至特定点
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+在 AimMaster 上操作建图、标记导航点
+无
+无
+前置条件
+2
+在 AimMaster 上重定位成功
+无
+无
+前置条件
+3
+获取当前地图 id（可选，如果当前地图 id 已知，则可以跳过该步骤）
+地图管理模块
+RPC
+pb:/aimdk.protocol.MappingService/GetCurrentWorkingMap
+该接口会返回当前地图的 id，使用该 id 作为步骤 4 和 5 请求的输入
+4
+获取目标点 id（可选，如果目标点 id 已知，则可以跳过该步骤）
+地图管理模块
+RPC
+pb:/aimdk.protocol.LocalizationService/GetTopoMsgs
+该接口会返回一个包含所有目标点的列表，选择一个目标点，使用其 id 作为步骤 5 请求的输入
+5
+设置导航目标点开始导航
+规划控制模块
+RPC
+pb:/aimdk.protocol.PncService/PlanningNaviToGoal
+6
+获取导航状态（可选）
+规划控制模块
+RPC
+pb:/aimdk.protocol.PncService/ActionGetState
+7
+暂停或取消导航任务（可选）
+规划控制模块
+RPC
+pb:/aimdk.protocol.PncService/ActionPause
+或
+pb:/aimdk.protocol.PncService/ActionCancel
+可以参考
+examples/pnc/pnc_demo.py
+示例。
+场景九：调用机器人 tts 接口播放语音
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+调用 tts 接口播放语音
+交互二次开发指南
+RPC
+pb:/aimdk.protocol.TTSService/PlayTTS
+其中 text 填写需要播放的文本，priority_level 填写优先级，domain 填写调用方标识，trace_id 填写播报任务的 trace_id，is_interrupted 填写是否打断当前同优先级播报任务，一般为 true
+2
+获取当前 tts 播报状态（可选）
+交互二次开发指南
+RPC
+pb:/aimdk.protocol.TTSService/GetAudioStatus
+当状态从 Playing 变为 NotInQue 时，tts 播报结束
+场景十：调用机器人音频文件播放接口
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+上传音频文件到 ORIN 的/agibot/data/var/interaction/audio/ 目录
+无
+无
+前置条件
+audio文件只支持 pcm格式文件 小端16位 16kHz 单通道音频
+2
+调用音频文件播放接口
+交互二次开发指南
+RPC
+pb:/aimdk.protocol.TTSService/PlayMediaFile
+其中 file_name 填写上一步中上传的音频文件名，priority_level 填写优先级，domain 填写调用方标识，trace_id 填写播报任务的 trace_id，is_interrupted 填写是否打断当前同优先级播报任务，一般为 true
+3
+获取当前音频文件播放状态（可选）
+交互二次开发指南
+RPC
+pb:/aimdk.protocol.TTSService/GetAudioStatus
+当状态从 Playing 变为 NotInQue 时，音频文件播报结束
+场景十一：获取机器人传感器（激光雷达、相机）数据
+传感器数据有一个专门的传感器数据模块，其中提供了激光雷达、相机等传感器数据的
+话题接口
+，还提供用于获取相机内参的
+RPC 接口
+，这些接口无任何前置条件或接口组合，直接调用即可。
+可参考
+examples/hal_sensor/camera.py
+、
+examples/hal_sensor/lidar.py
+、
+examples/hal_sensor/get_intrinsics.py
+示例。
+场景十二：AimMaster 任务执行
+AimMaster 上可以创建和执行任务，其中创建的任务也可以调用任务执行引擎模块进行启动和控制等，任务执行引擎模块提供了
+任务执行引擎模块
+，提供了任务的启动、控制、查询等接口，具体接口可以参考
+相应文档
+。
+序号
+步骤
+接口所属模块
+接口类型
+接口名称
+备注
+1
+在 AimMaster 上将机器人调整为自动模式
+无
+无
+前置条件
+2
+在 AimMaster 上创建任务
+无
+无
+前置条件
+3
+调用任务执行引擎模块接口设置当前任务
+任务执行引擎模块
+RPC
+pb:/aimdk.protocol.TaskEngineService/SetCurrentTask
+需要传入对应任务的 id
+4
+启动任务
+任务执行引擎模块
+RPC
+pb:/aimdk.protocol.TaskEngineService/LaunchTask
+需要传入对应任务的 id
+5
+获取任务状态（可选）
+任务执行引擎模块
+RPC
+pb:/aimdk.protocol.TaskEngineService/GetTask
+该接口会返回查询任务的执行状态，其中包含任务的 id、名称、状态、进度等信息
+本页目录
+系统架构
+RPC 接口
+Channel 接口
+机上软件分布
+二开程序部署
+典型场景调用指引
+场景一：机器人基础行走
+场景二：机器人上肢运动控制
+场景三：机器人头部控制
+场景四：机器人灵巧手控制
+场景五：机器人播放预录制动作
+场景六：机器人播放预定义表情
+场景七：获取机器人当前位置
+场景八：机器人导航至特定点
+场景九：调用机器人 tts 接口播放语音
+场景十：调用机器人音频文件播放接口
+场景十一：获取机器人传感器（激光雷达、相机）数据
+场景十二：AimMaster 任务执行

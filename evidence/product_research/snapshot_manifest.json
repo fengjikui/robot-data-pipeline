@@ -1,0 +1,74 @@
+[
+  {
+    "path": "evidence/product_research/unitree_ipc.py",
+    "reference_url": "https://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/utils/ipc.py",
+    "revision": "817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b",
+    "bytes": 13204,
+    "sha256": "fbc6344a21bcd3f3db8d74d3e88618bdfe605112af0ee8f0edbb9887fe85d6e2",
+    "checked_date": "2026-10-25"
+  },
+  {
+    "path": "evidence/product_research/genie_sim_README.md",
+    "reference_url": "https://github.com/AgibotTech/genie_sim/blob/6ca11c7593ecf6b7dae58c28fd19f4a789a0dd46/README.md",
+    "revision": "6ca11c7593ecf6b7dae58c28fd19f4a789a0dd46",
+    "bytes": 33626,
+    "sha256": "b8527773b48f1f7b5a7a492ad1427db31523315891ca0b4b2cd1521446c9d74c",
+    "checked_date": "2026-10-25"
+  },
+  {
+    "path": "evidence/product_research/genie_teleop_README.md",
+    "reference_url": "https://github.com/AgibotTech/genie_sim/blob/6ca11c7593ecf6b7dae58c28fd19f4a789a0dd46/source/geniesim_teleop/README.md",
+    "revision": "6ca11c7593ecf6b7dae58c28fd19f4a789a0dd46",
+    "bytes": 2245,
+    "sha256": "2acd96f5ed78523886b4065070621ff3c0ff0a6b66170fc46b31e16fcec83139",
+    "checked_date": "2026-10-25"
+  },
+  {
+    "path": "evidence/product_research/galbot_README.md",
+    "reference_url": "https://github.com/GalaxyGeneralRobotics/GalbotSDK/blob/369179456e6212644d13ba06e7ba5ec187f7204a/README.md",
+    "revision": "369179456e6212644d13ba06e7ba5ec187f7204a",
+    "bytes": 3255,
+    "sha256": "2386c21e70999db912afe2481bd577937fff43006b1f73c2b919ca9f1e093d62",
+    "checked_date": "2026-10-25"
+  },
+  {
+    "path": "evidence/product_research/galbot_compat.py",
+    "reference_url": "https://github.com/GalaxyGeneralRobotics/GalbotSDK/blob/369179456e6212644d13ba06e7ba5ec187f7204a/check_robot_compat.py",
+    "revision": "369179456e6212644d13ba06e7ba5ec187f7204a",
+    "bytes": 25723,
+    "sha256": "f618ca7de7c3cbf6fcdb224b1e0c6d50ba3e3935ae51fc1d6f03838f00849a10",
+    "checked_date": "2026-10-25"
+  },
+  {
+    "path": "evidence/product_research/openwbt_README.md",
+    "reference_url": "https://github.com/GalaxyGeneralRobotics/OpenWBT/blob/a0154ca822815c8eca26f5174afa6268f8e3d465/README.md",
+    "revision": "a0154ca822815c8eca26f5174afa6268f8e3d465",
+    "bytes": 9645,
+    "sha256": "f604cceaedb0ed6160708b4d372c0d239904685d3b3d52eab0114c5187559d26",
+    "checked_date": "2026-10-25"
+  },
+  {
+    "path": "evidence/product_research/xarm_README.md",
+    "reference_url": "https://github.com/xArm-Developer/xArm-Python-SDK/blob/8a6fa5c22dbcbde1e633c3aa0ad0b5d0764d2455/README.md",
+    "revision": "8a6fa5c22dbcbde1e633c3aa0ad0b5d0764d2455",
+    "bytes": 16140,
+    "sha256": "14f2027c8c85e9ffa00f12c3b5e2cdb9d6414ad4fe963b13eac23765334cdc06",
+    "checked_date": "2026-10-25"
+  },
+  {
+    "path": "evidence/product_research/xarm_api.md",
+    "reference_url": "https://github.com/xArm-Developer/xArm-Python-SDK/blob/8a6fa5c22dbcbde1e633c3aa0ad0b5d0764d2455/doc/api/xarm_api.md",
+    "revision": "8a6fa5c22dbcbde1e633c3aa0ad0b5d0764d2455",
+    "bytes": 234571,
+    "sha256": "c560675f65c66381c63cf5bebe9d3707e8743777451cde20bbc1fe1ec2273a56",
+    "checked_date": "2026-10-25"
+  },
+  {
+    "path": "evidence/product_research/AgiBotWorld2026_README.md",
+    "reference_url": "https://huggingface.co/datasets/agibot-world/AgiBotWorld2026/blob/95b159a10305a0385f369aba5d4b16242526d17b/README.md",
+    "revision": "95b159a10305a0385f369aba5d4b16242526d17b",
+    "bytes": 16711,
+    "sha256": "31d00119dc85a58b43bd44ffccfab87d2c9cecd7b483aed737b81995d1e0219b",
+    "checked_date": "2026-10-25"
+  }
+]

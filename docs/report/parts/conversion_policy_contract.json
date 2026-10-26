@@ -1,0 +1,37 @@
+{
+  "contentPage": "conversion_policy_contract",
+  "title": "采集、转换与训练：配置在哪里变化",
+  "subtitle": "固定源数据后，先看训练实现和读取器，再决定额外导出或变换",
+  "shortScript": "采集决定已有的信号，但没有把后面的配置都用完。转换时仍要选与源记录匹配的本体映射：关节顺序、手部字段和相机对应关系。固定宇树脚本需要 robot-type，却没有 policy 参数。[1][2][3]\n\n同一份数据是否还要另行导出，要看策略采用的具体实现和读取器。训练窗口、归一化和部分变换可以在读取时完成。更换目标本体则需要另外验证动作对应和执行接口，不能把 robot-type 当作跨本体迁移开关，也不能靠转换补出采集时没记录的信号。[2][3][4]",
+  "speakerNotes": "这页回答三个容易混在一起的问题：采集时已经确定了什么；转换时还能选什么；换策略或换本体后，哪些工作属于训练适配。三阶段是工程职责划分，具体实现中预处理也可能放在读取器内。\n\n一、采集已经确定的是“有什么”，不是“后面无需配置”\n\n固定采集程序的 --arm、--ee、图像服务配置、--frequency 与记录实现决定采用什么设备组合，以及保存哪些图像、实际状态、目标动作和任务说明。[1] 原始数据是事实基础：没有记录的腿腰/行走目标、缺失视角、有效奖励或时间信息，不会因后来选择某个策略名自动出现。\n\n同一机器人也可能采用不同手部、相机和记录版本。原始包已经有这些内容，不意味着下游程序自然知道各数组的顺序和含义；转换仍需读取匹配的映射。比如前面的历史样例用 left_hand/right_hand，当前参考配置读取 left_ee/right_ee，必须先核对生产版本和字段含义。[1][3]\n\n二、当前官方转换器确实仍要指定本体相关参数\n\n固定版 json_to_lerobot 的必填参数为 raw_dir、repo_id、robot_type；另有 mode、push_to_hub 和 DatasetConfig 选项。它没有 policy/model 参数，也没有自动替用户选择策略的逻辑。[2]\n\n--robot-type 查询 ROBOT_CONFIGS，选择 motors、cameras、camera_to_image_key、json_state_data_name 与 json_action_data_name。[3] 这些配置共同决定从哪里读取 state/action、按什么顺序拼接、输出的名称和维度，以及相机 key 映射。标准 G1 Dex3 配置按左右臂和左右末端读取 qpos，拼接为 28 维；这不是完整43自由度记录。\n\n因此应把 --robot-type 理解为“选择与源记录和导出 schema 相符的本体配置”。它不会把 G1 关节轨迹变成另一厂商机械臂的控制轨迹，也不负责求解通用跨本体运动学。\n\n当前命令行没有逐关节顺序、任意相机映射或 source_robot/target_robot 的通用迁移开关。已有配置合适时选择对应 key；新增手型、相机或本体而现有配置不覆盖时，需要增加/修改 RobotConfig 或实现额外适配器，并验证来源语义。--mode 影响视频/图像的保存表达，不能改变动作含义。固定代码还写死 fps=30 和图像尺寸等信息，遇到不同采集频率或尺寸不能只修改元数据假装已完成重采样。[2][3]\n\n命令备查（固定版本模板，未在完整上游环境验收）：\n```bash\npython unitree_lerobot/utils/convert_unitree_json_to_lerobot.py \\\n  --raw-dir <RAW_ROOT> \\\n  --repo-id local/g1_dex3_common_v1 \\\n  --robot-type Unitree_G1_Dex3 \\\n  --mode video \\\n  --dataset-config.image-writer-processes 1 \\\n  --dataset-config.image-writer-threads 1\n```\n<RAW_ROOT> 按脚本要求包含 task/episode 两层；repo-id 使用新的输出标识，避免覆盖已有产物。推送默认关闭。原始目录保持只读。参数名按该固定函数签名核对，完整依赖版本、写入完成和读取结果仍需抽样验收。\n\n三、策略变更：先看具体实现与读取器\n\n同一学习方法可有不同实现，不存在“ACT 永远只读某一种磁盘格式”的规则。选择的是“策略实现 + 读取器 + 输入/输出契约 + 训练配方”。时间窗口、特征选择、归一化、图像处理和动作变换有些可在数据加载时完成，不一定每换策略都重新写一遍全部数据。[4]\n\n我们建议先产出一份经核验的、保留已知语义的公共数据资产，再为有限训练后端配置训练视图和适配规则。已知映射可重复执行；变换规则、统计量和源版本与训练配置一起保存，避免只记一个模型名称。\n\n四、本体变化要分两件事\n\n1. 来源设备变化：采集后端负责取得该设备信号，转换配置负责正确读取它的字段、关节/手部顺序与相机。该配置信息还可由采集元数据预填，但仍需核对，现有脚本不会因为硬件接过来就自动识别全部语义。\n2. 目标执行设备变化：已有示范想用于另一台机器人，需要检查运动学、关节/末端表示、手型、工作空间、观察模态和实际控制接口，必要时重定向、补标或补采，再做效果验证。这是目标本体适配，不是改一个 robot-type 标签。\n\n本页配置例子说明职责，不意味着本项目已完成这些训练后端或跨本体能力。接下来一页逐个比较 ACT、Diffusion、openpi、原版 OpenVLA 和在线 PPO 的实际差异。\n\n参考资料\n[1] Unitree 采集参数\nhttps://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/teleop_hand_and_arm.py#L75-L95\n\n[2] Unitree 转换器\nhttps://github.com/unitreerobotics/unitree_lerobot/blob/41c2805742de879ddab2d8d6beaeaf215f876395/unitree_lerobot/utils/convert_unitree_json_to_lerobot.py\n\n[3] 本体与字段映射\nhttps://github.com/unitreerobotics/unitree_lerobot/blob/41c2805742de879ddab2d8d6beaeaf215f876395/unitree_lerobot/utils/constants.py\n\n[4] LeRobot 策略配置\nhttps://github.com/huggingface/lerobot/blob/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/policies/act/configuration_act.py\n\n可计算量与缺失观测应区分：已有可靠关节角、单位与运动学模型时，可以额外计算末端姿态等派生量，并记录变换依据；这不等于获得未测的触觉或真实深度，也不自动解决双臂/手部到单臂动作的语义对应。在线PPO的奖励通常按任务与环境设计/计算，不要求原始遥操必先记录奖励，但需要单独实现和验证环境链路。",
+  "sources": [
+    {
+      "label": "Unitree 采集参数",
+      "url": "https://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/teleop_hand_and_arm.py#L75-L95",
+      "kind": "upstream",
+      "version": "817fb00c"
+    },
+    {
+      "label": "Unitree 转换器",
+      "url": "https://github.com/unitreerobotics/unitree_lerobot/blob/41c2805742de879ddab2d8d6beaeaf215f876395/unitree_lerobot/utils/convert_unitree_json_to_lerobot.py",
+      "kind": "upstream",
+      "version": "41c28057"
+    },
+    {
+      "label": "本体与字段映射",
+      "url": "https://github.com/unitreerobotics/unitree_lerobot/blob/41c2805742de879ddab2d8d6beaeaf215f876395/unitree_lerobot/utils/constants.py",
+      "kind": "upstream",
+      "version": "41c28057"
+    },
+    {
+      "label": "LeRobot 策略配置",
+      "url": "https://github.com/huggingface/lerobot/blob/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/policies/act/configuration_act.py",
+      "kind": "upstream",
+      "version": "a5b29d43"
+    }
+  ],
+  "boundaries": [
+    "robot-type 选择源记录对应映射，不是目标本体迁移开关。",
+    "命令为固定版本参考模板，完整上游转换与各策略路线尚未验收。"
+  ]
+}

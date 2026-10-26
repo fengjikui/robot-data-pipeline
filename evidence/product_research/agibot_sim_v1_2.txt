@@ -1,0 +1,209 @@
+A2 旗舰款仿真使用指南
+☰
+AIMA开放平台
+文档中心
+AimDK A2
+搜索文档…
+⌘K
+中文
+中文
+English
+立即登录
+AimDK A2
+全尺寸人形
+AimDK A2
+全尺寸人形
+AimDK A2-lite
+桌面级
+AimDK A2W
+轮式
+AimDK A3
+下一代
+AimDK A3-ultra
+远征 A3 Ultra
+版本
+v1.2
+v2.1 (Latest)
+v2.0
+v1.3
+v1.2
+开始上手
+二次开发边界说明【重要】【必读】
+AimDK 能力列表
+AimDK 使用指南
+A2 旗舰款仿真使用指南
+交互二次开发指南
+通信协议接口
+AimDK 公共协议
+传感器数据模块
+健康诊断模块
+灯带控制模块
+运动控制模块
+地图管理模块
+动作播放模块
+其他接口
+规划控制模块
+遥控模块
+任务执行引擎模块
+常见问题解答
+版本更新日志
+V0.6 更新日志
+V0.7 更新日志
+V1.0 更新日志
+V1.2 更新日志
+AimDK A2
+·
+开始上手
+·
+A2 旗舰款仿真使用指南
+A2 旗舰款仿真使用指南
+A2 旗舰款仿真使用指南
+仿真说明
+该仿真基于 mujoco sim 实现，主要目的是为用户提供一个低成本试验调用运动控制模块接口的验证手段。
+注意：
+灵巧手和头部的仿真纯位置控制，发送阶跃信号时，会立即达到目标位置，不会出现运动过程
+仿真中不包含相机和雷达等传感器，仅包含 IMU 和关节位置传感器
+前置条件
+装有 docker 的 x86_64 架构 Linux 系统
+使用 X11 桌面系统
+可以通过 echo $XDG_SESSION_TYPE 来检测，输出 x11 为期望现象
+拉取 docker  镜像
+登录镜像仓库只读账号
+bash
+复制
+docker
+login
+tongyong-public-cn-shanghai.cr.volces.com
+-u
+crrobot@aima-public-reader
+-p
+[published sample credential omitted]
+拉取对应镜像
+bash
+复制
+docker
+pull
+tongyong-public-cn-shanghai.cr.volces.com/aima-public/a2-simulator:v1.2
+启动镜像
+允许docker访问显示器，用于配置 X Window System 的访问控制列表。执行 xhost + 会允许所有的主机连接到当前用户的 X 服务器，这样做会取消 X 服务器的访问控制，从而允许任何用户访问和操作 X 服务器。
+bash
+复制
+xhost
++
+运行docker
+bash
+复制
+docker
+run
+-it
+\
+--name=a2-sim
+\
+--privileged
+\
+--net=host
+\
+--ipc=host
+\
+--pid=host
+\
+-e
+DISPLAY=
+$DISPLAY
+\
+-v
+/tmp/.X11-unix:/tmp/.X11-unix
+\
+-v
+/run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro
+\
+-d
+tongyong-public-cn-shanghai.cr.volces.com/aima-public/a2-simulator:v1.2
+如果发现使用 NVIDIA 显卡的机器使用上述命令开启容器后仿真界面运行卡顿，可以尝试使用以下命令开启容器：
+bash
+复制
+docker
+run
+-it
+\
+--name=a2-sim
+\
+--gpus
+all
+\
+--privileged
+\
+--net=host
+\
+--ipc=host
+\
+--pid=host
+\
+-e
+DISPLAY=
+$DISPLAY
+\
+-e
+NVIDIA_VISIBLE_DEVICES=all
+\
+-e
+NVIDIA_DRIVER_CAPABILITIES=all
+\
+-v
+/tmp/.X11-unix:/tmp/.X11-unix
+\
+-v
+/run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro
+\
+-d
+tongyong-public-cn-shanghai.cr.volces.com/aima-public/a2-simulator:v1.2
+进入容器
+bash
+复制
+docker
+start
+a2-sim
+&&
+docker
+exec
+-it
+a2-sim
+/bin/zsh
+启动仿真和运动控制程序
+进入镜像后运行下面的指令，启动仿真
+bash
+复制
+cd
+/root/mujoco_sim/bin
+./start_a2_t2d0_ultra.sh
+启动运动控制程序
+bash
+复制
+cd
+/root/motion_control/scripts/motion_control
+./start_motion_control.sh
+运行 SetAction.py 切换状态机至位控站立模式
+bash
+复制
+cd
+/root/tools
+./SetAction.py
+# 选择 11 RL_JOINT_DEFAULT
+点击 Load-Key 让机器人站稳（如果机器人站立不稳，可以尝试多次点击）
+运行 SetAction.py 切换状态机至强化学习力控行走模式
+bash
+复制
+./SetAction.py
+# 选择 16 RL_LOCOMOTION_DEFAULT
+后续即可正常调用运动控制模块的相关接口，例如可以调用 tools 目录下的脚本让机器人行走
+bash
+复制
+source
+/root/ros2_plugin_proto_install/share/ros2_plugin_proto/local_setup.zsh
+./walk.py
+本页目录
+仿真说明
+前置条件
+拉取 docker  镜像
+启动镜像
+启动仿真和运动控制程序

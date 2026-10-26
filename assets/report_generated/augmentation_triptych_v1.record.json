@@ -1,0 +1,44 @@
+{
+  "asset": "/Users/fengjikui/Documents/dev-coding/codex_build/robot_data_pipeline/assets/report_generated/augmentation_triptych_v1.png",
+  "method": "built-in image_gen",
+  "date": "2026-10-26",
+  "original_generated_path": "/Users/fengjikui/.codex/generated_images/01a17454-da32-7b63-8898-70596b900e7f/exec-4782935d-d021-4633-879c-44aaca87cd78.png",
+  "prompt_file": "/Users/fengjikui/Documents/dev-coding/codex_build/robot_data_pipeline/assets/report_generated/augmentation_triptych_v1.prompt.txt",
+  "prompt_sha256": "d167e2e539d24f0cdecb2409db370e7affef309c2348fd9d0eda45cdc8cca170",
+  "reference_images": [
+    "/Users/fengjikui/Documents/dev-coding/codex_build/robot_data_pipeline/assets/report_slide02/g1_illustration_v1.png"
+  ],
+  "sha256": "86630722259c34ac8d9e257b8adca7c15fe47d872df918a6d42614fd45a6669f",
+  "width": 2172,
+  "height": 724,
+  "mode": "RGB",
+  "purpose": "正文9数据增强的横向三联说明插图",
+  "required_caption": "视觉增强示意，非采集样本",
+  "panels": [
+    "中性光照与白平衡",
+    "偏暖、略暗的视觉变化",
+    "偏冷、略亮的视觉变化"
+  ],
+  "visual_review": {
+    "horizontal_triptych": true,
+    "text_or_numbers": false,
+    "neon_teal_green": false,
+    "extra_robot_arms": false,
+    "pose_and_geometry": "三幅构图、抓握与几何视觉上高度一致；生成式说明插图，不是同一真实帧执行确定性增强的逐像素产物。",
+    "not_evidence": "不作为真实采集、真实增强执行或任务成功证据"
+  },
+  "style_references": [
+    {
+      "title": "Google I/O 2025",
+      "url": "https://io.google/2025/",
+      "kind": "Google 官方 keynote / developer keynote 入口",
+      "use": "仅作技术发布会视觉参考，非本报告规范"
+    },
+    {
+      "title": "UI Design Dos and Don’ts - Apple Developer",
+      "url": "https://developer.apple.com/design/tips/",
+      "kind": "Apple 官方设计页",
+      "use": "参考对齐、对比、清晰度和图像比例，不把界面数值规范移用为PPT标准"
+    }
+  ]
+}

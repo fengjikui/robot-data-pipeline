@@ -1,0 +1,50 @@
+[
+  {
+    "path": "evidence/report_research_2026-10-26/OpenVLA_README.md",
+    "url": "https://github.com/openvla/openvla/blob/main/README.md",
+    "checked_date": "2026-10-26",
+    "revision": "main snapshot; not pinned to commit",
+    "bytes": 38458,
+    "sha256": "ba8e9a2884e38a8000dafc98af4116512e37b0e143dad2f940100482bfd6b75c"
+  },
+  {
+    "path": "evidence/report_research_2026-10-26/openpi_README.md",
+    "url": "https://github.com/Physical-Intelligence/openpi/blob/main/README.md",
+    "checked_date": "2026-10-26",
+    "revision": "main snapshot; not pinned to commit",
+    "bytes": 23254,
+    "sha256": "567fc57766bd736664f50126cab8145af4071ca16cc5e238f2b11e369169c3b5"
+  },
+  {
+    "path": "evidence/report_research_2026-10-26/ACT_README.md",
+    "url": "https://github.com/tonyzhaozh/act/blob/main/README.md",
+    "checked_date": "2026-10-26",
+    "revision": "main snapshot; not pinned to commit",
+    "bytes": 3500,
+    "sha256": "5059f601c1f0409556fd467150b99e93208de5d5594e9049f87ca92b24a5e7a2"
+  },
+  {
+    "path": "evidence/report_research_2026-10-26/DiffusionPolicy_README.md",
+    "url": "https://github.com/real-stanford/diffusion_policy/blob/main/README.md",
+    "checked_date": "2026-10-26",
+    "revision": "main snapshot; not pinned to commit",
+    "bytes": 25219,
+    "sha256": "51b6717d694a4ea4b476cf07c64651dc58643402beb0a27cda38a87cc58334b0"
+  },
+  {
+    "path": "evidence/report_research_2026-10-26/RLDS_README.md",
+    "url": "https://github.com/google-research/rlds/blob/main/README.md",
+    "checked_date": "2026-10-26",
+    "revision": "branch snapshot, not pinned to commit",
+    "bytes": 15281,
+    "sha256": "f354dac2afe6cf9412a674a47c9e2cab9a2624199ed38d69df82604d3aa398e0"
+  },
+  {
+    "path": "evidence/report_research_2026-10-26/Rosbag2_README.md",
+    "url": "https://github.com/ros2/rosbag2/blob/rolling/README.md",
+    "checked_date": "2026-10-26",
+    "revision": "branch snapshot, not pinned to commit",
+    "bytes": 40286,
+    "sha256": "7bce82ef0490c6747493b44f087a60edac33441599b7ce5b87109c6d1ae6c85a"
+  }
+]

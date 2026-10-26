@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-26",
+  "files": [
+    {
+      "url": "https://huggingface.co/datasets/unitreerobotics/G1_Dex3_ToastedBread_Dataset/resolve/02cb29161f5adb2981a072aa35b408d82a556d07/meta/info.json",
+      "path": "evidence/report_episode_example_2026-10-26/official_info.json",
+      "bytes": 6592,
+      "sha256": "0c0c87873d87d302abd98a1b2171ef56c13dc3609517a02fadd65ef5e309b716"
+    },
+    {
+      "url": "https://huggingface.co/datasets/unitreerobotics/G1_Dex3_ToastedBread_Dataset/resolve/02cb29161f5adb2981a072aa35b408d82a556d07/meta/tasks.parquet",
+      "path": "evidence/report_episode_example_2026-10-26/official_tasks.parquet",
+      "bytes": 2111,
+      "sha256": "b5179bf1e5ea5842fd7a47a38cecc9e0d0abac1cff43f1d2f3a0762e46f1d407"
+    }
+  ],
+  "row_export": "real_lerobot_row_display_export.json",
+  "raw_search_result": "Earlier search was incomplete. Official raw rerun_testdata.zip download found in fixed upstream rerun_visualizer.py on 2026-10-26. See evidence/report_raw_episode_2026-10-26/source_manifest.json. This folder remains converted LeRobot sample evidence only.",
+  "reused_numeric_file": {
+    "path": "data/downloads/toast_numeric_000.parquet",
+    "bytes": 73186769,
+    "sha256": "dd3fc063bb7a0c495636a26397d639373fc79e934cac6bcaca87de58a4e28c38",
+    "revision": "02cb29161f5adb2981a072aa35b408d82a556d07"
+  }
+}

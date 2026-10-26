@@ -1,0 +1,34 @@
+{
+  "scope": "preliminary documentation research only",
+  "checked_date": "2026-10-26",
+  "snapshots": [
+    {
+      "path": "evidence/capture_adapter_research_2026-10-26/lerobot_robot.py",
+      "url": "https://github.com/huggingface/lerobot/blob/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/robots/robot.py",
+      "revision": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+      "checked_date": "2026-10-26",
+      "bytes": 6997,
+      "sha256": "20b39fcd82ba4750cbfec8e522ed3057c2bc6356ade1c2f3ff4663d408899e45"
+    },
+    {
+      "path": "evidence/capture_adapter_research_2026-10-26/lerobot_teleoperator.py",
+      "url": "https://github.com/huggingface/lerobot/blob/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/teleoperators/teleoperator.py",
+      "revision": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+      "checked_date": "2026-10-26",
+      "bytes": 6711,
+      "sha256": "72cf88c1df20aaa12643c77689ade468a3e91a0324075c60bc006539005c0728"
+    },
+    {
+      "path": "evidence/capture_adapter_research_2026-10-26/lerobot_camera.py",
+      "url": "https://github.com/huggingface/lerobot/blob/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/cameras/camera.py",
+      "revision": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+      "checked_date": "2026-10-26",
+      "bytes": 3905,
+      "sha256": "63076b40e00bb207e5df3e6c0566b172172f7dc92e2d861a99dd83d23c17a2d0"
+    }
+  ],
+  "online_document": {
+    "url": "https://huggingface.co/docs/lerobot/integrate_hardware",
+    "snapshot_saved": false
+  }
+}

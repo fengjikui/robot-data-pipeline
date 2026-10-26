@@ -1,0 +1,234 @@
+{
+  "_id": "6aa6dcd49cee7626bc134945",
+  "id": "unitreerobotics/G1_WBT_Inspire_Pick_Up_Multiple_Cushions",
+  "author": "unitreerobotics",
+  "sha": "e5bd1986d59a47d41a5ba1ae1d74ebd9e0c13e64",
+  "lastModified": "2026-10-14T08:19:24.000Z",
+  "private": false,
+  "gated": false,
+  "disabled": false,
+  "tags": [
+    "task_categories:robotics",
+    "license:apache-2.0",
+    "size_categories:100K<n<1M",
+    "format:parquet",
+    "modality:tabular",
+    "modality:timeseries",
+    "modality:video",
+    "library:datasets",
+    "library:dask",
+    "library:polars",
+    "library:mlcroissant",
+    "library:lerobot",
+    "region:us",
+    "LeRobot"
+  ],
+  "description": "\n\t\n\t\t\n\t\n\t\n\t\tData Structure\n\t\n\nCodebase v3.0. All cameras are AV1-encoded, 480×640×3, 30 fps.\n\n\t\n\t\t\n\t\n\t\n\t\tVideo Streams (observation.images.*)\n\t\n\n\n\t\n\t\t\nKey\nDescription\n\n\n\t\t\nhead_stereo_left / head_stereo_right\nHead stereo cameras\n\n\nwrist_left / wrist_right\nWrist cameras\n\n\n\t\n\n\n\t\n\t\t\n\t\n\t\n\t\tObservations (observation.state.*)\n\t\n\n\n\t\n\t\t\nKey\nDim\nDescription\n\n\n\t\t\nlower_body\n15\nBoth legs (hip×3, knee, ankle×2) + waist (yaw, roll, pitch)\n\n\nleft_arm / right_arm\n7\nshoulder×3, elbow, wrist×3\n\n\nleft_leg /… See the full description on the dataset page: https://huggingface.co/datasets/unitreerobotics/G1_WBT_Inspire_Pick_Up_Multiple_Cushions.",
+  "downloads": 1533,
+  "likes": 1,
+  "cardData": {
+    "license": "apache-2.0",
+    "task_categories": [
+      "robotics"
+    ],
+    "tags": [
+      "LeRobot"
+    ],
+    "configs": [
+      {
+        "config_name": "default",
+        "data_files": "data/*/*.parquet"
+      }
+    ]
+  },
+  "siblings": [
+    {
+      "rfilename": ".gitattributes"
+    },
+    {
+      "rfilename": "README.md"
+    },
+    {
+      "rfilename": "data/chunk-000/file-000.parquet"
+    },
+    {
+      "rfilename": "data/chunk-000/file-001.parquet"
+    },
+    {
+      "rfilename": "data/chunk-000/file-002.parquet"
+    },
+    {
+      "rfilename": "meta/episodes/chunk-000/file-000.parquet"
+    },
+    {
+      "rfilename": "meta/info.json"
+    },
+    {
+      "rfilename": "meta/stats.json"
+    },
+    {
+      "rfilename": "meta/tasks.parquet"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-000.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-001.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-002.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-003.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-004.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-005.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-006.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-007.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-008.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-009.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-010.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-011.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-012.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-013.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-014.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-015.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_left/chunk-000/file-016.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-000.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-001.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-002.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-003.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-004.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-005.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-006.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-007.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-008.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-009.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-010.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-011.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-012.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.head_stereo_right/chunk-000/file-013.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-000.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-001.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-002.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-003.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-004.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-005.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-006.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-007.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-008.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-009.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-010.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-011.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-012.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-013.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_left/chunk-000/file-014.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_right/chunk-000/file-000.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_right/chunk-000/file-001.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_right/chunk-000/file-002.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_right/chunk-000/file-003.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_right/chunk-000/file-004.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_right/chunk-000/file-005.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.wrist_right/chunk-000/file-006.mp4"
+    }
+  ],
+  "createdAt": "2026-09-13T17:26:44.000Z",
+  "usedStorage": 10678075523
+}

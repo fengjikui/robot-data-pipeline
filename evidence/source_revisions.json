@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-25",
+  "timezone": "Asia/Shanghai",
+  "repositories": {
+    "xr_teleoperate": "817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b",
+    "unitree_lerobot": "41c2805742de879ddab2d8d6beaeaf215f876395",
+    "unitree_sim_isaaclab": "e30c25b1dffdf92ada1d6c8c1fe9a47bdde0fecc"
+  },
+  "lerobot_submodule": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+  "xr_submodules": [
+    {
+      "path": "teleop/robot_control/dex-retargeting",
+      "mode": "160000",
+      "type": "commit",
+      "sha": "d7753d38c9ff11f80bafea6cd168351fd3db9b0e"
+    },
+    {
+      "path": "teleop/teleimager",
+      "mode": "160000",
+      "type": "commit",
+      "sha": "57cf2a40572227273fa001cd17833b755331ec97"
+    },
+    {
+      "path": "teleop/televuer",
+      "mode": "160000",
+      "type": "commit",
+      "sha": "766de45e74373ae0ea66321d942ce538385655a5"
+    }
+  ],
+  "mujoco_menagerie": "f3b6013629c7b94f8ee93fd977b161fa8350f9bc"
+}

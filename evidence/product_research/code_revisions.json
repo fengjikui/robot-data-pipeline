@@ -1,0 +1,9 @@
+{
+  "checked_date": "2026-10-25",
+  "genie_sim": "6ca11c7593ecf6b7dae58c28fd19f4a789a0dd46",
+  "xarm_sdk": "8a6fa5c22dbcbde1e633c3aa0ad0b5d0764d2455",
+  "galbot_sdk": "369179456e6212644d13ba06e7ba5ec187f7204a",
+  "openwbt": "a0154ca822815c8eca26f5174afa6268f8e3d465",
+  "unitree_xr": "817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b",
+  "unitree_lerobot": "41c2805742de879ddab2d8d6beaeaf215f876395"
+}

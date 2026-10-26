@@ -1,0 +1,32 @@
+{
+  "checked_date": "2026-10-26",
+  "scope": "technical requirements and sample-validation proposal, no supplier contact or purchase",
+  "online_sources": [
+    {
+      "url": "https://arxiv.org/abs/1803.09010v8",
+      "version": "v8, 2021-12-01",
+      "read_scope": "abstract and PDF sections 3.2 composition, 3.3 collection, 3.5 uses, 3.6 distribution",
+      "snapshot_saved": false
+    },
+    {
+      "url": "https://huggingface.co/docs/hub/datasets-cards",
+      "snapshot_saved": false
+    },
+    {
+      "url": "https://huggingface.co/docs/lerobot/lerobot-dataset-v3",
+      "snapshot_saved": false
+    }
+  ],
+  "existing_evidence": [
+    {
+      "path": "evidence/upstream/unitree_lerobot__unitree_lerobot__utils__convert_unitree_json_to_lerobot.py",
+      "sha256": "418b53b41b60f0339a6a403da32e4b861fd0b09ad7fa47d95183142d539e4431",
+      "revision": "41c2805742de879ddab2d8d6beaeaf215f876395"
+    },
+    {
+      "path": "evidence/external_assets_research_2026-10-26/DROID_dataset.md",
+      "source": "https://github.com/droid-dataset/droid/blob/main/docs/the-droid-dataset.md"
+    }
+  ],
+  "interpretation": "Datasheet/documentation facts are distinguished from project-specific procurement, sampling, conversion and acceptance recommendations; no universal quantity/threshold asserted."
+}

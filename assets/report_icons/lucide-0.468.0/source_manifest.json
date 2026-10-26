@@ -1,0 +1,106 @@
+{
+  "source": "Lucide",
+  "tag": "0.468.0",
+  "assets": [
+    {
+      "file": "hand.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/hand.svg",
+      "sha256": "fe3771fa2f0a9a3c7736164c9a855beefacc02548084ac1d6fc8da8a8a9180b0"
+    },
+    {
+      "file": "footprints.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/footprints.svg",
+      "sha256": "09ddd9fd4ac7cebfdc91e1096f7b75db019a42fffc493c4adb128a49e1dba04f"
+    },
+    {
+      "file": "package-check.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/package-check.svg",
+      "sha256": "9ba4c921e83d3537ff520a9b5251b4285fcb9587cf5f3a20571fc39e92f78138"
+    },
+    {
+      "file": "clipboard-check.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/clipboard-check.svg",
+      "sha256": "e2bac86a6b24caa0d7d0dcc2719ec6b7870ec5eef2d21afae498d8cb5eefda96"
+    },
+    {
+      "file": "wand-sparkles.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/wand-sparkles.svg",
+      "sha256": "d73067ff2463118d4f11f9c532e7162be45f96835b966b4fc89977ca47a7317d"
+    },
+    {
+      "file": "file-cog.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/file-cog.svg",
+      "sha256": "bd04f7da44e7f24c4972bdfaf8a40c87a8f0ce7713a56ac520907ed9253ea2b1"
+    },
+    {
+      "file": "brain-circuit.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/brain-circuit.svg",
+      "sha256": "a338cb589935721dc00da71ea7d7457ab7fbb85cff90a62cc3ac6b2ebc68cd82"
+    },
+    {
+      "file": "monitor-play.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/monitor-play.svg",
+      "sha256": "8c56b14f9e1d20a920665c19f2f66d5e9c117187c185e3ee48be387a95df1da9"
+    },
+    {
+      "file": "bot.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/bot.svg",
+      "sha256": "e46fe72fc5b33d7a17b0112df85da9ded851860312e8353f4fe23d87a4ce77f5"
+    },
+    {
+      "file": "gamepad-2.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/gamepad-2.svg",
+      "sha256": "b0671de7afbebdafc4d655d867d9851947170b906fb187e749410039df867509"
+    },
+    {
+      "file": "database.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/database.svg",
+      "sha256": "471eb14bc8d144896a82dfc4aa9daf350f769f0896f4bef33e50aabdbb51130d"
+    },
+    {
+      "file": "LICENSE",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/LICENSE",
+      "sha256": "1e7290b35280a048667bbf0ebabac1c7fd52a75300e8b2946ac165715997f2bc"
+    },
+    {
+      "file": "FEATHER_LICENSE",
+      "url": "https://raw.githubusercontent.com/feathericons/feather/v4.29.2/LICENSE",
+      "sha256": "308028e93fcf84972523cdf6e616f73168546b4953895f516d01287f16fe7bee"
+    },
+    {
+      "file": "laptop.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/laptop.svg",
+      "sha256": "bf850eb2547b25504baf593b63925ed05331e11492b915117d984a2e843a0d81"
+    },
+    {
+      "file": "router.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/router.svg",
+      "sha256": "6266881cf691541259ea5e07e5e40ffeba1f61b95c76707d967ebe7827414428"
+    },
+    {
+      "file": "network.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/network.svg",
+      "sha256": "626be730feea1e5ea7539fbf78b4a3fcb927ce5d7dc43364f2216908672ac792"
+    },
+    {
+      "file": "camera.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/camera.svg",
+      "sha256": "f48b4e6cb69c736630202728ed0fd41d8dbe3f2b743a644eaf58a69099dcb6d2"
+    },
+    {
+      "file": "cpu.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/cpu.svg",
+      "sha256": "6fb8cf8edbbbaa4b6a47ddbcc6879e8d2166613c663b93db0ac1fde566515362"
+    },
+    {
+      "file": "scan-eye.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/scan-eye.svg",
+      "sha256": "343741486dfe4188a80628e3b8ae7a71f6ac63e0de5fbf474674b053c8f80721"
+    },
+    {
+      "file": "package-open.svg",
+      "url": "https://raw.githubusercontent.com/lucide-icons/lucide/0.468.0/icons/package-open.svg",
+      "sha256": "261a0676ee3db3e5c64a528ac7f81a4893ddb3dfebd0549562f4ef5033757920"
+    }
+  ]
+}

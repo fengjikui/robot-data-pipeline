@@ -1,0 +1,677 @@
+安装与配置 | Galbot Developer Platform
+Skip to main content
+产品体系
+开发助手
+训练营
+中文
+|
+English
+目录
+Galbot SDK
+Galbot G1 通用人形机器人
+Galbot S1 工业重载机器人
+遥操作主从臂
+Galbot SDK
+G1
+安装与配置
+v1.7.0
+On this page
+安装与配置
+系统要求
+​
+对象
+推荐
+支持范围
+操作系统
+Ubuntu 22.04
+Ubuntu 20.04 - 24.04
+架构（PC）
+x86_64
+x86_64
+架构（机器人）
+aarch64
+aarch64
+Python
+3.8+
+3.8 - 3.14
+存储空间
+16GB
+3GB+
+模式一：机器人端部署
+​
+适用场景：
+生产环境部署，实时性要求高的应用
+特点：
+无网络延迟，通信开销最小
+1. 连接机器人网络
+​
+1.1 开机后在网络选择界面连接WiFi
+1.2 在Network界面查看机器人IP地址
+2. 部署SDK到机器人
+​
+2.1 在PC上执行部署脚本
+cd
+GalbotSDK
+./deploy_to_robot.sh
+2.2 根据提示输入连接信息
+用户名：
+galbot
+Orin IP地址：例如
+192.168.120.180
+密码：
+[published sample credential omitted]
+部署结果
+动态库自动安装到：
+/data/galbot/lib
+2.3 验证安装
+ssh
+galbot@
+<
+机器人IP
+>
+ls
+/data/galbot/lib
+|
+grep
+galbot_sdk
+预期输出
+显示 libgalbot_sdk.so 和 libgalbot_sdk.so.1.7.0
+3. 在PC上安装SDK
+​
+进入到SDK目录下执行安装脚本
+cd
+GalbotSDK
+sudo
+./install.sh
+4. 编译程序
+​
+4.1 在PC上交叉编译（aarch64）
+cd
+examples/cpp/
+mkdir
+-p
+build
+cd
+build
+cmake
+..
+/
+-DCMAKE_TOOLCHAIN_FILE
+=
+..
+/cmake/linux-aarch64-gcc940.cmake
+make
+4.2 传输可执行文件到机器人的Orin上
+scp
+your_app galbot@
+<
+机器人IP
+>
+:/userdata
+5. 运行程序
+​
+5.1 C++程序
+ssh
+galbot@
+<
+机器人IP
+>
+cd
+/userdata
+./your_app
+5.2 Python程序
+export
+PYTHONPATH
+=
+/data/galbot/lib:
+$PYTHONPATH
+python your_app.py
+环境变量持久化
+echo
+'export PYTHONPATH=/data/galbot/lib:$PYTHONPATH'
+>>
+~/.bashrc
+source
+~/.bashrc
+模式二：PC端部署
+​
+适用场景：
+开发调试，快速迭代
+特点：
+开发便捷，支持局域网远程控制
+1. 物理连接
+​
+使用网线连接PC与机器人
+2. 配置网络
+​
+2.1 配置PC网口IP
+​
+IP地址：
+192.168.1.99
+（或同网段其他地址）
+子网掩码：
+255.255.255.0
+Ubuntu设置路径：
+设置 → 网络 → 有线设置 → IPv4 → 手动
+验证配置：
+ifconfig
+预期输出
+显示
+inet 192.168.1.99
+2.2 配置PC端IP配置文件
+​
+文件路径：
+/data/config/embosa_ip_config.json
+配置示例（假设PC: 192.168.1.99, XCU: 192.168.1.66, Orin: 192.168.1.88）：
+{
+"embosa_ip"
+:
+{
+"local_interface"
+:
+[
+"192.168.1.99"
+]
+,
+"peer_lists"
+:
+[
+"192.168.1.66"
+,
+"192.168.1.88"
+]
+}
+}
+2.3 配置Orin端IP配置文件
+​
+前提条件
+需先通过WiFi连接Orin，参考模式一步骤1
+2.3.1 登录Orin
+ssh
+galbot@
+<
+Orin无线IP
+>
+# 密码：[published sample credential omitted]
+2.3.2 编辑配置文件
+vi
+/data/config/embosa_ip_config.json
+2.3.3 配置内容
+重要
+192.168.100.88
+和
+192.168.100.66
+是Orin与XCU内部直连IP，必须保留
+{
+"embosa_ip"
+:
+{
+"local_interface"
+:
+[
+"192.168.100.88"
+,
+"192.168.1.88"
+]
+,
+"peer_lists"
+:
+[
+"192.168.100.66"
+,
+"192.168.1.99"
+]
+}
+}
+2.4 配置XCU端IP配置文件
+​
+2.4.1 登录XCU
+ssh
+root@
+<
+XCU无线IP
+>
+# [published sample credential omitted]
+2.4.2 编辑配置文件
+vi
+/data/config/embosa_ip_config.json
+2.4.3 配置内容
+{
+"embosa_ip"
+:
+{
+"local_interface"
+:
+[
+"192.168.100.66"
+,
+"192.168.1.66"
+]
+,
+"peer_lists"
+:
+[
+"192.168.100.88"
+,
+"192.168.1.99"
+]
+}
+}
+2.5 验证网络连接
+​
+必须操作
+配置修改后必须重启机器人
+重启后测试连接：
+ping
+192.168
+.1.66
+# 测试XCU
+ping
+192.168
+.1.88
+# 测试Orin
+预期结果
+正常返回ping响应
+3. 在PC上安装SDK
+​
+进入到SDK目录下执行安装脚本
+cd
+GalbotSDK
+sudo
+./install.sh
+4. 编译程序
+​
+在PC上编译（x86_64）
+cd
+examples/cpp/
+mkdir
+-p
+build
+cd
+build
+cmake
+..
+/
+-DCMAKE_TOOLCHAIN_FILE
+=
+..
+/cmake/linux-x86_64-gcc940.cmake
+make
+5. 运行程序
+​
+5.1 配置环境变量
+路径说明
+/opt/galbot/为默认安装路径，可根据自己的安装路径进行修改
+source
+/opt/galbot/galbot_sdk/linux-x86_64-gcc940/setup.sh
+环境变量持久化
+echo
+'source /opt/galbot/galbot_sdk/linux-x86_64-gcc940/setup.sh'
+>>
+~/.bashrc
+source
+~/.bashrc
+5.2 运行C++程序
+cd
+/userdata
+# 或程序所在目录
+./your_app
+5.3 运行Python程序
+python your_app.py
+python相关库安装
+在运行python example时依赖一些库，所以请先运行下面的脚本保证相关库已安装：
+cd
+GalbotSDK
+./install_python_deps.sh
+术语说明
+​
+配置完成后可以开始探索机器人的示例和接口了，但在正式使用之前，如果不了解相关术语，可以参照下面的内容熟悉：
+1. 机器人本体硬件
+​
+机器人的物理组成部分和相关硬件概念。
+术语
+英文
+说明
+XCU
+X Computing Unit
+基础运算单元，机器人的"小脑"，负责底层电机控制、运动控制等实时任务
+HPU / Orin
+High-Performance Unit / NVIDIA Jetson Orin
+高算力运算单元，机器人的"大脑"，负责图像处理、AI 推理、运动规划等计算密集型任务
+基座 / Base
+Base / Chassis
+机器人的底盘，包含移动轮子和电源系统
+躯干 / Torso
+Torso
+机器人身体的主体部分，连接头部、手臂和基座
+头部 / Head
+Head
+机器人的头部
+手臂 / Arm
+Arm
+机器人的手臂，由多个连杆和关节组成，如左臂 (
+left_arm
+)、右臂 (
+right_arm
+)
+腿部 / Leg
+Leg
+机器人的腿部结构，用于支撑身体上下运动和腰部转动
+关节 / Joint
+Joint
+连接两个连杆的可动部分，由电机驱动
+连杆 / Link
+Link
+连接两个关节的刚性部件
+关节组 / Joint Group
+Joint Group
+一组相关关节的集合，如
+left_arm
+包含左臂所有关节，用于协同控制
+末端执行器 / End-Effector
+End-Effector
+机械臂末端的工具，如
+夹爪
+(Gripper)、
+吸盘
+(Suction Cup)
+自由度 / DOF
+Degrees of Freedom
+描述关节可独立运动的方向数量。如手臂有 7-DOF
+工具中心点 / TCP
+Tool Center Point
+末端工具的工作点，如夹爪的中心点，用于精确控制操作位置
+传感器 / Sensor
+Sensor
+感知环境的设备，包括相机、LiDAR、IMU、力传感器等
+RGB 相机
+RGB Camera
+彩色相机，捕捉可见光图像
+深度相机
+Depth Camera
+可输出深度图（每个像素的距离），用于三维感知
+LiDAR / 激光雷达
+Light Detection and Ranging
+通过激光测距生成周围环境的点云地图
+IMU / 惯性测量单元
+Inertial Measurement Unit
+包含加速度计和陀螺仪，测量机器人的加速度、角速度和姿态
+点云 / Point Cloud
+Point Cloud
+三维空间中大量点的集合，每个点有
+(x,y,z)
+坐标，由 LiDAR 或深度相机生成
+2. 机器人学基础
+​
+描述机器人运动和空间关系的核心理论概念。
+术语
+英文
+说明
+坐标系 / Frame
+Reference Frame
+描述位置和姿态的参考坐标系。想象成固定在空间某处的"标尺"
+世界坐标系 / World
+World Frame
+全局固定的坐标系，通常以地图原点或初始位置为基准
+基座坐标系 / Base
+Base Frame
+固定在机器人基座上的坐标系，随机器人移动而移动
+末端坐标系
+End-Effector Frame
+固定在机械臂末端的坐标系，随手臂运动而运动
+关节空间
+Joint Space
+由各个关节角度定义的空间，是机器人"原生"的控制方式
+笛卡尔空间
+Cartesian Space
+用
+(x, y, z)
+坐标描述的三维空间，人类更直观的理解方式
+位姿 / Pose
+Pose
+位置 (Position) + 姿态 (Orientation) 的完整描述，即"在哪里"+"朝哪边"
+位置 / Position
+Position
+物体在 3D 空间中的坐标
+(x, y, z)
+，单位通常是米 (m)
+姿态 / Orientation
+Orientation
+物体的旋转状态，描述朝向哪个方向
+四元数 / Quaternion
+Quaternion
+用 4 个数
+(qx, qy, qz, qw)
+表示旋转，避免万向锁问题，适合计算机处理
+欧拉角 / Euler Angles
+Euler Angles
+用三个角度
+(roll, pitch, yaw)
+即
+(横滚, 俯仰, 偏航)
+表示旋转，更直观
+正运动学 / FK
+Forward Kinematics
+已知关节角度，计算末端位姿（手在哪里）— 有唯一解
+逆运动学 / IK
+Inverse Kinematics
+已知目标位姿，计算所需关节角度（手要到那里，关节怎么转）— 可能多解或无解
+轨迹 / Trajectory
+Trajectory
+机器人从起点到终点的完整运动路径，包含每个时刻的位置、速度、加速度
+路点 / Waypoint
+Waypoint
+轨迹中的关键节点，机器人会依次经过这些点，类似导航的"途经点"
+插值 / Interpolation
+Interpolation
+在路点之间计算平滑过渡，生成连续的运动轨迹
+SLAM
+Simultaneous Localization and Mapping
+同时定位与建图：机器人一边移动一边建地图，同时确定自己在地图中的位置
+自碰撞
+Self-Collision
+机器人不同部位之间发生碰撞，如左手碰到右手
+环境碰撞
+Environment Collision
+机器人与周围障碍物发生碰撞
+3. 控制与接口
+​
+SDK 中使用的常见参数和概念说明：
+术语
+英文/参数名
+说明
+SDK
+Software Development Kit
+软件开发工具包，包含库、工具和文档
+API
+Application Programming Interface
+应用程序接口，定义程序之间交互的规则
+SSH
+Secure Shell
+远程登录协议，用于从 PC 连接到机器人
+交叉编译
+Cross Compilation
+在 PC (x86) 上编译出机器人 (ARM) 可运行的程序
+单例模式 / Singleton
+Singleton
+设计模式，确保全局只有一个机器人实例，通过
+get_instance()
+获取
+阻塞模式 / Blocking
+is_blocking=True
+函数调用后等待操作完成才返回。例如：
+navigate_to_goal(..., is_blocking=True)
+会等待导航完成才返回，期间无法执行其他操作
+非阻塞模式 / Non-blocking
+is_blocking=False
+函数调用后立即返回，不等待操作完成。例如：
+navigate_to_goal(..., is_blocking=False)
+立即返回，可通过
+is_localized()
+等函数查询状态
+base_pose
+base_pose: [x, y, yaw]
+机器人基座的位姿，包含
+(x, y)
+位置（米）和
+yaw
+偏航角（弧度）
+frame_id
+frame_id
+目标坐标系 ID，可选值：
+"base_link"
+（机器人基座）、
+"odom"
+（里程计）、
+"map"
+（地图）
+reference_frame_id
+reference_frame_id
+参考坐标系 ID，指定位姿所属的坐标系
+goal_pose
+goal_pose: [x, y, z, qx, qy, qz, qw]
+目标位姿，包含位置
+(x, y, z)
+（米）和四元数
+(qx, qy, qz, qw)
+表示 Orientation
+start_pose
+start_pose
+起始位姿，格式同
+goal_pose
+init_pose
+init_pose
+初始位姿估计，用于重定位
+reference_frame
+reference_frame
+相对坐标系名称，如
+"base_link"
+、
+"world"
+、运动链名称
+target_frame
+target_frame
+目标坐标系，用于坐标变换
+base_link
+base_link
+机器人基座坐标系，所有机械臂/头部等部件都以此为参考
+odom
+odom
+里程计坐标系，基于轮式编码器的相对位姿估计
+map
+map
+地图坐标系，SLAM 建立的全局一致坐标系
+joint_groups
+joint_groups
+关节组名称列表，如
+["left_arm", "right_arm", "chassis"]
+joint_names
+joint_names
+具体关节名列表，优先于
+joint_groups
+，如
+["left_arm_j1", "left_arm_j2"]
+joint_positions
+joint_positions
+关节位置数组（弧度），顺序与
+get_joint_names()
+返回一致
+waypoints
+waypoints
+轨迹路点列表，每个路点包含目标位置和到达时间
+time_from_start_s
+time_from_start_s
+从轨迹开始到该路点的时间（秒），用于控制运动节奏
+timeout_s
+timeout_s
+超时时间（秒），阻塞模式下等待操作完成的最大时间
+timestamp_ns
+timestamp_ns
+纳秒级时间戳，用于数据同步
+safe_margin
+safe_margin
+碰撞检测安全距离（米），如
+0.1
+表示与障碍物保持 10cm
+enable_collision_check
+enable_collision_check
+是否启用碰撞检测，
+True
+表示启用
+obstacle_id
+obstacle_id
+障碍物唯一标识符，添加/删除障碍物时使用
+ignore_collision_link_names
+ignore_collision_link_names
+碰撞检测忽略的连杆列表
+pose
+pose
+位姿数据，长度 7 的数组
+[x, y, z, qx, qy, qz, qw]
+reference_base_pose
+reference_base_pose
+机器人基座在地图坐标系中的位姿
+linear_velocity
+linear_velocity: [vx, vy, vz]
+线速度数组（米/秒），
+vx
+前进速度，
+vy
+侧向速度，
+vz
+垂直速度
+angular_velocity
+angular_velocity: [wx, wy, wz]
+角速度数组（弧度/秒），
+wz
+为偏航角速度
+status_string
+status_string
+状态描述字符串，如
+"SUCCESS"
+、
+"FAIL"
+、
+"TIMEOUT"
+、
+"MOVING"
+is_localized
+is_localized()
+导航状态检查函数，返回
+True
+表示机器人已在地图中定位
+get_frame_names()
+get_frame_names()
+获取所有可用坐标系名称列表
+quaternion
+[qx, qy, qz, qw]
+四元数表示旋转，单位四元数满足
+sqrt(qx²+qy²+qz²+qw²) = 1
+euler
+[roll, pitch, yaw]
+欧拉角表示旋转，单位弧度，顺序为横滚-俯仰-偏航
+上一章
+产品概述
+下一章
+入门教程
+系统要求
+模式一：机器人端部署
+1. 连接机器人网络
+2. 部署SDK到机器人
+3. 在PC上安装SDK
+4. 编译程序
+5. 运行程序
+模式二：PC端部署
+1. 物理连接
+2. 配置网络
+3. 在PC上安装SDK
+4. 编译程序
+5. 运行程序
+术语说明
+1. 机器人本体硬件
+2. 机器人学基础
+3. 控制与接口
+© 2026 Galbot · developer.galbot.com
+联系支持
+隐私政策
+服务条款

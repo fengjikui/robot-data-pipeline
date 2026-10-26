@@ -1,0 +1,147 @@
+{
+  "verified_on": "2026-10-26",
+  "source_code": "https://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/utils/rerun_visualizer.py#L192-L206",
+  "download_page": "https://drive.google.com/file/d/1f5UuFl1z_gaByg_7jDRj1_NxfJZh2evD/view?usp=sharing",
+  "archive": {
+    "path": "data/downloads/rerun_testdata.zip",
+    "bytes": 53986543,
+    "sha256": "82315098a6cdf3ea067eb9d85f36e10307e61d81544781a4a8169f051b0cf465"
+  },
+  "extracted_scope": "episode_0006 only; other episodes remain in original archive",
+  "json_path": "examples/raw/official_rerun_testdata/episode_0006/data.json",
+  "json_sha256": "1cc385b4fb8598b2a3833f7e16cfc9bdd60553ffe57886a47492fa3a4c32bceb",
+  "frames": 167,
+  "image_files": 334,
+  "missing_image_refs": [],
+  "first_frame": {
+    "idx": 0,
+    "colors": {
+      "color_0": "colors/000000_color_0.jpg",
+      "color_1": "colors/000000_color_1.jpg"
+    },
+    "depths": {
+      "depth_0": null
+    },
+    "states": {
+      "left_arm": {
+        "qpos": [
+          -0.3336954116821289,
+          0.10036659240722656,
+          0.157912015914917,
+          0.3875539302825928,
+          -0.24062922596931458,
+          -0.3605555295944214,
+          -0.33762064576148987
+        ],
+        "qvel": [],
+        "torque": []
+      },
+      "right_arm": {
+        "qpos": [
+          -0.38186073303222656,
+          -0.0991678237915039,
+          -0.09489870071411133,
+          0.4106476306915283,
+          0.054921627044677734,
+          -0.4172819256782532,
+          0.10408735275268555
+        ],
+        "qvel": [],
+        "torque": []
+      },
+      "left_hand": {
+        "qpos": [
+          -0.791850745677948,
+          1.0325063467025757,
+          0.6185283660888672,
+          0.18905171751976013,
+          -0.01447064708918333,
+          0.18768934905529022,
+          -0.010603292845189571
+        ],
+        "qvel": [],
+        "torque": []
+      },
+      "right_hand": {
+        "qpos": [
+          -0.8131540417671204,
+          -1.0373858213424683,
+          -0.5126462578773499,
+          -0.17254087328910828,
+          0.048263873904943466,
+          -0.145783469080925,
+          0.0505417101085186
+        ],
+        "qvel": [],
+        "torque": []
+      },
+      "body": null
+    },
+    "actions": {
+      "left_arm": {
+        "qpos": [
+          -0.3122416753494884,
+          0.10507703745573826,
+          0.1530567837350236,
+          0.3759131536366903,
+          -0.23483478321041373,
+          -0.36428431290579855,
+          -0.33921337998788437
+        ],
+        "qvel": [],
+        "torque": []
+      },
+      "right_arm": {
+        "qpos": [
+          -0.3703202494284178,
+          -0.10098127275292579,
+          -0.09337529260955028,
+          0.39942706137612577,
+          0.06368764945289496,
+          -0.4252119497882326,
+          0.11487463005227062
+        ],
+        "qvel": [],
+        "torque": []
+      },
+      "left_hand": {
+        "qpos": [
+          -0.7882903183023705,
+          1.047197580337524,
+          0.6212928238338173,
+          0.1919862031936645,
+          -1.1522696895143472e-18,
+          0.1919862031936645,
+          -3.957450727077343e-18
+        ],
+        "qvel": [],
+        "torque": []
+      },
+      "right_hand": {
+        "qpos": [
+          -0.8168353684376679,
+          -1.047197580337524,
+          -0.5220662931594878,
+          -0.18623904874173622,
+          0.049560251778536395,
+          -0.15246998584022817,
+          0.04748747035057877
+        ],
+        "qvel": [],
+        "torque": []
+      },
+      "body": null
+    },
+    "tactiles": null,
+    "audios": {
+      "mic0": null
+    }
+  },
+  "task": {
+    "goal": "Pick up the red cup on the table.",
+    "desc": "Pick up the cup from the table and place it in another position. The operation should be smooth and the water in the cup should not spill out",
+    "steps": "step1: searching for cups. step2: go to the target location. step3: pick up the cup"
+  },
+  "boundary": "Official historical visualization test sample linked by upstream code. Original JSON and JPG bytes preserved. Not a LeRobot reverse export, not our capture, and exact robot/hand hardware not established from this package.",
+  "task_annotation_warning": "Text says red cup; inspected first images show a red block. Task annotation is not verified."
+}

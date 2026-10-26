@@ -1,0 +1,741 @@
+{
+  "info": {
+    "image": {
+      "width": 640,
+      "height": 480,
+      "fps": 30
+    },
+    "source": "SYNTHETIC SCHEMA FIXTURE ONLY"
+  },
+  "text": {
+    "goal": "Synthetic schema example only; not a real demonstration."
+  },
+  "data": [
+    {
+      "idx": 0,
+      "colors": {
+        "color_0": "colors/000000_color_0.jpg",
+        "color_1": "colors/000000_color_1.jpg",
+        "color_2": "colors/000000_color_2.jpg",
+        "color_3": "colors/000000_color_3.jpg"
+      },
+      "depths": {},
+      "states": {
+        "left_arm": {
+          "qpos": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "actions": {
+        "left_arm": {
+          "qpos": [
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "tactiles": null,
+      "audios": null,
+      "sim_state": null
+    },
+    {
+      "idx": 1,
+      "colors": {
+        "color_0": "colors/000001_color_0.jpg",
+        "color_1": "colors/000001_color_1.jpg",
+        "color_2": "colors/000001_color_2.jpg",
+        "color_3": "colors/000001_color_3.jpg"
+      },
+      "depths": {},
+      "states": {
+        "left_arm": {
+          "qpos": [
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "actions": {
+        "left_arm": {
+          "qpos": [
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "tactiles": null,
+      "audios": null,
+      "sim_state": null
+    },
+    {
+      "idx": 2,
+      "colors": {
+        "color_0": "colors/000002_color_0.jpg",
+        "color_1": "colors/000002_color_1.jpg",
+        "color_2": "colors/000002_color_2.jpg",
+        "color_3": "colors/000002_color_3.jpg"
+      },
+      "depths": {},
+      "states": {
+        "left_arm": {
+          "qpos": [
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02,
+            0.02
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "actions": {
+        "left_arm": {
+          "qpos": [
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "tactiles": null,
+      "audios": null,
+      "sim_state": null
+    },
+    {
+      "idx": 3,
+      "colors": {
+        "color_0": "colors/000003_color_0.jpg",
+        "color_1": "colors/000003_color_1.jpg",
+        "color_2": "colors/000003_color_2.jpg",
+        "color_3": "colors/000003_color_3.jpg"
+      },
+      "depths": {},
+      "states": {
+        "left_arm": {
+          "qpos": [
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "actions": {
+        "left_arm": {
+          "qpos": [
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "tactiles": null,
+      "audios": null,
+      "sim_state": null
+    },
+    {
+      "idx": 4,
+      "colors": {
+        "color_0": "colors/000004_color_0.jpg",
+        "color_1": "colors/000004_color_1.jpg",
+        "color_2": "colors/000004_color_2.jpg",
+        "color_3": "colors/000004_color_3.jpg"
+      },
+      "depths": {},
+      "states": {
+        "left_arm": {
+          "qpos": [
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04,
+            0.04
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "actions": {
+        "left_arm": {
+          "qpos": [
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "tactiles": null,
+      "audios": null,
+      "sim_state": null
+    },
+    {
+      "idx": 5,
+      "colors": {
+        "color_0": "colors/000005_color_0.jpg",
+        "color_1": "colors/000005_color_1.jpg",
+        "color_2": "colors/000005_color_2.jpg",
+        "color_3": "colors/000005_color_3.jpg"
+      },
+      "depths": {},
+      "states": {
+        "left_arm": {
+          "qpos": [
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05,
+            0.05
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "actions": {
+        "left_arm": {
+          "qpos": [
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_arm": {
+          "qpos": [
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "left_ee": {
+          "qpos": [
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06
+          ],
+          "qvel": [],
+          "torque": []
+        },
+        "right_ee": {
+          "qpos": [
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06,
+            0.06
+          ],
+          "qvel": [],
+          "torque": []
+        }
+      },
+      "tactiles": null,
+      "audios": null,
+      "sim_state": null
+    }
+  ]
+}

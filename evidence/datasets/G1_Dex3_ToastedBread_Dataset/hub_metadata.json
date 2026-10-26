@@ -1,0 +1,161 @@
+{
+  "_id": "67b55355003999dcc6b0fa20",
+  "id": "unitreerobotics/G1_Dex3_ToastedBread_Dataset",
+  "author": "unitreerobotics",
+  "sha": "02cb29161f5adb2981a072aa35b408d82a556d07",
+  "lastModified": "2025-09-16T06:52:53.000Z",
+  "private": false,
+  "gated": false,
+  "disabled": false,
+  "tags": [
+    "task_categories:robotics",
+    "license:apache-2.0",
+    "size_categories:100K<n<1M",
+    "format:parquet",
+    "modality:tabular",
+    "modality:timeseries",
+    "modality:video",
+    "library:datasets",
+    "library:dask",
+    "library:mlcroissant",
+    "library:polars",
+    "region:us",
+    "LeRobot"
+  ],
+  "description": "This dataset was created using LeRobot.\n\nDue to the inability to precisely describe spatial positions, adjust the scene to closely match the first frame of the dataset after installing the hardware as specified in Part 5 of AVP Teleoperation Documentation.  \nData collection is not completed in a single session, and variations between data entries exist. Ensure these variations are accounted for during model training.\n\n\n\t\n\t\t\n\t\n\t\n\t\tDataset Structure\n\t\n\nmeta/info.json:\n{\n    \"codebase_version\":… See the full description on the dataset page: https://huggingface.co/datasets/unitreerobotics/G1_Dex3_ToastedBread_Dataset.",
+  "downloads": 7542,
+  "likes": 6,
+  "cardData": {
+    "license": "apache-2.0",
+    "task_categories": [
+      "robotics"
+    ],
+    "tags": [
+      "LeRobot"
+    ],
+    "configs": [
+      {
+        "config_name": "default",
+        "data_files": "data/*/*.parquet"
+      }
+    ]
+  },
+  "siblings": [
+    {
+      "rfilename": ".gitattributes"
+    },
+    {
+      "rfilename": "README.md"
+    },
+    {
+      "rfilename": "data/chunk-000/file-000.parquet"
+    },
+    {
+      "rfilename": "data/chunk-000/file-001.parquet"
+    },
+    {
+      "rfilename": "meta/episodes/chunk-000/file-000.parquet"
+    },
+    {
+      "rfilename": "meta/info.json"
+    },
+    {
+      "rfilename": "meta/stats.json"
+    },
+    {
+      "rfilename": "meta/tasks.parquet"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_high/chunk-000/file-000.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_high/chunk-000/file-001.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_high/chunk-000/file-002.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_high/chunk-000/file-003.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_high/chunk-000/file-004.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_high/chunk-000/file-005.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_high/chunk-000/file-006.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_high/chunk-000/file-007.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_high/chunk-000/file-008.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_wrist/chunk-000/file-000.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_wrist/chunk-000/file-001.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_wrist/chunk-000/file-002.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_wrist/chunk-000/file-003.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_wrist/chunk-000/file-004.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_left_wrist/chunk-000/file-005.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_high/chunk-000/file-000.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_high/chunk-000/file-001.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_high/chunk-000/file-002.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_high/chunk-000/file-003.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_high/chunk-000/file-004.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_high/chunk-000/file-005.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_high/chunk-000/file-006.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_high/chunk-000/file-007.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_high/chunk-000/file-008.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_wrist/chunk-000/file-000.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_wrist/chunk-000/file-001.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_wrist/chunk-000/file-002.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_wrist/chunk-000/file-003.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_wrist/chunk-000/file-004.mp4"
+    },
+    {
+      "rfilename": "videos/observation.images.cam_right_wrist/chunk-000/file-005.mp4"
+    }
+  ],
+  "createdAt": "2025-02-19T03:43:17.000Z",
+  "usedStorage": 29722618593
+}

@@ -1,0 +1,47 @@
+{
+  "checked_date": "2026-10-26",
+  "scope": "documentation/source metadata research only, no training dataset acquisition",
+  "snapshots": [
+    {
+      "path": "evidence/external_assets_research_2026-10-26/DROID_dataset.md",
+      "url": "https://github.com/droid-dataset/droid/blob/main/docs/the-droid-dataset.md",
+      "checked_date": "2026-10-26",
+      "revision": "main snapshot, not pinned to commit",
+      "bytes": 6685,
+      "sha256": "d38519acabd1d15e839cb8632ca97c51627ee85db6e8cb955673e183afbef158"
+    },
+    {
+      "path": "evidence/external_assets_research_2026-10-26/DROID_metadata_schema.py",
+      "url": "https://github.com/droid-dataset/droid/blob/main/droid/postprocessing/schema.py",
+      "checked_date": "2026-10-26",
+      "revision": "main snapshot, not pinned to commit",
+      "bytes": 4161,
+      "sha256": "b81be1b4c2e03d7bb14a59df411749cd5f53b281854cb8ee77df65974811cf86"
+    },
+    {
+      "path": "evidence/external_assets_research_2026-10-26/OpenX_README.md",
+      "url": "https://github.com/google-deepmind/open_x_embodiment/blob/main/README.md",
+      "checked_date": "2026-10-26",
+      "revision": "main snapshot, not pinned to commit",
+      "bytes": 4719,
+      "sha256": "e7dbf6bb04559e981b7eab2e0f4510579bf82b09948a0fe6471ba1794f86ae59"
+    }
+  ],
+  "online_documents": [
+    {
+      "url": "https://huggingface.co/docs/hub/datasets-cards",
+      "checked_date": "2026-10-26",
+      "snapshot_saved": false
+    },
+    {
+      "url": "https://huggingface.co/docs/huggingface_hub/guides/download",
+      "checked_date": "2026-10-26",
+      "snapshot_saved": false
+    },
+    {
+      "url": "https://huggingface.co/docs/lerobot/lerobot-dataset-v3",
+      "checked_date": "2026-10-26",
+      "snapshot_saved": false
+    }
+  ]
+}

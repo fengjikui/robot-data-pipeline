@@ -1,0 +1,45 @@
+{
+  "retrieved_date": "2026-10-26",
+  "assets": [
+    {
+      "file": "g1_official_nav.png",
+      "url": "https://www.unitree.com/images/fb1eee1cce424ca0893a3d426a55e004_428x404.png",
+      "sha256": "6375a73daabae3fa120e31eff8ffb3f176cbe0c486fd5742346c1413ebafbad9"
+    },
+    {
+      "file": "g1_official_product.png",
+      "url": "https://www.unitree.com/images/87d23aa3708e4677aba22b14352bb779_2000x1470.png",
+      "sha256": "d06fd299171f2fd2c952e33b6f9f4bbd12573c0bd6bbfa440026d94d51a50c82"
+    },
+    {
+      "file": "official_teleop_diagram.png",
+      "url": "https://oss-global-cdn.unitree.com/static/55fb9cd245854810889855010da296f7_3415x2465.png",
+      "sha256": "60b82e6a3a131659aaf4c364d2aa5402392b1caa4fb05df5b7a5782d1772aa70"
+    },
+    {
+      "file": "official_start_pose.png",
+      "url": "https://oss-global-cdn.unitree.com/static/2522a83214744e7c8c425cc2679a84ec_670x867.png",
+      "sha256": "58ff7637130c5b50c1af46fa7364bcf3a10572f7abce19d6ac95257a43cd2c39"
+    },
+    {
+      "file": "official_real_head.jpg",
+      "url": "https://raw.githubusercontent.com/unitreerobotics/xr_teleoperate/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/img/real_head.jpg",
+      "sha256": "7aa996b1beccbedb1b675111e5ba8c92dd80031eac09dc08c2e8d76897d76793"
+    }
+  ],
+  "generated_assets": [
+    {
+      "file": "g1_illustration_v1.png",
+      "method": "built-in image_gen",
+      "date": "2026-10-26",
+      "reference_files": [
+        "official_start_pose.png",
+        "official_real_head.jpg",
+        "g1_official_product.png"
+      ],
+      "sha256": "fc05a439b8c6227c008992a59ec5b2651739f459c9cec47bc9447e9cac7cabd4",
+      "original": "/Users/fengjikui/.codex/generated_images/01a1711a-4ef5-7cb1-83bd-5ad4fb604905/exec-b124aab5-35ff-4c17-a2c7-b3c92df923f2.png",
+      "usage": "Illustration only; no claim of exact delivered hardware or internal layout."
+    }
+  ]
+}

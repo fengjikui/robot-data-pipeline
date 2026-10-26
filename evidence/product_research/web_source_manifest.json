@@ -1,0 +1,107 @@
+[
+  {
+    "id": "agibot_sdk_usage",
+    "url": "https://open.agibot.com/docs/aimdk/a2/v1_2/getting_started/sdk_usage",
+    "checked_date": "2026-10-25",
+    "resolved_url": "https://open.agibot.com/docs/aimdk/a2/v1_2/getting_started/sdk_usage",
+    "path": "evidence/product_research/agibot_sdk_usage.txt",
+    "bytes": 119915,
+    "text_chars": 11085,
+    "response_sha256": "17c9e548d789b61e437a3fdc1aa792c6ca9400572f754f8495b21b618fd74311",
+    "text_sha256": "dc2dc01da3bbafc4b7d7e8597dbd3f35310944b207dad8c07202aba40b01e6f2",
+    "note": "script/style removed; published sample credentials omitted"
+  },
+  {
+    "id": "agibot_sdk_limits_v1_2",
+    "url": "https://open.agibot.com/docs/aimdk/a2/v1_2/getting_started/limits",
+    "checked_date": "2026-10-25",
+    "resolved_url": "https://open.agibot.com/docs/aimdk/a2/v1_2/getting_started/limits",
+    "path": "evidence/product_research/agibot_sdk_limits_v1_2.txt",
+    "bytes": 21476,
+    "text_chars": 978,
+    "response_sha256": "b8e463ed32c576e8812572005338da4d62922c29438268c7578f333e577187ca",
+    "text_sha256": "229f2d9c30b42577d1a5f7f6aaa972b84662b32cd67f4d37fa27a5aac2d1648b",
+    "note": "script/style removed; published sample credentials omitted"
+  },
+  {
+    "id": "agibot_sdk_abilities_v1_2",
+    "url": "https://open.agibot.com/docs/aimdk/a2/v1_2/getting_started/sdk_ability",
+    "checked_date": "2026-10-25",
+    "resolved_url": "https://open.agibot.com/docs/aimdk/a2/v1_2/getting_started/sdk_ability",
+    "path": "evidence/product_research/agibot_sdk_abilities_v1_2.txt",
+    "bytes": 29492,
+    "text_chars": 1176,
+    "response_sha256": "da38d8bfa05140fb9ad6edc716931113ba74088568f4469f2b204fceea2ad49c",
+    "text_sha256": "45c5c922d51a48f58fee85b26ab3481f7cf45eaaacab345c1857a5ab010553e3",
+    "note": "script/style removed; published sample credentials omitted"
+  },
+  {
+    "id": "agibot_sim_v1_2",
+    "url": "https://open.agibot.com/docs/aimdk/a2/v1_2/getting_started/simulation",
+    "checked_date": "2026-10-25",
+    "resolved_url": "https://open.agibot.com/docs/aimdk/a2/v1_2/getting_started/simulation",
+    "path": "evidence/product_research/agibot_sim_v1_2.txt",
+    "bytes": 43803,
+    "text_chars": 2473,
+    "response_sha256": "2b7b7f999929c73a63fd3dbf28cf7f149c027a358e5110cb5926c691117f536b",
+    "text_sha256": "1775147111def59dd54da41aef95b90322739df03f4a970782777946ce7fbf3c",
+    "note": "script/style removed; published sample credentials omitted"
+  },
+  {
+    "id": "agibot_custom_control_v2_1",
+    "url": "https://open.agibot.com/docs/aimdk/a2/v2_1/dev_guide/deploy_motion_control",
+    "checked_date": "2026-10-25",
+    "resolved_url": "https://open.agibot.com/docs/aimdk/a2/v2_1/dev_guide/deploy_motion_control",
+    "path": "evidence/product_research/agibot_custom_control_v2_1.txt",
+    "bytes": 93660,
+    "text_chars": 8071,
+    "response_sha256": "7d025eff08da2cfba4cd68fbf532fbcc0bf3565c9ab9a2990d1a0065915a7885",
+    "text_sha256": "ad7f4d8a5b4f2cadff13f247c1dc75bfd43255afafaaa58590aed8ce0b51e439",
+    "note": "script/style removed; published sample credentials omitted"
+  },
+  {
+    "id": "galbot_overview_v1_7",
+    "url": "https://developer.galbot.com/docs/SDK/1.7.0/g1/zh/overview/",
+    "checked_date": "2026-10-25",
+    "resolved_url": "https://developer.galbot.com/docs/SDK/1.7.0/g1/zh/overview/",
+    "path": "evidence/product_research/galbot_overview_v1_7.txt",
+    "bytes": 17137,
+    "text_chars": 1541,
+    "response_sha256": "93a6555121e059ec597651797aa46aa4f4d4341ec96d57de23350c27f0c9ce4f",
+    "text_sha256": "90e3fc547563defb8d356e4d9529e94d3b9bc2493c7a6138752fdd0fd61400b3",
+    "note": "script/style removed; published sample credentials omitted"
+  },
+  {
+    "id": "galbot_setup_v1_7",
+    "url": "https://developer.galbot.com/docs/SDK/1.7.0/g1/zh/installation_and_configuration/",
+    "checked_date": "2026-10-25",
+    "resolved_url": "https://developer.galbot.com/docs/SDK/1.7.0/g1/zh/installation_and_configuration/",
+    "path": "evidence/product_research/galbot_setup_v1_7.txt",
+    "bytes": 83311,
+    "text_chars": 7951,
+    "response_sha256": "9c875f00eb75e54562314ce71c4c2eed2715ebe0f76d58457e537fb70a763cf3",
+    "text_sha256": "7675a3d41f26dbaee83c21949a22a589994800c2c61364babb9232ee1b44709b",
+    "note": "script/style removed; published sample credentials omitted"
+  },
+  {
+    "id": "galbot_tm01_v1_4",
+    "url": "https://developer.galbot.com/docs/tm01/1.4.0/zh/tm01/",
+    "checked_date": "2026-10-25",
+    "resolved_url": "https://developer.galbot.com/docs/tm01/1.4.0/zh/tm01/",
+    "path": "evidence/product_research/galbot_tm01_v1_4.txt",
+    "bytes": 38232,
+    "text_chars": 4566,
+    "response_sha256": "96f02acdfa37af582ee23e323963a23ff43db81b32f74ee30bec4b4770ca838f",
+    "text_sha256": "8737fe9fa87b381bda235a9becdc9cd12cc5fdd1eb338350d2268004a8474862",
+    "note": "script/style removed; published sample credentials omitted"
+  },
+  {
+    "id": "agibot_world_2026",
+    "url": "https://huggingface.co/datasets/agibot-world/AgiBotWorld2026/resolve/main/README.md",
+    "revision": "95b159a10305a0385f369aba5d4b16242526d17b",
+    "path": "evidence/product_research/AgiBotWorld2026_README.md",
+    "bytes": 16711,
+    "sha256": "31d00119dc85a58b43bd44ffccfab87d2c9cecd7b483aed737b81995d1e0219b",
+    "checked_date": "2026-10-25"
+  }
+]
