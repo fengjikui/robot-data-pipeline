@@ -8,6 +8,8 @@
 
 ## 启动工作台
 
+Windows 上执行部署的 Agent 请先读[Windows Agent 部署与启动指南](docs/implementation/05_Windows_Agent部署与启动指南.md)，其中包含独立环境、后台日志、健康检查和交接步骤。
+
 需要 Python 3.11 或更新版本，基础运行只使用标准库。浏览器打开启动后显示的本机地址，默认 `http://127.0.0.1:8765`。
 
 从源码直接启动：
