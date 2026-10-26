@@ -30,10 +30,16 @@ try{
   metadata.splice(0,metadata.length,...sequence.contentOrder.map(key=>{const m=byKey.get(key);if(!m)throw new Error('Missing content key '+key);return m;}));
 }catch(e){if(e.code!=='ENOENT')throw e;}
 let revisionConfig=null;
+let focusedConfig=null;
 if(Number(revision.slice(1))>=14){
   revisionConfig=JSON.parse(await fs.readFile(path.join(ROOT,'docs/report/parts/report_revision_v14.json'),'utf8'));
   for(const item of revisionConfig.pages){const existing=metadata.find(m=>m.contentPage===item.contentPage);if(existing)Object.assign(existing,item);else metadata.push(item);short[String(item.contentPage)]=item.shortScript;}
   const byKey=new Map(metadata.map(m=>[m.contentPage,m]));metadata.splice(0,metadata.length,...revisionConfig.contentOrder.map(key=>byKey.get(key)));
+}
+if(Number(revision.slice(1))>=15){
+  focusedConfig=JSON.parse(await fs.readFile(path.join(ROOT,'docs/report/parts/report_revision_v15.json'),'utf8'));
+  for(const item of focusedConfig.pages){metadata.push(item);short[String(item.contentPage)]=item.shortScript;}
+  const byKey=new Map(metadata.map(m=>[m.contentPage,m]));metadata.splice(0,metadata.length,...focusedConfig.contentOrder.map(key=>byKey.get(key)));
 }
 let bodyCount=0;
 for(const m of metadata)m.displayPage=m.contentPage==='toc'?'目录':m.contentPage==='capture_startup'||m.isSupplement?'备查':++bodyCount;
@@ -54,6 +60,7 @@ if(Number(revision.slice(1))>=13){
   for(const item of solution){short[String(item.contentPage)]=item.shortScript;const m=metadata.find(x=>x.contentPage===item.contentPage);if(m)Object.assign(m,item);}
 }
 if(revisionConfig)for(const item of revisionConfig.pages){short[String(item.contentPage)]=item.shortScript;Object.assign(metadata.find(m=>m.contentPage===item.contentPage),item);}
+if(focusedConfig)for(const item of focusedConfig.pages){short[String(item.contentPage)]=item.shortScript;Object.assign(metadata.find(m=>m.contentPage===item.contentPage),item);}
 let md=`# 具身智能数据管线：逐页阅读与演讲稿\n\n更新：2026 年 10 月 26 日。共 ${bodyCount} 页正文、1 页目录与 ${supplementCount} 页备查，合计 ${slideCount} 张幻灯片。先完整介绍自采到部署，再介绍外部数据接入与采购，最后讲工作台方案。标题为红色，白/浅灰与石墨黑为主体，少量蓝色强调。${revisionConfig?'标题距左和上均1.1 cm，所有可见页码与目录页码范围已移除，底部1.3 cm完整留给公司模板。':'每页底部约80px留作公司页脚。'}\n\n每页先给精讲口述，随后保留扩展讲稿。仅在用到官方文档、原作者源码或论文时列出参考资料，自行整理与设计不作为参考。主线精讲按约 20–25 分钟演练，备查页可略讲，实际以演练为准。${Number(revision.slice(1))>=13?'v0.1.2 已实现本地导入、结构质检与 JSONL 导出；新页面展示的完整工作流与可点击原型仍属方案，真机采集、训练和部署尚未接入。':'图形工作台与完整自主搬箱尚未实现，规划页已明确标注。'}\n\n`;
 for(let i=0;i<metadata.length;i++){
   const m=metadata[i],stem='page-'+String(i+1).padStart(2,'0');

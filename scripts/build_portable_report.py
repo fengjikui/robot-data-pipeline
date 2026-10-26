@@ -94,6 +94,7 @@ def portable_markdown(s):
         '10_转换后LeRobot公开数据查看.md':'converted_guide.md',
         '14_工具命令与参数备查.md':'tool_commands_guide.md',
         'parts/wholebody_research_v14.md':'wholebody_guide.md',
+        'parts/box_dataset_case_v15.md':'box_case_guide.md',
     }
     for a,b in replacements.items():s=s.replace(a,b)
     # Within speaker prose, local resource names are rooted at the presentation;
@@ -122,6 +123,11 @@ def package():
             ('14_工具命令与参数备查.md','tool_commands_guide'),
             ('parts/augmentation_research_v14.md','augmentation_guide'),
             ('parts/wholebody_research_v14.md','wholebody_guide'),
+        ]
+    if int(REV[1:]) >= 15:
+        report_sources += [
+            ('15_后半部方案与搬箱验证.md','focused_plan'),
+            ('parts/box_dataset_case_v15.md','box_case_guide'),
         ]
     for source,name in report_sources:
         s=portable_markdown((ROOT/'docs/report'/source).read_text()).replace('report.pptx',ppt_name);(notes/(name+'.md')).write_text(s)
@@ -168,6 +174,9 @@ def package():
         body += '''<h2>后续完整方案与交互原型</h2><nav><a href="notes/product_plan.html">现状问题、价值与四阶段路线</a><a href="notes/interaction_design.html">用户旅程与详细交互设计</a><a href="notes/implementation_backlog.html">开发工作包与验收</a><a href="notes/capture_status.html">真机采集当前接入状态</a><a href="prototype/index.html">打开可点击方案原型</a></nav><p>原型全部使用示例状态，不连接机器人，不下载、不训练、不部署。可以演示采集保存失败恢复、外部数据筛选、训练输入差异与配方切换。</p>'''
     if int(REV[1:]) >= 14:
         body += '''<h2>本版专项备查</h2><nav><a href="notes/tool_commands_guide.html">转换、增强与训练的真实命令和参数</a><a href="notes/augmentation_guide.html">增强方法、审查与效果对照</a><a href="notes/wholebody_guide.html">腰腿数据与连续搬箱控制</a></nav><p>v14 共29张：目录、26页正文、2页备查。页面不带页码，标题距左和上均1.1cm，底部1.3cm留给公司模板。</p>'''
+    if int(REV[1:]) >= 15:
+        body = body.replace('v14 共29张：目录、26页正文、2页备查。','v15 共26张：目录、23页正文、2页备查。前19张保留，第20张起收束为7页。')
+        body += '''<h2>本次重点：搬箱优先的整体方案</h2><nav><a href="notes/focused_plan.html">三个问题、整体方案与S1–S3路线</a><a href="resources/box_case/index.html">实际下载的G1搬箱示范与原始字段</a><a href="notes/box_case_guide.html">具体数据集、下载范围与闭环复现</a></nav><p>后半部分以本次方案为准，旧版产品与界面详文供深入对照。公开示范视频不是本项目模型闭环成绩，GPU训练与仿真尚未执行。</p>'''
     (folder/'start.html').write_text(page('演示资料入口',body.replace('report.pptx',ppt_name)))
     (folder/'README.txt').write_text('具身智能数据管线演示包\n\n1. 完整解压ZIP，保持文件夹结构。\n2. 打开 start.html 查看全部资料，或打开 report.pptx 开始报告。\n3. resources包含完整原始回合、原ZIP、离线浏览页及转换后节选；notes包含完整讲稿。\n4. 本地链接相对于 report.pptx，无用户目录或盘符依赖。不要只复制PPT文件。\n5. 图像与关键数值已嵌入PPT；完整原始文件为随包附件，并非OLE嵌入对象。\n6. 外部权威来源链接仍需联网。本包没有宏、可执行安装器或服务要求。\n\n尚未在目标Windows版PowerPoint/WPS实播，建议在报告前打开并点击一次资料入口。\n')
     readme=folder/'README.txt';readme.write_text(readme.read_text().replace('report.pptx',ppt_name))

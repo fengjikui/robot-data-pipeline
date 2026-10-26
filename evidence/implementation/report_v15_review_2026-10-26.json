@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-26",
+  "revision": "v15",
+  "baseline_commit": "7105290d666dd119e315e70e5cd6725a85515353",
+  "workbench_execution_version": "0.1.2",
+  "workbench_execution_code_changed": false,
+  "report": {
+    "original_slide_count": 29,
+    "slide_count": 26,
+    "preserved_prefix_slides": 19,
+    "preserved_prefix_png_byte_equality": true,
+    "replaced_physical_slides_start": 20,
+    "old_tail_pages": 10,
+    "new_tail_pages": 7,
+    "external_and_procurement_pages": 2,
+    "problem_and_solution_pages": 5,
+    "speaker_note_count": 26,
+    "layout_findings": 0,
+    "layout_warnings": [
+      {
+        "connector_id": "12",
+        "connector_z": 13,
+        "kind": "connector_over_text",
+        "slide": 4,
+        "text_object_id": "3",
+        "text_z": 4
+      }
+    ],
+    "final_sha256": "5cff8391e21958784b1469db28dc9ffe27a5d0251ec3ce4812d27520100c6c47"
+  },
+  "new_outline": [
+    "20 actual dataset cases and range selection",
+    "21 task-specific procurement with sample acceptance",
+    "22 three concrete user problems",
+    "23 two data sources and seven stages",
+    "24 Arena G1 public box-carry case and actual sample",
+    "25 S1 complete G1 task with teleop and public data, S2 reusable methods, S3 enterprise scale",
+    "26 catalog, immutable assets/views and training IO"
+  ],
+  "case": {
+    "dataset": "nvidia/Arena-G1-Loco-Manipulation-Task",
+    "revision": "07de42fdade76102fc09d921c7b6200d0b31ec01",
+    "catalog_episodes": 100,
+    "held_episode_ids": [
+      0
+    ],
+    "rows": 915,
+    "video_seconds": 18.3,
+    "fps": 50,
+    "source_joint_dims": 43,
+    "selected_training_state_dims": 31,
+    "selected_training_action_dims": 35,
+    "control": "high-level upper body and navigation, lower-body WBC",
+    "own_training_or_gpu_closedloop_run": false,
+    "original_dataset_video_is_own_model_result": false,
+    "public_dataset_license": "CC-BY-4.0",
+    "reference_model_card_usage": "non-commercial use only"
+  },
+  "verification_files": [
+    "report_v15_delivery_audit_2026-10-26.json",
+    "report_v15_visual_qa_2026-10-26.json"
+  ],
+  "source_evidence": [
+    "evidence/report_v15_dataset_sources.json",
+    "evidence/report_v15_case/download_manifest.json",
+    "evidence/report_v15_case/record_checks.json"
+  ],
+  "native_windows_powerpoint_playback": "not performed",
+  "resource_checks": "single rendering worker with thread limits1; snapshots before/between/after render batches; no measured temperature claimed"
+}

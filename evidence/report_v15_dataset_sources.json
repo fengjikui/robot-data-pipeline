@@ -1,0 +1,164 @@
+{
+  "checked_on": "2026-10-26",
+  "scope": "primary-source metadata and small files only; no training, model/video/HDF5 download or simulator execution by this research subagent",
+  "recommended_case": {
+    "dataset": "nvidia/Arena-G1-Loco-Manipulation-Task",
+    "revision_alias": "arena_v0.2_lab_v3.0",
+    "revision_sha": "07de42fdade76102fc09d921c7b6200d0b31ec01",
+    "gated": false,
+    "data_license": "CC-BY-4.0",
+    "lerobot_version": "v2.1",
+    "episodes_in_info": 100,
+    "frames_in_info": 94936,
+    "fps": 50,
+    "lerobot_subtree_bytes": 298300032,
+    "whole_repo_bytes": 24105367207,
+    "official_card_discrepancy": "README says 50 demos and older model wording; pinned info says 100 episodes",
+    "scenario": "G1 brown box from shelf to blue bin on table, including walking; not yet our table A to table B task"
+  },
+  "policy": {
+    "repo": "nvidia/GN1x-Tuned-Arena-G1-Loco-Manipulation",
+    "revision_alias": "gn1_6",
+    "revision_sha": "dfe74af855007f26093f362cd2d7a2f404b64b93",
+    "model_card_usage": "non-commercial use only",
+    "weight_shards_bytes": 6573374552,
+    "whole_repo_bytes": 50605746869,
+    "download_warning": "repo includes optimizer.pt and global_step20000; inference should exclude training state while retaining configs/processors/statistics",
+    "official_training_reference": "8 GPUs with >=48GB VRAM each; approximate4-8 hours; fewer resources need recipe changes, no result guarantee"
+  },
+  "control": {
+    "source_joint_record_dims": 43,
+    "selected_state_dims": 31,
+    "selected_action_dims": 35,
+    "action_meaning": "upper body absolute joint targets plus base height and vx/vy/yaw navigation inputs; lower-body WBC executes legs",
+    "hand_reference": "7 joints each hand named index/middle/thumb; verify Dex3/end-effector configuration",
+    "arena_commit": "38b200cdb4b506ee8329e89480c6479cae5bc2dc"
+  },
+  "comparison_case": {
+    "repo": "unitreerobotics/G1_WBT_Brainco_Plastic_Box_Parts",
+    "revision_sha": "6a5fe2adb86604dc5fe821c7c3b9a44e169119f4",
+    "actual_task": "Move parts from the plastic box to the shelf.",
+    "task_check_method": "UTF-8 task label visible repeatedly in pinned tasks.parquet payload/footer; not parsed with pyarrow in this research environment",
+    "reason_not_directly_selected": "parts transfer, not box carrying; BrainCo hand differs from Dex3; no matching public closed-loop scene verified",
+    "format": "LeRobot v3",
+    "episodes": 400,
+    "whole_repo_bytes": 54500298598
+  },
+  "cross_embodiment_case": {
+    "dataset": "DROID",
+    "official_docs": "https://droid-dataset.github.io/droid/the-droid-dataset",
+    "official_project": "https://droid-dataset.github.io/",
+    "license_primary_paper": "https://www.jiajunwu.com/papers/droid_rss.pdf",
+    "format": "RLDS/TFRecord or raw HDF5+MP4/SVO",
+    "source_body": "Franka Panda 7DoF single arm",
+    "subset_entry": "gs://gresearch/robotics/droid_100 (100 episode debugging subset)",
+    "candidate_selection": "inspect language instructions/episode metadata; related action is not equivalent to G1 locomotion supervision"
+  },
+  "sources": [
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena_commit.json",
+      "url": "https://api.github.com/repos/isaac-sim/IsaacLab-Arena/commits/main",
+      "bytes": 33843,
+      "sha256": "7f297ddeb697ab98166ba22ed95a9a0611931e557d4c98bc6efcff0a74fae5a1",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena_dataset.json",
+      "url": "https://huggingface.co/api/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/revision/arena_v0.2_lab_v3.0?blobs=true",
+      "bytes": 54439,
+      "sha256": "f4e9366f5e4007729e6611214fa4f888c2ab5191756391009de8118ff4684df4",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena_model.json",
+      "url": "https://huggingface.co/api/models/nvidia/GN1x-Tuned-Arena-G1-Loco-Manipulation/revision/gn1_6?blobs=true",
+      "bytes": 7857,
+      "sha256": "8437b69bbbee40cca6a1b27ea75504fbffd60b4f761565feff3abb225ae7689b",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/unitree_box.json",
+      "url": "https://huggingface.co/api/datasets/unitreerobotics/G1_WBT_Brainco_Plastic_Box_Parts?blobs=true",
+      "bytes": 82618,
+      "sha256": "ed5805a3452527ee53515bcf3b7a24e7b5e6ad498a27ea1508fedb92c842719e",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena__step4_training.rst",
+      "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab-Arena/38b200cdb4b506ee8329e89480c6479cae5bc2dc/docs/pages/example_workflows/locomanipulation/step_4_policy_training.rst",
+      "bytes": 6830,
+      "sha256": "11b1b61425d33c20ee8d54d75d0c28978008560d64b29cb226a6029f9f383659",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena__step5_evaluation.rst",
+      "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab-Arena/38b200cdb4b506ee8329e89480c6479cae5bc2dc/docs/pages/example_workflows/locomanipulation/step_5_evaluation.rst",
+      "bytes": 8683,
+      "sha256": "a31279fd85a1e3e6f54bab1d14d5545024a1836f0b44d517bc0c98f8baa3407b",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena__g1_sim_wbc_data_config.py",
+      "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab-Arena/38b200cdb4b506ee8329e89480c6479cae5bc2dc/isaaclab_arena_gr00t/embodiments/g1/g1_sim_wbc_data_config.py",
+      "bytes": 2597,
+      "sha256": "17ce5a6fc7375abe994ac52effb282efd5c4977427b08dfb1c619984e6fa0fed",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena__43dof_joint_space.yaml",
+      "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab-Arena/38b200cdb4b506ee8329e89480c6479cae5bc2dc/isaaclab_arena_gr00t/embodiments/g1/43dof_joint_space.yaml",
+      "bytes": 1532,
+      "sha256": "ff7db8a6e4da8cb6ad40329bf0f5175de00d60f804e39c7183dc7d3c2e7d24a7",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena_model__README.md",
+      "url": "https://huggingface.co/nvidia/GN1x-Tuned-Arena-G1-Loco-Manipulation/resolve/dfe74af855007f26093f362cd2d7a2f404b64b93/README.md",
+      "bytes": 6759,
+      "sha256": "1039ad159289eeff9183ea31319dfc2482d9c1f3ed54e48132839c2da3f5e39f",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/unitree_box__meta__tasks.parquet",
+      "url": "https://huggingface.co/datasets/unitreerobotics/G1_WBT_Brainco_Plastic_Box_Parts/resolve/6a5fe2adb86604dc5fe821c7c3b9a44e169119f4/meta/tasks.parquet",
+      "bytes": 2169,
+      "sha256": "ba12fc233672db54b4c0dba7e2a29411864dbb0bd4dff5c9f8fd4fee8402c277",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena__lerobot__meta__episodes.jsonl",
+      "url": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/lerobot/meta/episodes.jsonl",
+      "bytes": 16799,
+      "sha256": "62eb36dba0cef6d68a27f486771c3ff1f0cd5b4d0a07a8c69695e451345484d8",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena__lerobot__meta__tasks.jsonl",
+      "url": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/lerobot/meta/tasks.jsonl",
+      "bytes": 146,
+      "sha256": "0f662ecdc5e0cd6dd659312bd3b7c21f5b480c2b4c93e688b60565c8e4b60b26",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena__lerobot__meta__modality.json",
+      "url": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/lerobot/meta/modality.json",
+      "bytes": 2729,
+      "sha256": "36dcaef30bb34a4c0337775932d83ea7b79b36f19e3a715239bab6852a09d9cc",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena__lerobot__meta__info.json",
+      "url": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/lerobot/meta/info.json",
+      "bytes": 6832,
+      "sha256": "3b112a8e7f9e66b5afda02a1eace7b60a1d40cb35e5e976f86d3e2ea77caa49e",
+      "source_kind": "official publisher"
+    },
+    {
+      "path": "evidence/report_v15_dataset_snapshots/arena__README.md",
+      "url": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/README.md",
+      "bytes": 4507,
+      "sha256": "b3c537110851a69db85a8268e459135ddd957dd68a59b7c2c9826806e9b7f3ba",
+      "source_kind": "official publisher"
+    }
+  ]
+}

@@ -42,6 +42,8 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 
 ## 后续完整方案与交互设计
 
+- [本轮重点：G1搬箱的三个问题、整体方案与S1–S3路线](docs/report/15_后半部方案与搬箱验证.md)：第一阶段同时覆盖遥操作和有限开源数据入口，形成特定任务完整闭环。
+- [真实外部数据案例与Arena搬箱复现步骤](docs/report/parts/box_dataset_case_v15.md)：已取得单回合原始样本；GPU训练和仿真未执行。
 - [现状问题、平台价值、理想方案与四阶段实现](docs/product/10_整体方案与产品价值_2026-10-26.md)
 - [用户旅程、页面、按钮、状态和异常恢复](docs/product/11_交互逻辑与界面设计说明.md)
 - [开发工作包、依赖与验收映射](docs/product/12_开发工作包与验收映射.md)
@@ -49,7 +51,7 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 
 ## 报告与设计
 
-- [具身智能数据管线报告 v14，PPT 与 Windows 完整演示包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v14)：共29张（目录、26页正文、2页备查），包含真实转换/增强/训练命令、增强审查、腰腿数据与连续搬箱控制，以及逐页讲稿、官方来源与离线原始资料。已去掉页码，标题左上各1.1cm，底部1.3cm留给公司模板。完整解压演示包后保持相对目录。
+- [具身智能数据管线报告 v15，PPT 与 Windows 完整演示包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v15)：共26张（目录、23页正文、2页备查），保留前19张，第20张起从10页收束为7页。用真实数据案例讲筛选与采购，重点说明问题、七步整体方案、首期G1搬箱、三阶段路线及企业数据仓库。附公开G1搬箱单回合视频与字段，完整解压后保持相对目录。
 - [转换、增强与训练工具命令备查](docs/report/14_工具命令与参数备查.md)
 - [v0.1.2 安装包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.1.2)
 - [路径选择与三平台说明](docs/implementation/07_路径选择与三平台说明.md)

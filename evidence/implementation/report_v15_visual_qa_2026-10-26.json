@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "robot-pipeline-report.visual-qa.v1",
+  "revision": "v15",
+  "reviewDate": "2026-10-26",
+  "reviewer": "independent subagent /root/deck_v15_qa",
+  "status": "pass",
+  "pptx": "artifacts/report/具身智能数据管线报告_v15.pptx",
+  "pptxSha256": "5cff8391e21958784b1469db28dc9ffe27a5d0251ec3ce4812d27520100c6c47",
+  "slideCount": 26,
+  "changedSlidesVisuallyInspected": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26
+  ],
+  "preservedPrefix": {
+    "slides": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "all19PngSha256EqualToV14": true,
+    "additionalFullSizeSpotChecks": [
+      3,
+      4
+    ]
+  },
+  "checks": {
+    "titleLeftTopCm": 1.1,
+    "all26TitlesLeftAlignedAt396000Emu": true,
+    "all26TitlesRed": true,
+    "footerReservedCm": 1.3,
+    "all26FooterPixelRows1007To1079PureWhite": true,
+    "maxForegroundBottomEmu": 6229350,
+    "footerSafeTopEmu": 6390000,
+    "pageMarkerCount": 0,
+    "automaticSlideNumberCount": 0,
+    "visibleClippingOrOverlapCount": 0
+  },
+  "contentReview": {
+    "sevenPagesReplaceTen": true,
+    "externalDataAndProcurementPages": 2,
+    "problemAndSolutionPages": 5,
+    "threeUserProblemsConcrete": true,
+    "stageButtonsAndOptionalChainingClear": true,
+    "stage1IncludesTeleoperationAndExternalData": true,
+    "stage1IncludesTrainingSimulationAndRealRobotValidation": true,
+    "publicDemonstrationAndUnrunGpuEvaluationDistinguished": true,
+    "enterpriseCatalogStorageViewsLoadingCovered": true
+  },
+  "issues": [
+    {
+      "slide": 24,
+      "severity": "minor",
+      "kind": "wording",
+      "text": "公开组合完整",
+      "suggested": "数据、模型与场景齐备",
+      "blocking": false,
+      "status": "fixed and reverified"
+    }
+  ],
+  "blockingIssueCount": 0,
+  "layoutWarningsReviewed": [
+    {
+      "slide": 4,
+      "kind": "connector_over_text",
+      "result": "unchanged baseline PNG; connection terminates at device box edge, no visible glyph crossing"
+    }
+  ],
+  "sourcesRead": [
+    "pptx/SKILL.md (installed local skill)",
+    "artifacts/report/full_v15/page-20.png … page-26.png",
+    "artifacts/report/full_v14/page-01.png … page-19.png",
+    "docs/report/parts/report_revision_v15.json",
+    ".build/full-report/v15/validation.json"
+  ],
+  "boundary": "Native Windows PowerPoint/WPS playback and font substitution not tested; no GPU work executed.",
+  "validationSha256Matches": true,
+  "unresolvedIssueCount": 0,
+  "fixAndVerifyCycle": {
+    "recheckedSlides": [
+      23,
+      24,
+      25,
+      26
+    ],
+    "resolvedSuggestion": {
+      "slide": 24,
+      "before": "公开组合完整",
+      "after": "数据、模型与场景齐备",
+      "status": "fixed and visually reverified"
+    },
+    "otherFinalChangesVerified": [
+      "23 external entry includes import/入库",
+      "25 S2 deliverable names a task comparison report",
+      "26 subtitle explicitly separates catalog database and shared/object media storage"
+    ],
+    "allRecheckedSlidesFreeOfClippingOverlapOrFooterConflicts": true
+  }
+}

@@ -1,8 +1,9 @@
-"""Audit exported v14 presentation geometry, original data, and portable links."""
+"""Audit exported presentation geometry, original data, and portable links."""
 from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlsplit, unquote
 import hashlib
+import argparse
 import json
 import re
 import tempfile
@@ -30,14 +31,18 @@ class Links(HTMLParser):
 
 
 def main():
-    ppt = OUT / "具身智能数据管线报告_v14.pptx"
-    archive = OUT / "robot_data_pipeline_report_windows_v14.zip"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--revision", choices=["v14", "v15"], default="v14")
+    revision = parser.parse_args().revision
+    expected_count = 29 if revision == "v14" else 26
+    ppt = OUT / f"具身智能数据管线报告_{revision}.pptx"
+    archive = OUT / f"robot_data_pipeline_report_windows_{revision}.zip"
     local_ppt_links, titles, bottoms = set(), [], []
     with zipfile.ZipFile(ppt) as z:
         assert z.testzip() is None
         slides = [n for n in z.namelist() if re.fullmatch(r"ppt/slides/slide\d+\.xml", n)]
         notes = [n for n in z.namelist() if re.fullmatch(r"ppt/notesSlides/notesSlide\d+\.xml", n)]
-        assert len(slides) == len(notes) == 29
+        assert len(slides) == len(notes) == expected_count
         for name in slides:
             root = ET.fromstring(z.read(name))
             tree = root.find("p:cSld/p:spTree", NS)
@@ -61,7 +66,7 @@ def main():
                     assert int(off.get("x")) == int(off.get("y")) == 396000
                     assert all(p.get("algn", "l") == "l" for p in obj.findall(".//a:pPr", NS))
                     titles.append(name)
-        assert len(titles) == 29
+        assert len(titles) == expected_count
         for name in z.namelist():
             if name.endswith(".xml") and name.startswith(("ppt/slides/", "ppt/slideMasters/", "ppt/slideLayouts/")):
                 root = ET.fromstring(z.read(name))
@@ -110,9 +115,21 @@ def main():
             for row in raw["data"]:
                 for target in row["colors"].values():
                     assert (folder / "resources/raw/episode_0006" / target).is_file()
+            if revision == "v15":
+                case = folder / "resources/box_case"
+                source = json.loads((case / "source_manifest.json").read_text())
+                assert source["metadata_episode_count"] == 100
+                assert source["held_episode_ids"] == [0]
+                assert source["held_episode_rows"] == 915
+                for record in source["files"]:
+                    assert sha(case / record["path"]) == record["sha256"]
 
-    result = {"date": "2026-10-26", "revision": "v14", "status": "pass",
-              "slide_count": 29, "speaker_note_count": 29,
+    if revision == "v15":
+        for i in range(1, 20):
+            assert sha(OUT / "full_v14" / f"page-{i:02d}.png") == sha(OUT / "full_v15" / f"page-{i:02d}.png")
+
+    result = {"date": "2026-10-26", "revision": revision, "status": "pass",
+              "slide_count": expected_count, "speaker_note_count": expected_count,
               "title_count": len(titles), "title_left_cm": 1.1, "title_top_cm": 1.1,
               "title_alignment": "left", "page_markers": 0,
               "automatic_slide_number_fields": 0, "footer_reserved_cm": 1.3,
@@ -125,7 +142,10 @@ def main():
               "relocation_test": "ZIP extracted into a temporary Chinese path with spaces; links and bytes checked",
               "native_windows_powerpoint_playback": "not performed",
               "presentation_sha256": sha(ppt), "archive_sha256": sha(archive)}
-    target = ROOT / "evidence/implementation/report_v14_delivery_audit_2026-10-26.json"
+    if revision == "v15":
+        result["preserved_prefix_slide_png_count"] = 19
+        result["new_case"] = {"held_episodes": 1, "catalog_episodes": 100, "rows": 915, "video_frames": 915, "source_bytes_preserved": True, "training_or_simulator_executed": False}
+    target = ROOT / f"evidence/implementation/report_{revision}_delivery_audit_2026-10-26.json"
     target.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

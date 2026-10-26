@@ -1,0 +1,17 @@
+{
+  "source": "nvidia/Arena-G1-Loco-Manipulation-Task",
+  "revision": "07de42fdade76102fc09d921c7b6200d0b31ec01",
+  "episode": 0,
+  "rows": 915,
+  "all_rows_finite_and_dimensions_checked": true,
+  "frame_index_sequential": true,
+  "timestamps_match_50hz_within_seconds": 1e-05,
+  "last_timestamp": 18.28,
+  "last_next_reward": 1.0,
+  "last_next_done": true,
+  "task_success_claim": "Original dataset label only, not an evaluation of our model",
+  "unitree_actual_task": {
+    "task_index": 0,
+    "task": "Move parts from the plastic box to the shelf."
+  }
+}

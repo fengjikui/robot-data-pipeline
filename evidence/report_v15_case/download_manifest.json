@@ -1,0 +1,38 @@
+{
+  "source_repo": "nvidia/Arena-G1-Loco-Manipulation-Task",
+  "revision": "07de42fdade76102fc09d921c7b6200d0b31ec01",
+  "license": "CC-BY-4.0",
+  "scope": "one original episode, original video, metadata; not whole dataset; no model training/evaluation",
+  "files": [
+    {
+      "source": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/lerobot/meta/info.json",
+      "path": "lerobot/meta/info.json",
+      "bytes": 6832,
+      "sha256": "3b112a8e7f9e66b5afda02a1eace7b60a1d40cb35e5e976f86d3e2ea77caa49e"
+    },
+    {
+      "source": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/lerobot/meta/tasks.jsonl",
+      "path": "lerobot/meta/tasks.jsonl",
+      "bytes": 146,
+      "sha256": "0f662ecdc5e0cd6dd659312bd3b7c21f5b480c2b4c93e688b60565c8e4b60b26"
+    },
+    {
+      "source": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/lerobot/meta/modality.json",
+      "path": "lerobot/meta/modality.json",
+      "bytes": 2729,
+      "sha256": "36dcaef30bb34a4c0337775932d83ea7b79b36f19e3a715239bab6852a09d9cc"
+    },
+    {
+      "source": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/lerobot/data/chunk-000/episode_000000.parquet",
+      "path": "lerobot/data/chunk-000/episode_000000.parquet",
+      "bytes": 629784,
+      "sha256": "84df79634b334fd7748fdd7aa2e19f263b199af9a50a425d92a1c678f3c513d1"
+    },
+    {
+      "source": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/resolve/07de42fdade76102fc09d921c7b6200d0b31ec01/lerobot/videos/chunk-000/observation.images.ego_view/episode_000000.mp4",
+      "path": "lerobot/videos/chunk-000/observation.images.ego_view/episode_000000.mp4",
+      "bytes": 2246470,
+      "sha256": "af0fb133f1c680e3a8b58f586213f8f8730f0b3b9c9386b16683dbcc0a900e70"
+    }
+  ]
+}
