@@ -26,6 +26,7 @@ artifacts/
 data/
 experiments/
 .workspace/
+workspace/
 workspaces/
 *.sqlite3
 *.sqlite3-*

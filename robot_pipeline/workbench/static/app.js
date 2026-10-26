@@ -79,6 +79,17 @@
 
   function badge(text, tone = "neutral") { return element("span", text, "badge " + tone); }
 
+  function listFocusKey(list) {
+    const focused = document.activeElement;
+    return list.contains(focused) && focused.matches("button[data-focus-key]") ? focused.dataset.focusKey : null;
+  }
+
+  function restoreListFocus(list, key) {
+    if (!key) return;
+    const button = [...list.querySelectorAll("button[data-focus-key]")].find((item) => item.dataset.focusKey === key);
+    button?.focus({preventScroll: true});
+  }
+
   function renderProject() {
     const project = state.data.project || {};
     $("project-summary").replaceChildren();
@@ -95,6 +106,7 @@
   }
 
   function renderAssets() {
+    const focusKey = listFocusKey($("asset-list"));
     const query = $("search").value.trim().toLocaleLowerCase();
     const source = $("source-filter").value;
     const assets = state.data.assets || [];
@@ -105,6 +117,7 @@
     for (const asset of matches) {
       const item = element("button", null, "asset-item");
       item.type = "button";
+      item.dataset.focusKey = "asset-" + asset.id;
       item.setAttribute("aria-current", String(asset.id === state.assetId));
       item.append(element("strong", asset.name || asset.id));
       item.append(element("small", asset.task || sourceLabels[asset.source_kind] || "任务待补充"));
@@ -120,6 +133,7 @@
       });
       $("asset-list").append(item);
     }
+    restoreListFocus($("asset-list"), focusKey);
   }
 
   function renderQuality(asset) {
@@ -195,6 +209,7 @@
   }
 
   function renderJobs(jobs) {
+    const focusKey = listFocusKey($("job-list"));
     $("job-count").textContent = jobs.length ? String(jobs.length) : "";
     $("job-list").replaceChildren();
     if (!jobs.length) $("job-list").append(element("p", "还没有运行记录。每次检查或导出都会创建独立作业，保存日志与产物。", "quality-empty"));
@@ -202,6 +217,7 @@
       const row = element("div", null, "job-row");
       const button = element("button");
       button.type = "button";
+      button.dataset.focusKey = "job-" + job.id;
       button.append(element("strong", stageLabels[job.stage] || job.stage), element("small", job.id));
       button.addEventListener("click", () => { state.jobId = job.id; loadJob(job.id); });
       row.append(button, badge(statusLabels[job.status] || job.status, job.status === "succeeded" ? "good" : ["failed", "interrupted"].includes(job.status) ? "bad" : "neutral"));
@@ -210,6 +226,7 @@
       row.append(time);
       $("job-list").append(row);
     }
+    restoreListFocus($("job-list"), focusKey);
     if (state.jobId && !jobs.some((job) => job.id === state.jobId)) state.jobId = null;
     if (!state.jobId && jobs.length) state.jobId = jobs.find(active)?.id || jobs[0].id;
     $("job-detail").hidden = !state.jobId;

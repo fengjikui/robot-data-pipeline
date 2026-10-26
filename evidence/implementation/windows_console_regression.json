@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-26",
+  "repository": "fengjikui/robot-data-pipeline",
+  "first_failure_commit": "06381aa",
+  "run_url": "https://github.com/fengjikui/robot-data-pipeline/actions/runs/40249899652",
+  "observed_jobs": [
+    {"job_id": 121339321567, "os": "windows-latest", "python": "3.11", "step": "Install and test wheel outside checkout"},
+    {"job_id": 121339321514, "os": "windows-latest", "python": "3.14", "step": "Install and test wheel outside checkout"}
+  ],
+  "observed_command": ["<clean-venv-python>", "-I", "-m", "robot_pipeline.workbench", "--help"],
+  "bounded_log_evidence": [
+    "Successfully installed robot-data-pipeline-0.1.0",
+    "argparse.py: parser.print_help() -> file.write(message)",
+    "encodings/cp1252.py: codecs.charmap_encode(...) ",
+    "UnicodeEncodeError: 'charmap' codec can't encode characters"
+  ],
+  "root_cause": "Isolated mode ignores PYTHONUTF8 and PYTHONIOENCODING; Chinese CLI help was written to redirected Windows cp1252 stdout.",
+  "fix": "Configure stdout and stderr as UTF-8 in the workbench CLI before argparse emits any text; keep isolated wheel smoke unchanged.",
+  "regression_tests": [
+    "test_workbench_console.WorkbenchConsoleTests.test_chinese_help_works_with_cp1252_redirected_stdout",
+    "test_workbench_console.WorkbenchConsoleTests.test_chinese_error_works_with_cp1252_redirected_stderr"
+  ],
+  "local_regression_result": "2 tests passed on macOS using isolated subprocesses with explicitly forced cp1252 streams",
+  "native_fix_verification": "Pending follow-up CI; consult final acceptance record for later result."
+}

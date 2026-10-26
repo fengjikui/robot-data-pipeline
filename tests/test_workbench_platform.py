@@ -144,6 +144,16 @@ class WorkbenchPlatformAPITests(unittest.TestCase):
             with self.subTest(method=method, guard="FetchSite"):
                 self.assertEqual(self.request(method, target, value, headers={"Sec-Fetch-Site": "cross-site"})[0], 403)
 
+    def test_external_link_can_open_entry_without_exposing_api(self):
+        headers={"Sec-Fetch-Site":"cross-site", "Sec-Fetch-Mode":"navigate", "Sec-Fetch-Dest":"document"}
+        status,body=self.request("GET", "/", headers=headers)
+        self.assertEqual(status,200)
+        self.assertIn(b"app.js",body)
+        for path in ("/api/state", "/%61pi/state"):
+            with self.subTest(path=path):
+                self.assertEqual(self.request("GET",path,headers=headers)[0],403)
+        self.assertEqual(self.request("POST","/api/demo",{},headers=headers)[0],403)
+
     def test_static_path_escape_cannot_expose_catalog_or_source(self):
         for path in ("/../catalog.sqlite3", "/%2e%2e/catalog.sqlite3", "/..%5ccatalog.sqlite3", "/C:%5cWindows%5cwin.ini", "/%2fetc/passwd"):
             with self.subTest(path=path):

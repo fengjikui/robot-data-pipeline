@@ -1,0 +1,87 @@
+{
+  "version": "0.1.0",
+  "source": "report official historical raw episode_0006",
+  "source_manifest": "../report_raw_episode_2026-10-26/source_manifest.json",
+  "asset": {
+    "format": "unitree_raw",
+    "format_verified": false,
+    "frames": 167,
+    "episodes": 1,
+    "bytes": 18213382,
+    "file_count": 335,
+    "synthetic": false,
+    "license": "unknown",
+    "embodiment": "unknown"
+  },
+  "status": "succeeded",
+  "quality": {
+    "valid": true,
+    "frames": 167,
+    "episodes": [
+      {
+        "path": "data.json",
+        "frames": 167,
+        "sha256": "1cc385b4fb8598b2a3833f7e16cfc9bdd60553ffe57886a47492fa3a4c32bceb"
+      }
+    ],
+    "state_dim": 28,
+    "action_dim": 28,
+    "errors": [],
+    "warnings": [
+      "data.json：没有可核验的采样时间戳",
+      "数据授权待确认",
+      "来源本体待确认",
+      "此检查不证明数据适合当前任务或任一策略；自己的 JSONL 导出也不是 LeRobot"
+    ],
+    "scope": "结构、关节数值、索引、图像文件存在性；未解码图像，未验证硬件同步、标定或任务成功。",
+    "training_ready": false,
+    "manifest_sha256": "3f14723cfb784d9b56f5b1e58d22953e8da7af7045981d6bc55d729366ffece2"
+  },
+  "contract": {
+    "format": "robot_pipeline.records.v1",
+    "is_lerobot_dataset": false,
+    "training_ready": false,
+    "source_asset": "temporary test workspace asset",
+    "source_manifest_sha256": "3f14723cfb784d9b56f5b1e58d22953e8da7af7045981d6bc55d729366ffece2",
+    "frames": 167,
+    "state_dim": 28,
+    "action_dim": 28,
+    "parts": [
+      "left_arm",
+      "right_arm",
+      "left_hand",
+      "right_hand"
+    ],
+    "part_dims": [
+      7,
+      7,
+      7,
+      7
+    ],
+    "action_semantics": "adapter assumption: recorded qpos target, not measured next state; not verified against this source robot",
+    "action_semantics_verified": false,
+    "provenance": {
+      "source_kind": "open",
+      "license": "unknown",
+      "embodiment": "unknown",
+      "task": "历史回放；文字与画面待核实，非搬箱示范",
+      "synthetic": false,
+      "name": "官方历史回放测试样本 episode_0006",
+      "created_at": "2026-10-26T00:33:36.137+00:00"
+    },
+    "image_path_base": "asset raw directory; images are not embedded in this export",
+    "timestamp_semantics": "preserved when recorded; null means unknown, no synthesized synchronization",
+    "scope": "结构、关节数值、索引、图像文件存在性；未解码图像，未验证硬件同步、标定或任务成功。",
+    "next_steps": [
+      "确认关节顺序、单位、相机、时序和任务适用性",
+      "实现并验收目标策略的数据读取或官方转换适配器",
+      "训练前确认授权、本体和划分策略"
+    ]
+  },
+  "log": "开始阶段：check_export\n检查 167 帧，发现 0 项错误\n导出项目 JSONL 契约；不是 LeRobot，未启动模型训练\n",
+  "limits": [
+    "历史样本非新采集，不证明真机采集完成",
+    "未验证硬件同步、标定或任务成功",
+    "JSONL 不是 LeRobot，未执行训练"
+  ]
+}

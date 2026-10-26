@@ -2,7 +2,10 @@ name: Workbench platforms
 
 on:
   push:
+    branches: ['**']
+    paths-ignore: ['docs/**', 'evidence/**', 'assets/**', 'README.md']
   pull_request:
+    paths-ignore: ['docs/**', 'evidence/**', 'assets/**', 'README.md']
   workflow_dispatch:
 
 permissions:

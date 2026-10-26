@@ -28,7 +28,11 @@ class Handler(BaseHTTPRequestHandler):
         if host not in hosts:raise PermissionError('仅接受本机工作台 Host')
         origin=self.headers.get('Origin')
         if origin and origin not in {f'http://{x}' for x in hosts}:raise PermissionError('拒绝跨站请求')
-        if self.headers.get('Sec-Fetch-Site')=='cross-site':raise PermissionError('拒绝跨站请求')
+        # Opening the public static entry from a link is a normal navigation.
+        # User data and operation tokens remain unavailable to cross-site requests.
+        route=unquote(urlsplit(self.path).path)
+        if self.headers.get('Sec-Fetch-Site')=='cross-site' and (write or route.startswith('/api/')):
+            raise PermissionError('拒绝跨站请求')
         if write:
             import secrets
             token=self.headers.get('X-Workbench-Token','')

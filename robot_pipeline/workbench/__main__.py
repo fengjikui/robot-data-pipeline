@@ -4,7 +4,16 @@ from pathlib import Path
 import sys
 from .http import create_server
 
+def configure_stdio():
+    # Windows redirected streams can use cp1252 even under ``python -I``.
+    # Isolated mode ignores PYTHONUTF8/PYTHONIOENCODING, so make the CLI's
+    # Chinese output contract explicit before argparse can print help/errors.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8', errors='backslashreplace')
+
 def main(argv=None):
+    configure_stdio()
     p=argparse.ArgumentParser(description='具身智能数据管线工作台，单人本地运行，不控制机器人')
     p.add_argument('--workspace',type=Path,default=Path.cwd()/'workspace',help='资产与作业存储目录，可移动到其他系统')
     p.add_argument('--port',type=int,default=8765)
