@@ -1,8 +1,82 @@
 {
   "version": "0.1.2",
-  "source_commit": null,
+  "source_commit": "06a78cb8dba8b2149ebdd13703d508bf47ce02a8",
   "ci": {
-    "status": "pending"
+    "status": "completed",
+    "conclusion": "success",
+    "run_url": "https://github.com/fengjikui/robot-data-pipeline/actions/runs/40259009291",
+    "jobs": [
+      {
+        "name": "macos-latest / Python 3.11",
+        "job_id": 121367056676,
+        "conclusion": "success",
+        "tests_run": 49,
+        "skipped": 1,
+        "skip_reasons": [
+          "当前文件系统不能创建仅大小写不同的两个文件"
+        ],
+        "installed_wheel_smoke": "passed; injected selection result",
+        "native_component_probe": "passed; no dialog interaction"
+      },
+      {
+        "name": "windows-latest / Python 3.14",
+        "job_id": 121367056822,
+        "conclusion": "success",
+        "tests_run": 49,
+        "skipped": 2,
+        "skip_reasons": [
+          "此用例检查 POSIX 对外来 Windows 语法的拒绝；Windows 本机路径另测",
+          "当前文件系统不能创建仅大小写不同的两个文件"
+        ],
+        "installed_wheel_smoke": "passed; injected selection result",
+        "native_component_probe": "passed; no dialog interaction"
+      },
+      {
+        "name": "ubuntu-latest / Python 3.14",
+        "job_id": 121367056860,
+        "conclusion": "success",
+        "tests_run": 49,
+        "skipped": 0,
+        "skip_reasons": [],
+        "installed_wheel_smoke": "passed; injected selection result",
+        "native_component_probe": "passed; no dialog interaction"
+      },
+      {
+        "name": "windows-latest / Python 3.11",
+        "job_id": 121367056898,
+        "conclusion": "success",
+        "tests_run": 49,
+        "skipped": 2,
+        "skip_reasons": [
+          "此用例检查 POSIX 对外来 Windows 语法的拒绝；Windows 本机路径另测",
+          "当前文件系统不能创建仅大小写不同的两个文件"
+        ],
+        "installed_wheel_smoke": "passed; injected selection result",
+        "native_component_probe": "passed; no dialog interaction"
+      },
+      {
+        "name": "macos-latest / Python 3.14",
+        "job_id": 121367056900,
+        "conclusion": "success",
+        "tests_run": 49,
+        "skipped": 1,
+        "skip_reasons": [
+          "当前文件系统不能创建仅大小写不同的两个文件"
+        ],
+        "installed_wheel_smoke": "passed; injected selection result",
+        "native_component_probe": "passed; no dialog interaction"
+      },
+      {
+        "name": "ubuntu-latest / Python 3.11",
+        "job_id": 121367057005,
+        "conclusion": "success",
+        "tests_run": 49,
+        "skipped": 0,
+        "skip_reasons": [],
+        "installed_wheel_smoke": "passed; injected selection result",
+        "native_component_probe": "passed; no dialog interaction"
+      }
+    ]
   },
   "local_workbench_tests": {
     "tests_run": 49,
@@ -12,9 +86,9 @@
   },
   "installed_wheel_smoke": "passed; isolated venv outside checkout, injected picker result, real import/QC/export worker",
   "native_components": {
-    "macOS": "actual AppleScript compiled with osacompile; passed",
-    "Windows": "FolderBrowserDialog instantiation scheduled on native CI",
-    "Linux": "headless error and desktop provider contracts passed"
+    "macOS": "actual AppleScript compiled with osacompile on macOS Python 3.11 and 3.14 and local developer machine; passed",
+    "Windows": "FolderBrowserDialog instantiated on Windows Python 3.11 and 3.14; passed",
+    "Linux": "headless error and desktop provider contracts on Ubuntu Python 3.11 and 3.14; passed"
   },
   "browser_review": {
     "platform": "macOS in-app browser",
@@ -23,8 +97,16 @@
     "path_preserved_after_timeout": true,
     "assets_remain_empty_before_import": true,
     "real_dialog_confirm_cancel_clicked": false,
-    "limitation": "CUA cannot bind the unbundled osascript dialog owner; no claim of completed native GUI selection/cancel on any platform"
+    "limitation": "CUA cannot bind the unbundled osascript dialog owner; no claim of completed native GUI selection/cancel on any platform",
+    "screenshot": "native-picker-form-2026-10-26.jpg"
   },
   "scope": "System folder picker replaces custom web directory browser; selection only fills path; import remains explicit.",
-  "capture_status": "research and manual startup materials exist; real-robot service orchestration and recording bridge are not implemented"
+  "capture_status": "research and manual startup materials exist; real-robot service orchestration and recording bridge are not implemented",
+  "wheel": {
+    "file": "robot_data_pipeline-0.1.2-py3-none-any.whl",
+    "source_artifact": "wheel-ubuntu-latest-py3.11",
+    "sha256": "db7c9f2642f3d56c099719766c072108a46b8c58ca42f8f1299c3636761e5b98",
+    "bytes": 52445,
+    "exact_release_artifact_local_installed_smoke": "passed"
+  }
 }

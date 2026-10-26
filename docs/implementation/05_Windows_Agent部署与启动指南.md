@@ -1,6 +1,6 @@
 # Windows 部署与启动指南（供 Agent 执行）
 
-适用版本：工作台 v0.1.1；文档日期：2026-10-26。默认使用 Windows 原生 PowerShell 与 CPython，不把 WSL 的执行结果记成 Windows 原生验收。
+适用版本：工作台 v0.1.2；文档日期：2026-10-26。默认使用 Windows 原生 PowerShell 与 CPython，不把 WSL 的执行结果记成 Windows 原生验收。
 
 先通读并选择路线：第2节初始化参数 → 第3节选择源码或 wheel 安装 → 第4节选择前台或后台启动 → 第5节验收 → 第9节交接。安装与启动的替代方案不能不加判断地全部执行，第6节完整测试按验收需要运行。
 
@@ -104,7 +104,7 @@ try {
 
 ### 固定版本 wheel / 离线安装（替代源码安装）
 
-从 [v0.1.1 发布页](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.1.1)获取 `robot_data_pipeline-0.1.1-py3-none-any.whl`，拷贝到目标机。目标机仍需 Python 3.11+ 和独立虚拟环境。该模式不要求克隆源码；保留上一节相同的 `$baseDir`、`$pythonExe`、`$workspaceRoot` 等参数。
+从 [v0.1.2 发布页](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.1.2)获取 `robot_data_pipeline-0.1.2-py3-none-any.whl`，拷贝到目标机。目标机仍需 Python 3.11+ 和独立虚拟环境。该模式不要求克隆源码；保留上一节相同的 `$baseDir`、`$pythonExe`、`$workspaceRoot` 等参数。
 
 ```powershell
 if (-not (Test-Path -LiteralPath $venvRoot)) {
@@ -113,10 +113,10 @@ if (-not (Test-Path -LiteralPath $venvRoot)) {
 }
 $pythonExe = Join-Path $venvRoot 'Scripts\python.exe'
 # 改成目标机上实际的 wheel 文件路径。
-$wheelPath = Join-Path $baseDir 'robot_data_pipeline-0.1.1-py3-none-any.whl'
-$expectedSha256 = '7da6842555a3a7643cdf99ac382b2df919bcf10839fc989567d88c6ce03f8d29'
+$wheelPath = Join-Path $baseDir 'robot_data_pipeline-0.1.2-py3-none-any.whl'
+$expectedSha256 = 'db7c9f2642f3d56c099719766c072108a46b8c58ca42f8f1299c3636761e5b98'
 $actualSha256 = (Get-FileHash -LiteralPath $wheelPath -Algorithm SHA256).Hash.ToLowerInvariant()
-if ($actualSha256 -ne $expectedSha256) { throw 'Wheel SHA256 does not match v0.1.1.' }
+if ($actualSha256 -ne $expectedSha256) { throw 'Wheel SHA256 does not match v0.1.2.' }
 & $pythonExe -m pip install --no-index --no-deps --force-reinstall $wheelPath
 Assert-NativeSuccess 'Install pinned wheel'
 & $pythonExe -I -m robot_pipeline.workbench --help
@@ -210,7 +210,7 @@ foreach ($item in @(
 Start-Process $baseUrl
 ```
 
-预期健康响应为 `status=ok`，当前版本 `version=0.1.1`。还要实际打开 Edge/Chrome 检查页面能显示、无脚本加载错误；API 能响应不能代替界面验收。首次新建工作区应为空，复用工作区则保留原数据，不能清空它来制造“空状态”。
+预期健康响应为 `status=ok`，当前版本 `version=0.1.2`。 “选择文件夹…”使用系统 FolderBrowserDialog；在本机交互桌面实际确认一次目录回填，并取消一次检查原路径保留。仅在 CI 中实例化组件不算完成 GUI 点选验收。还要实际打开 Edge/Chrome 检查页面能显示、无脚本加载错误；API 能响应不能代替界面验收。首次新建工作区应为空，复用工作区则保留原数据，不能清空它来制造“空状态”。
 
 如果需要主动验证“合成样例 → 质检 → 导出”，请使用独立临时工作区，或运行下一节现成测试。不要往用户正式工作区自动塞入样例。API 写请求需要从 `/api/state` 获取当前会话的 `csrf_token`，放在 `X-Workbench-Token` 请求头中；PowerShell 发送中文 JSON 时使用 UTF-8 字节。不要通过关闭 Host/Origin/token 检查解决403。
 
@@ -230,7 +230,7 @@ Assert-NativeSuccess 'Installed wheel smoke'
 
 安装烟测会创建并清理独立临时环境，从源码仓库外安装 wheel，验证界面资源、显式合成样例、真实 worker、质检、导出与产物获取。它要求仓库 `dist` 中恰好有一个 `robot_data_pipeline-*.whl`。若存在多个历史版本，先列出并选择干净的构建副本，不要盲删用户已有产物。
 
-既有 v0.1.1 的 [Windows 原生 CI](https://github.com/fengjikui/robot-data-pipeline/actions/runs/40256534146)在 Python 3.11、3.14 上均通过：每组48项、2项条件跳过，另有安装烟测。跳过的是 POSIX 专用路径语法测试和无法构造的大小写双文件；不能把历史 CI 说成本次目标机已完成测试。交接时写实际执行的测试、数量、跳过原因与日志。
+既有 v0.1.2 的 [Windows 原生 CI](https://github.com/fengjikui/robot-data-pipeline/actions/runs/40259009291)在 Python 3.11、3.14 上均通过：每组49项、2项条件跳过，另有安装烟测。跳过的是 POSIX 专用路径语法测试和无法构造的大小写双文件；不能把历史 CI 说成本次目标机已完成测试。交接时写实际执行的测试、数量、跳过原因与日志。
 
 批量检查、构建、训练或渲染前与运行期间，按用户要求检查负载、可用内存和能取得的热状态。例如用 CIM 读取与界面语言无关的属性：
 
@@ -290,3 +290,5 @@ URL：http://127.0.0.1:<实际端口>
 ```
 
 用户使用说明见[安装、启动与日常使用](03_安装启动与日常使用.md)，实现边界见[首版实现与后续适配](02_首版实现与后续适配.md)，已有证据见[首版验收记录](04_首版验收记录.md)。
+
+系统目录窗口显示在运行服务的交互桌面。通过无交互会话或后台系统服务启动时，不能把接口响应当成用户可见窗口；需要在本机桌面运行服务或手动粘贴路径。真机采集接入范围见[现状与实施顺序](08_真机采集接入现状与实施顺序.md)。
