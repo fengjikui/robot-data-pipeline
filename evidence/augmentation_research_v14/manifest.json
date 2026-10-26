@@ -1,0 +1,66 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/datasets/transforms.py",
+    "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+    "path": "src/lerobot/datasets/transforms.py",
+    "file": "src__lerobot__datasets__transforms.py",
+    "sha256": "e06991117ed86bfb443278e3aa7a562725c2fb0414c3cb00c0979b51028215a5"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/scripts/lerobot_imgtransform_viz.py",
+    "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+    "path": "src/lerobot/scripts/lerobot_imgtransform_viz.py",
+    "file": "src__lerobot__scripts__lerobot_imgtransform_viz.py",
+    "sha256": "1ef746c7853dba94ff8a871397c376506c3ed49f0eb9fb884ae73354677785b7"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/datasets/factory.py",
+    "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+    "path": "src/lerobot/datasets/factory.py",
+    "file": "src__lerobot__datasets__factory.py",
+    "sha256": "123c08f5e42df811558e8539a0499131d5951df07bf652b7730a16a7faabc515"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/scripts/lerobot_train.py",
+    "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+    "path": "src/lerobot/scripts/lerobot_train.py",
+    "file": "src__lerobot__scripts__lerobot_train.py",
+    "sha256": "2c3f4aa1779b908da73f8c36538040a1352377947b1d1e3089c1941b12b7d166"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/configs/default.py",
+    "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+    "path": "src/lerobot/configs/default.py",
+    "file": "src__lerobot__configs__default.py",
+    "sha256": "d97d58e764a2defa4484cf14ead5942746fcfc83da2bb2dd60f1f47141e4a21e"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/configs/train.py",
+    "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+    "path": "src/lerobot/configs/train.py",
+    "file": "src__lerobot__configs__train.py",
+    "sha256": "d48022e303ee655b5c2cc74474a8277f4a577414f87aeebedabd26f58df41506"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/pyproject.toml",
+    "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+    "path": "pyproject.toml",
+    "file": "pyproject.toml",
+    "sha256": "56b492f80493c09b8b4875e3d18770d300dbbde381fe877a4e8dab51b7b3c137"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/datasets/lerobot_dataset.py",
+    "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+    "path": "src/lerobot/datasets/lerobot_dataset.py",
+    "file": "src__lerobot__datasets__lerobot_dataset.py",
+    "sha256": "1bd9e5f133f0931d73a20aab73ba8490ac2d4fa1308bf1a0b045981490afd504"
+  },
+  {
+    "source": "PyPI draccus 0.10.0",
+    "url": "https://files.pythonhosted.org/packages/c4/9a/a83083b230d352ee5d205757b74006dbe084448ca45e3bc5ca99215b1e55/draccus-0.10.0-py3-none-any.whl",
+    "archive_sha256": "90243418ae0e9271c390a59cafb6acfd37001193696ed36fcc8525f791a83282",
+    "path": "draccus/argparsing.py",
+    "file": "draccus_0.10.0_argparsing.py",
+    "sha256": "eeeb3bec712cb2fce761b283fb13e0697723dbb309e150a2cdea8d2b99fcbc91"
+  }
+]

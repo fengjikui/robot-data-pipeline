@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-26",
+  "report_revision": "v14",
+  "baseline_commit": "0efb48fce96cd777c51d6ec29a4052196f9e3e4b",
+  "workbench_execution_version": "0.1.2",
+  "workbench_execution_code_changed": false,
+  "report": {
+    "slide_count": 29,
+    "body_pages": 26,
+    "supplements": 2,
+    "toc": 1,
+    "changed_content_physical_slides": [
+      6,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16
+    ],
+    "all_slides_geometry_updated": true,
+    "all_slides_rendered": true,
+    "speaker_note_count": 29,
+    "package_integrity": "pass",
+    "layout_findings": 0,
+    "layout_warnings": [
+      {
+        "connector_id": "12",
+        "connector_z": 13,
+        "kind": "connector_over_text",
+        "slide": 4,
+        "text_object_id": "3",
+        "text_z": 4
+      },
+      {
+        "connector_id": "20",
+        "connector_z": 21,
+        "kind": "connector_over_text",
+        "slide": 20,
+        "text_object_id": "19",
+        "text_z": 20
+      },
+      {
+        "connector_id": "26",
+        "connector_z": 27,
+        "kind": "connector_over_text",
+        "slide": 20,
+        "text_object_id": "25",
+        "text_z": 26
+      },
+      {
+        "connector_id": "32",
+        "connector_z": 33,
+        "kind": "connector_over_text",
+        "slide": 20,
+        "text_object_id": "31",
+        "text_z": 32
+      }
+    ],
+    "presentation_sha256": "ba3e9a26fcc2e6566ab843161b5b63f30f473b2d6b571103eeb9497c663c3944",
+    "visual_review": "all 29 slides passed, including final title polish on slide 12",
+    "connector_warnings_reviewed": "4 warnings: arrows at box edges, no visible glyph crossings"
+  },
+  "factual_updates": [
+    "joint_names metadata incomplete while all 167 records contain 7+7+7+7 state/action arrays; original data bytes unchanged",
+    "converter output/cache/repo overwrite and 30fps checked in pinned source",
+    "LeRobot built-in transforms, callable extensions, conservative explicit recipe, first-camera/first-frame preview limits",
+    "common lerobot-train entry for ACT/Diffusion/pi0/pi05/groot; data/weights/environment still required",
+    "current Dex3+hand body null; some controller branches record body slots and three velocity commands; standard converter ignores body",
+    "hierarchical locomotion/manipulation route and existing Isaac Lab G1 reference, not a verified box-carry implementation"
+  ],
+  "source_verification": "fixed official sources and function/config signatures; no execution of upstream conversion, augmentation, training, simulation or robot deployment",
+  "primary_source_pins": {
+    "xr_teleoperate": "817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b",
+    "unitree_lerobot": "41c2805742de879ddab2d8d6beaeaf215f876395",
+    "lerobot_submodule": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+    "IsaacLab_locomani": "v2.3.0",
+    "IsaacLab_mimic": "v2.3.2"
+  },
+  "delivery_audit": "report_v14_delivery_audit_2026-10-26.json",
+  "visual_qa": "report_v14_visual_qa_2026-10-26.json",
+  "native_windows_powerpoint_playback": "not performed",
+  "resource_checks": "before export and each sequential preview batch; one rendering worker, thread environment limits set to 1; no recorded thermal warning; no measured temperature claimed"
+}

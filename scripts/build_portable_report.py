@@ -60,6 +60,7 @@ def prepare():
     body='''<h1>原始回合：episode_0006</h1><p class="muted">宇树官方回放测试包中的原始 JSON + JPG。167 条记录，两路图像，未转换为 LeRobot。</p>
 <nav><a href="../start.html">资料总入口</a><a href="raw/episode_0006/data.json">完整原始 data.json</a><a href="raw_official_sample.zip">原始 ZIP</a><a href="provenance/raw_source_manifest.json">来源与哈希</a></nav>
 <p class="warning">历史测试样本：手部字段为 left_hand / right_hand，型号未完整标明；任务文字与首帧画面存在待核验之处。它用于解释保存结构，不作为搬箱任务示范。</p>
+<p>这份原件的 <code>info.joint_names</code> 仅填写 left_arm 的7个名称；但167条记录的 states/actions 中，left_arm、right_arm、left_hand、right_hand 都各有7个 qpos 数值。名称缺失不表示该组没有记录。body 为 null。页面保留这一原始缺项，不猜填关节名称。</p>
 <div class="controls"><label for="frame">记录序号</label><input id="frame" type="range" min="0" max="166" value="0"><input id="frameNumber" aria-label="记录序号数值" type="number" min="0" max="166" value="0"><span id="frameLabel"></span></div>
 <div class="images"><figure style="margin:0"><img id="cam0" alt="color_0 原始图片"><figcaption id="cap0" class="muted"></figcaption></figure><figure style="margin:0"><img id="cam1" alt="color_1 原始图片"><figcaption id="cap1" class="muted"></figcaption></figure></div>
 <h2>同一记录中的实际反馈与目标</h2><div class="controls"><label for="part">身体部位</label><select id="part"><option>left_arm</option><option>right_arm</option><option>left_hand</option><option>right_hand</option></select></div><table><thead><tr><th>关节索引</th><th>states.*.qpos：实际反馈</th><th>actions.*.qpos：目标</th></tr></thead><tbody id="values"></tbody></table>
@@ -91,6 +92,8 @@ def portable_markdown(s):
         '../../assets/report_generated/augmentation_triptych_v1.prompt.txt':'../resources/provenance/augmentation_prompt.txt',
         '../../assets/report_generated/augmentation_triptych_v1.record.json':'../resources/provenance/augmentation_record.json',
         '10_转换后LeRobot公开数据查看.md':'converted_guide.md',
+        '14_工具命令与参数备查.md':'tool_commands_guide.md',
+        'parts/wholebody_research_v14.md':'wholebody_guide.md',
     }
     for a,b in replacements.items():s=s.replace(a,b)
     # Within speaker prose, local resource names are rooted at the presentation;
@@ -107,15 +110,23 @@ def package():
     shutil.copytree(OUT/f'full_{REV}',folder/'previews')
     notes=folder/'notes';notes.mkdir()
     render=MarkdownIt('commonmark',{'html':False}).enable('table')
-    for source,name in [
+    report_sources = [
         ('07_全稿逐页阅读与演讲稿.md','speaker_notes'),
         ('09_回合真实数据查看与字段对应.md','raw_episode_guide'),
         ('10_转换后LeRobot公开数据查看.md','converted_guide'),
         ('11_外部数据接入阶段与额外处理路径.md','external_data_guide'),
         ('12_采集转换训练配置与策略适配.md','strategy_conversion_guide'),
-    ]:
+    ]
+    if int(REV[1:]) >= 14:
+        report_sources += [
+            ('14_工具命令与参数备查.md','tool_commands_guide'),
+            ('parts/augmentation_research_v14.md','augmentation_guide'),
+            ('parts/wholebody_research_v14.md','wholebody_guide'),
+        ]
+    for source,name in report_sources:
         s=portable_markdown((ROOT/'docs/report'/source).read_text()).replace('report.pptx',ppt_name);(notes/(name+'.md')).write_text(s)
-        body='<nav><a href="../start.html">资料总入口</a><a href="'+name+'.md">Markdown 原稿</a></nav><article>'+render.render(s)+'</article>'
+        html_source=re.sub(r'\]\(([^)]+)\.md(#[^)]*)?\)',lambda m:']('+m.group(1)+'.html'+(m.group(2) or '')+')',s)
+        body='<nav><a href="../start.html">资料总入口</a><a href="'+name+'.md">Markdown 原稿</a></nav><article>'+render.render(html_source)+'</article>'
         (notes/(name+'.html')).write_text(page('报告讲稿与说明',body))
     if int(REV[1:]) >= 13:
         shutil.copytree(ROOT/'docs/design/workbench_prototype',folder/'prototype')
@@ -155,6 +166,8 @@ def package():
 <h2>在 Windows 上使用</h2><ol><li>对ZIP执行“全部解压”，不要从压缩包内部临时打开PPT。</li><li>用桌面版PowerPoint或WPS打开 report.pptx，进入放映后点击资料链接。编辑状态可能需 Ctrl + 单击。</li><li>若本地资料链接被Office策略提示，仍可从本页用Edge/Chrome打开相同的离线浏览页。资料不需要Python、服务器或互联网。</li><li>官方仓库、论文、在线Viewer等外部来源仍需联网；已用于现场查看的数据和讲稿可离线打开。</li></ol><p class="muted">当前已完成目录迁移、相对链接静态检查与离线脚本数据绑定检查；尚未在你的Windows版PowerPoint/WPS实播验证。PPT已嵌入展示用图片与数值，完整原始文件随包，通过相对链接打开。</p>'''
     if int(REV[1:]) >= 13:
         body += '''<h2>后续完整方案与交互原型</h2><nav><a href="notes/product_plan.html">现状问题、价值与四阶段路线</a><a href="notes/interaction_design.html">用户旅程与详细交互设计</a><a href="notes/implementation_backlog.html">开发工作包与验收</a><a href="notes/capture_status.html">真机采集当前接入状态</a><a href="prototype/index.html">打开可点击方案原型</a></nav><p>原型全部使用示例状态，不连接机器人，不下载、不训练、不部署。可以演示采集保存失败恢复、外部数据筛选、训练输入差异与配方切换。</p>'''
+    if int(REV[1:]) >= 14:
+        body += '''<h2>本版专项备查</h2><nav><a href="notes/tool_commands_guide.html">转换、增强与训练的真实命令和参数</a><a href="notes/augmentation_guide.html">增强方法、审查与效果对照</a><a href="notes/wholebody_guide.html">腰腿数据与连续搬箱控制</a></nav><p>v14 共29张：目录、26页正文、2页备查。页面不带页码，标题距左和上均1.1cm，底部1.3cm留给公司模板。</p>'''
     (folder/'start.html').write_text(page('演示资料入口',body.replace('report.pptx',ppt_name)))
     (folder/'README.txt').write_text('具身智能数据管线演示包\n\n1. 完整解压ZIP，保持文件夹结构。\n2. 打开 start.html 查看全部资料，或打开 report.pptx 开始报告。\n3. resources包含完整原始回合、原ZIP、离线浏览页及转换后节选；notes包含完整讲稿。\n4. 本地链接相对于 report.pptx，无用户目录或盘符依赖。不要只复制PPT文件。\n5. 图像与关键数值已嵌入PPT；完整原始文件为随包附件，并非OLE嵌入对象。\n6. 外部权威来源链接仍需联网。本包没有宏、可执行安装器或服务要求。\n\n尚未在目标Windows版PowerPoint/WPS实播，建议在报告前打开并点击一次资料入口。\n')
     readme=folder/'README.txt';readme.write_text(readme.read_text().replace('report.pptx',ppt_name))

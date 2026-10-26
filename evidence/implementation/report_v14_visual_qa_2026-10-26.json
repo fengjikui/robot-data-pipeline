@@ -1,0 +1,882 @@
+{
+  "schemaVersion": "robot-pipeline-report.visual-qa.v1",
+  "report": "具身智能数据管线报告",
+  "revision": "v14",
+  "reviewDate": "2026-10-26",
+  "reviewer": "independent sub-agent /root/deck_visual_qa_v14",
+  "status": "pass",
+  "blockingIssueCount": 0,
+  "unresolvedIssueCount": 0,
+  "pptx": "artifacts/report/具身智能数据管线报告_v14.pptx",
+  "pptxSha256": "ba3e9a26fcc2e6566ab843161b5b63f30f473b2d6b571103eeb9497c663c3944",
+  "validationSha256Matches": true,
+  "slideCount": 29,
+  "methods": [
+    "逐张目视检查29张完整渲染PNG，重查修正后的第12页",
+    "只读PPTX XML检查标题位置、对齐、颜色和页码字段",
+    "PNG像素检查底部保留区为空白",
+    "结合包完整性和版面自动校验，人工审阅连接线警告"
+  ],
+  "sourcesRead": [
+    "pptx/SKILL.md (installed local skill)",
+    "artifacts/report/full_v14/page-01.png … page-29.png",
+    "artifacts/report/具身智能数据管线报告_v14.pptx",
+    "docs/report/parts/report_revision_v14.json",
+    ".build/full-report/v14/validation.json"
+  ],
+  "requirements": {
+    "title": {
+      "expectedLeftCm": 1.1,
+      "expectedTopCm": 1.1,
+      "expectedEmu": 396000,
+      "all29AtExpectedPosition": true,
+      "all29LeftAligned": true,
+      "all29Red": true
+    },
+    "footer": {
+      "reservedCm": 1.3,
+      "nativeCanvasPx": [
+        1280,
+        720
+      ],
+      "nativeForbiddenFromY": 670.866,
+      "renderedCanvasPx": [
+        1920,
+        1080
+      ],
+      "fullyInsideForbiddenPixelRowsChecked": [
+        1007,
+        1079
+      ],
+      "all29FooterRegionsPureWhite": true,
+      "lowestVisibleNativeBottomPx": 650.0,
+      "observedMinimumClearanceNativePx": 70.0
+    },
+    "pageMarkers": {
+      "contentPageShapeCount": 0,
+      "slideNumberFieldOrPlaceholderCount": 0,
+      "tocPageRangesRemoved": true,
+      "chapterStepAndMilestoneNumbersPreserved": true
+    },
+    "readability": {
+      "allSlidesIndividuallyInspected": true,
+      "tablesNotClipped": true,
+      "commandsNotClipped": true,
+      "noVisibleTextOverlap": true,
+      "sourcesDoNotConflictWithFooter": true
+    }
+  },
+  "resolvedSuggestions": [
+    {
+      "slide": 12,
+      "type": "copy",
+      "before": "策略模型：用同一个 LeRobot 训练入口选择",
+      "after": "策略模型：复用 LeRobot 统一训练入口",
+      "status": "fixed-and-reverified",
+      "layoutResult": "新标题完整可见，保持单行，未改变表格或页脚布局。"
+    }
+  ],
+  "automatedWarningReview": [
+    {
+      "slide": 4,
+      "kind": "connector_over_text",
+      "status": "accepted-after-visual-review",
+      "reason": "连接线位于设备/数据流示意结构中，未穿过可见字形。"
+    },
+    {
+      "slide": 20,
+      "kind": "connector_over_text",
+      "count": 3,
+      "status": "accepted-after-visual-review",
+      "reason": "三条接入箭头指向右侧阶段块；虽边界框接近文字区域，PNG中箭头未穿过可见文字。"
+    }
+  ],
+  "limitations": [
+    "本次是内容呈现与静态版面QA，未验证机器人采集、转换、训练或闭环任务真实运行结果。",
+    "未在原生Windows PowerPoint/WPS中播放；当前渲染和包结构检查不能证明目标机器的字体替代效果。",
+    "第26页界面为方案示例；未把它认定为实机或训练后端运行证据。"
+  ],
+  "slides": [
+    {
+      "slide": 1,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "报告内容",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 802,
+      "nativeVisibleBottomPx": 535.333,
+      "status": "pass",
+      "visualNotes": "目录置于开头；右侧页码范围已移除，01–04章节编号保留。四行章目无重叠。",
+      "issues": []
+    },
+    {
+      "slide": 2,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "具身智能数据管线",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "六阶段时间轴与图标统一；流程步骤编号保留；底部说明和资料链接可读。",
+      "issues": []
+    },
+    {
+      "slide": 3,
+      "title": [
+        {
+          "shapeName": "slide-title",
+          "text": "真机采集的设备分工",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": []
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "机器人结构、PC2/PC1、相机、Host与Vision Pro连接关系清楚；右列标注与图片无重叠。标题shape名为slide-title，坐标符合统一要求。",
+      "issues": []
+    },
+    {
+      "slide": 4,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "遥操作过程中的数据流",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "设备泳道与数据流箭头清楚；箭头未穿过可见文字。自动检测的connector_over_text警告经目视判定不影响阅读。",
+      "issues": []
+    },
+    {
+      "slide": 5,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "真机采集：程序分工与启动顺序",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "程序分工表和启动顺序轨道均在页内；没有备查页码标识。",
+      "issues": []
+    },
+    {
+      "slide": 6,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "一个回合里保存了什么",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "实际raw示例与joint_names/state/action维数对照清楚，body为空已明确；表格、示例值与本地资料入口无挤压。",
+      "issues": []
+    },
+    {
+      "slide": 7,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "数据质量检查",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "质量检查表清楚；优先检查的说明与资料区保持间隔。",
+      "issues": []
+    },
+    {
+      "slide": 8,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "数据增强：LeRobot 已有训练时图像变换",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "三幅增强示意明确标注非真实实验结果；LeRobot预览命令完整可见，训练flag及预览边界说明可读。",
+      "issues": []
+    },
+    {
+      "slide": 9,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "增强方法与审查：先小幅试，再验证效果",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "五类增强方法表与五步审查轨道可读；训练/测试隔离和回退规则未侵入页脚。",
+      "issues": []
+    },
+    {
+      "slide": 10,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "数据转换：调用官方脚本，选择源记录配置",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "原始格式与LeRobot格式的图表层次明确；多行转换命令未裁切。",
+      "issues": []
+    },
+    {
+      "slide": 11,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "采集、转换、训练：已有工具各负责什么",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "采集/转换/训练三阶段职责分开；命令参数和腰腿补充说明完整可见。",
+      "issues": []
+    },
+    {
+      "slide": 12,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "策略模型：复用 LeRobot 统一训练入口",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "模型策略表、policy.type与训练命令均完整可读；标题文案建议已修正，并重新目视核查最终PNG。",
+      "issues": []
+    },
+    {
+      "slide": 13,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "当前 28 维数据，腰和腿在哪里？",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "当前28维、其他controller分支与标准转换配置分为三行；速度目标和腿关节目标的区别可读。",
+      "issues": []
+    },
+    {
+      "slide": 14,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "连续搬箱：操作策略与行走控制怎样协作",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "搬箱三阶段轨道与分层控制两条路径清楚；蓝色总结和官方locomanipulation边界说明没有挤占资料区。",
+      "issues": []
+    },
+    {
+      "slide": 15,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "模型怎样从示范中学习",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "示范学习回路图与下方四类训练配置均无重叠；预测与示范的回路箭头清楚。",
+      "issues": []
+    },
+    {
+      "slide": 16,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "转换、增强预览、训练：真实命令入口",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "转换、增强预览、训练三组真实命令逐行完整显示；右下完整命令链接和资料区安全。",
+      "issues": []
+    },
+    {
+      "slide": 17,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "仿真评估与效果判断",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "闭环评估图与三种验证方式表格完整；连接线没有穿过字面。",
+      "issues": []
+    },
+    {
+      "slide": 18,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "真机部署与数据回流",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "五步部署时间轴、交付包要素与失败数据回流清楚；推理位置说明与资料区无冲突。",
+      "issues": []
+    },
+    {
+      "slide": 19,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "外部数据的类型与整理层级",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "外部数据容器与轨迹组织两表并排，标签及三层处理阶段可读；表格无截断。",
+      "issues": []
+    },
+    {
+      "slide": 20,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "外部数据：从哪里接入现有流程",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "外部数据分流路径与接入阶段对应清楚；三条指向接入位置的箭头未穿过可见文字，自动警告经目视接受。",
+      "issues": []
+    },
+    {
+      "slide": 21,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "数据采购：甲方怎样提需求",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "采购需求五项表格完整，两类采购方式说明分列清楚。",
+      "issues": []
+    },
+    {
+      "slide": 22,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "数据采购：用样本验证适配性",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "六步样本验证轨道与结论表完整；任务评价及证据边界明确。",
+      "issues": []
+    },
+    {
+      "slide": 23,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "现有流程中的交接成本",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "交接成本四行表格有足够留白；底部价值验证说明和权威资料链接可读。",
+      "issues": []
+    },
+    {
+      "slide": 24,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "理想方案：围绕任务组织完整流程",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 878,
+      "nativeVisibleBottomPx": 586.0,
+      "status": "pass",
+      "visualNotes": "双数据入口、公共资产与训练部署回路清楚；底部阶段按钮说明不侵入公司页脚。",
+      "issues": []
+    },
+    {
+      "slide": 25,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "选数据时，先回答当前组合能做什么",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 874,
+      "nativeVisibleBottomPx": 583.333,
+      "status": "pass",
+      "visualNotes": "适用性五项对照表完整，底部结论行可读；无参考资料占位。",
+      "issues": []
+    },
+    {
+      "slide": 26,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "交互设计：当前条件与下一步放在首屏",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 895,
+      "nativeVisibleBottomPx": 597.333,
+      "status": "pass",
+      "visualNotes": "界面截图作为整体示意，细字不承担主要口头讲解；右侧三类设计要点与离线链接清楚。标题/副标题明确全部为示例，不连接设备或训练后端。",
+      "issues": []
+    },
+    {
+      "slide": 27,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "有限支持清单，按需增加适配后端",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 974,
+      "nativeVisibleBottomPx": 650.0,
+      "status": "pass",
+      "visualNotes": "共享工作台与四类适配后端列对齐；接入本体与数据迁移的边界说明可读。",
+      "issues": []
+    },
+    {
+      "slide": 28,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "从基础原型到完整管线，分四阶段交付",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 889,
+      "nativeVisibleBottomPx": 593.333,
+      "status": "pass",
+      "visualNotes": "四阶段交付轨道及各阶段验收结果清楚；当前v0.1.2与完整搬箱行走尚未完成的边界可读。",
+      "issues": []
+    },
+    {
+      "slide": 29,
+      "title": [
+        {
+          "shapeName": "title",
+          "text": "用真实任务验收平台价值",
+          "xEmu": 396000,
+          "yEmu": 396000,
+          "paragraphAlign": [
+            "l"
+          ],
+          "runColors": [
+            "B4232A"
+          ]
+        }
+      ],
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "footerWhite": true,
+      "lastVisibleRowRendered": 877,
+      "nativeVisibleBottomPx": 585.333,
+      "status": "pass",
+      "visualNotes": "验收任务、拟验证结果和证据三列表完整；底部声明为拟验收目标，未将方案目标写为实测结果。",
+      "issues": []
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-26",
+  "revision": "v14",
+  "status": "pass",
+  "slide_count": 29,
+  "speaker_note_count": 29,
+  "title_count": 29,
+  "title_left_cm": 1.1,
+  "title_top_cm": 1.1,
+  "title_alignment": "left",
+  "page_markers": 0,
+  "automatic_slide_number_fields": 0,
+  "footer_reserved_cm": 1.3,
+  "max_foreground_bottom_emu": 6229350,
+  "footer_safe_top_emu": 6390000,
+  "raw_json_sha256": "1cc385b4fb8598b2a3833f7e16cfc9bdd60553ffe57886a47492fa3a4c32bceb",
+  "raw_bytes_unchanged": true,
+  "raw_joint_name_counts": {
+    "left_arm": 7,
+    "left_hand": 0,
+    "right_arm": 0,
+    "right_hand": 0,
+    "body": 0
+  },
+  "raw_record_count": 167,
+  "state_and_action_group_dimensions": {
+    "left_arm": 7,
+    "right_arm": 7,
+    "left_hand": 7,
+    "right_hand": 7
+  },
+  "raw_body": null,
+  "portable_ppt_links_checked": [
+    "notes/tool_commands_guide.html",
+    "prototype/index.html",
+    "resources/converted/info.json",
+    "resources/converted_episode.html",
+    "resources/raw/episode_0006/data.json",
+    "resources/raw_episode.html"
+  ],
+  "portable_html_links_checked": 101,
+  "relocation_test": "ZIP extracted into a temporary Chinese path with spaces; links and bytes checked",
+  "native_windows_powerpoint_playback": "not performed",
+  "presentation_sha256": "ba3e9a26fcc2e6566ab843161b5b63f30f473b2d6b571103eeb9497c663c3944",
+  "archive_sha256": "cd349fd5b85b0587549bc9591755f8099ffdd7d31663526d7f75e7d471836ed0"
+}

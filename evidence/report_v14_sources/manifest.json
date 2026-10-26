@@ -1,0 +1,30 @@
+{
+  "checked_on": "2026-10-26",
+  "scope": "unmodified primary source snapshots; static signature and entry-point checks, no training execution",
+  "sources": [
+    {
+      "file": "lerobot__src__lerobot__configs__default.py",
+      "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/configs/default.py",
+      "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+      "sha256": "d97d58e764a2defa4484cf14ead5942746fcfc83da2bb2dd60f1f47141e4a21e"
+    },
+    {
+      "file": "lerobot__src__lerobot__configs__train.py",
+      "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/configs/train.py",
+      "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+      "sha256": "d48022e303ee655b5c2cc74474a8277f4a577414f87aeebedabd26f58df41506"
+    },
+    {
+      "file": "lerobot__src__lerobot__scripts__lerobot_train.py",
+      "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/scripts/lerobot_train.py",
+      "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+      "sha256": "2c3f4aa1779b908da73f8c36538040a1352377947b1d1e3089c1941b12b7d166"
+    },
+    {
+      "file": "lerobot__pyproject.toml",
+      "url": "https://raw.githubusercontent.com/huggingface/lerobot/a5b29d430105f5235eb05bbf2db5a0d747a869d6/pyproject.toml",
+      "commit": "a5b29d430105f5235eb05bbf2db5a0d747a869d6",
+      "sha256": "56b492f80493c09b8b4875e3d18770d300dbbde381fe877a4e8dab51b7b3c137"
+    }
+  ]
+}
