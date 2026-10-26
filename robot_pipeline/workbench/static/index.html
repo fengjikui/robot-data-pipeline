@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>具身智能 · 数据管线工作台</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到工作区域</a>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="数据管线工作台首页"><span class="brand-mark" aria-hidden="true">D</span><span>数据管线<span class="brand-detail">工作台</span></span></a>
+    <div class="top-status"><span class="local-dot" aria-hidden="true"></span><span id="connection">正在连接本地服务</span><span class="version" id="version"></span></div>
+  </header>
+  <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="数据资产目录">
+      <div class="side-heading"><h2>数据资产库</h2><button class="icon-button" id="toggle-import" title="导入本地目录" aria-label="导入本地目录">＋</button></div>
+      <label class="search"><span class="sr-only">搜索名称、任务与标签</span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"></circle><path d="m13 13 4 4"></path></svg><input id="search" type="search" placeholder="名称、任务或标签" autocomplete="off"></label>
+      <label class="source-filter"><span class="sr-only">筛选数据来源</span><select id="source-filter"><option value="">全部来源</option><option value="self_capture">自行采集</option><option value="open">开源数据</option><option value="purchased">采购交付</option><option value="simulation">仿真数据</option></select></label>
+      <p class="asset-count" id="asset-count">读取资产目录中</p>
+      <div id="asset-list" class="asset-list" aria-label="资产列表"></div>
+      <div class="side-bottom"><span>当前范围</span><strong>单人 · 单机器人</strong><p>文件保存在本地工作区。原始目录不会被修改。</p></div>
+    </aside>
+    <main id="main" tabindex="-1">
+      <section class="project-section" aria-labelledby="project-heading">
+        <div class="eyebrow">当前实验</div>
+        <div class="project-head"><h1 id="project-heading">任务与数据准备</h1><button class="text-button" id="toggle-project" aria-expanded="false" aria-controls="project-form">编辑实验配置</button></div>
+        <div class="project-summary" id="project-summary"><span>读取配置中…</span></div>
+        <form id="project-form" class="project-form" hidden>
+          <div class="field"><label for="project-task">任务描述</label><input id="project-task" name="task" maxlength="500" placeholder="例如：将箱子从桌 A 搬至桌 B" required></div>
+          <div class="field"><label for="project-target">目标本体配置</label><input id="project-target" name="target" maxlength="200" placeholder="Unitree_G1_Dex3" required></div>
+          <div class="field"><label for="project-policy">拟采用策略</label><select id="project-policy" name="policy"><option value="act">ACT</option><option value="diffusion">Diffusion Policy</option><option value="openpi">openpi / π0</option><option value="openvla">OpenVLA</option><option value="ppo">PPO</option></select></div>
+          <button class="button primary" type="submit">保存配置</button>
+          <p class="form-note">这是后续适配的目标组合，选择策略不会自动接入其训练器，也不会改变原始数据。</p>
+        </form>
+      </section>
+
+      <section id="import-section" class="import-section" aria-labelledby="import-heading" hidden>
+        <div class="section-title"><div><div class="eyebrow">来源接入</div><h2 id="import-heading">导入本地数据</h2></div><button id="close-import" class="text-button" type="button">收起</button></div>
+        <p class="section-copy">填写运行工作台这台电脑上的文件夹路径。系统复制入库并记录文件清单；从网站或硬盘收到的数据，请先下载到本机。</p>
+        <form id="import-form">
+          <div class="field"><label for="import-path">数据目录 <span>必填</span></label><input id="import-path" name="path" required autocomplete="off" spellcheck="false" placeholder="例如 C:\数据\搬箱样本 或 /home/user/data/box"><p class="field-note">支持中文和空格。粘贴文件夹路径即可，不需要加引号。</p></div>
+          <div class="form-grid">
+            <div class="field"><label for="import-name">资产名称</label><input id="import-name" name="name" maxlength="200" required placeholder="例如 搬箱样本 · 第一次采集"></div>
+            <div class="field"><label for="import-source">来源类别</label><select id="import-source" name="source_kind"><option value="self_capture">自行采集</option><option value="open">开源数据</option><option value="purchased">采购交付</option><option value="simulation">仿真数据</option></select></div>
+            <div class="field"><label for="import-task">数据中的任务</label><input id="import-task" name="task" maxlength="500" placeholder="数据实际包含的操作"></div>
+            <div class="field"><label for="import-embodiment">来源本体</label><input id="import-embodiment" name="embodiment" maxlength="200" placeholder="未知时留空，不等于目标本体"></div>
+            <div class="field"><label for="import-tags">标签</label><input id="import-tags" name="tags" maxlength="500" placeholder="搬箱, 双臂, 室内"></div>
+            <div class="field"><label for="import-license">使用条件 / 许可说明</label><input id="import-license" name="license" maxlength="1000" placeholder="例如合同编号，或来源许可；未知时留空"></div>
+          </div>
+          <div class="form-actions"><button class="button primary" type="submit">复制并登记资产</button><span class="muted">归档完成后，可逐阶段检查与导出。</span></div>
+        </form>
+      </section>
+
+      <section id="empty-state" class="empty-state" hidden>
+        <svg class="empty-icon" viewBox="0 0 80 68" fill="none" aria-hidden="true"><path d="M8 20h25l6-8h25a7 7 0 0 1 7 7v34a7 7 0 0 1-7 7H15a7 7 0 0 1-7-7V20Z"></path><path d="M8 28h63M31 44h18m-9-9v18"></path></svg>
+        <h2>从一份数据开始</h2>
+        <p>将采集回合、开源样本或采购交付目录加入资产库，查看它保存了什么，再运行检查和派生导出。</p>
+        <button class="button primary" id="empty-import">导入本地目录</button>
+        <div class="demo-option"><span>暂时没有数据？</span><button class="text-button" id="create-demo">生成合成教学样例</button><p>仅用于体验入库、检查与导出，不是真机示范，不用于证明任务能力。</p></div>
+      </section>
+
+      <article id="asset-detail" hidden>
+        <div class="detail-heading"><div><div class="eyebrow" id="asset-source">数据资产</div><h2 id="asset-name"></h2></div><span id="asset-quality-badge" class="badge neutral">尚未检查</span></div>
+        <p id="asset-task" class="asset-task"></p>
+        <dl class="metadata" id="asset-metadata"></dl>
+        <div id="asset-tags" class="tags" aria-label="数据标签"></div>
+        <section class="pipeline-section" aria-labelledby="pipeline-heading">
+          <div class="section-title"><h3 id="pipeline-heading">处理阶段</h3><span class="muted">阶段按钮为主，遇到错误立即停止</span></div>
+          <ol class="pipeline">
+            <li class="available"><span class="stage-number">01</span><strong>质量检查</strong><span>结构与文件核验</span></li>
+            <li class="available"><span class="stage-number">02</span><strong>派生导出</strong><span>本工作台 JSONL 契约</span></li>
+            <li><span class="stage-number">03</span><strong>模型训练</strong><span>待接入训练后端</span></li>
+            <li><span class="stage-number">04</span><strong>仿真评估</strong><span>待接入场景与策略</span></li>
+            <li><span class="stage-number">05</span><strong>真机部署</strong><span>待设备到货验收</span></li>
+          </ol>
+          <div class="stage-actions"><button id="run-check" class="button primary" type="button">运行质量检查</button><button id="run-export" class="button" type="button" disabled>导出 JSONL</button><label class="check-label"><input id="auto-chain" type="checkbox">检查通过后自动导出</label></div>
+          <p id="stage-hint" class="field-note">检查通过后才能导出；派生文件写入新目录，原始数据保留。</p>
+        </section>
+        <div class="detail-tabs" role="tablist" aria-label="资产详情"><button id="tab-quality" role="tab" aria-selected="true" aria-controls="panel-quality" data-panel="quality">检查与适配</button><button id="tab-jobs" role="tab" aria-selected="false" aria-controls="panel-jobs" data-panel="jobs" tabindex="-1">运行记录 <span id="job-count"></span></button></div>
+        <section id="panel-quality" role="tabpanel" aria-labelledby="tab-quality">
+          <div id="quality-content" class="quality-content"></div>
+          <section class="recipe-section" aria-labelledby="recipe-heading"><div class="section-title"><h3 id="recipe-heading">当前训练组合</h3><span id="policy-label" class="badge neutral"></span></div><p id="recipe-guidance"></p><p class="field-note">本页的标签、格式与检查结果只用于准备输入。可读数据、模型可训练、策略可部署是不同的验收结论。</p></section>
+        </section>
+        <section id="panel-jobs" role="tabpanel" aria-labelledby="tab-jobs" hidden>
+          <div id="job-list" class="job-list"></div>
+          <section id="job-detail" class="job-detail" hidden><div class="section-title"><h3 id="job-detail-heading">作业详情</h3><button class="button danger small" id="cancel-job" hidden>停止本次作业</button></div><p id="job-error" class="error-text" hidden></p><div id="job-artifacts" class="artifact-links"></div><details open><summary>运行日志</summary><pre id="job-log" tabindex="0"></pre></details><details><summary>结构化结果</summary><pre id="job-result" tabindex="0"></pre></details></section>
+        </section>
+      </article>
+      <footer class="workspace-footer"><span>本地数据准备原型</span><span>真机采集、训练与部署能力将逐项接入和验收。</span><button class="text-button" id="refresh">刷新状态</button></footer>
+    </main>
+  </div>
+</body>
+</html>

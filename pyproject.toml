@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robot-data-pipeline"
+version = "0.1.0"
+description = "Local embodied-data workbench with explicit dataset and adapter contracts"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+experiments = [
+  "numpy>=2,<3",
+  "pyarrow>=17,<27",
+  "pillow>=10,<14",
+  "mujoco>=3.2,<4",
+  "imageio>=2.36,<3",
+  "imageio-ffmpeg>=0.5,<1",
+]
+
+[project.scripts]
+robot-data-workbench = "robot_pipeline.workbench.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["robot_pipeline*"]
+
+[tool.setuptools.package-data]
+"robot_pipeline.workbench" = ["static/*.html", "static/*.css", "static/*.js"]

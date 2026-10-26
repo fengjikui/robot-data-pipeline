@@ -18,7 +18,7 @@ try:
     elif args.command=='export-numeric':result=export_raw(args.path,args.output)
     elif args.command=='plan-convert':result=conversion_plan(args.raw_dir,args.repo_id)
     elif args.command=='inspect-info':
-        x=json.loads(Path(args.path).read_text());result={k:x.get(k) for k in ['codebase_version','robot_type','fps','total_episodes','total_frames','data_path','video_path']};result['features']={k:{'shape':v['shape'],'dtype':v['dtype'],'names':v.get('names')} for k,v in x['features'].items()};result['note']='metadata inspected; numeric quality, camera synchronization and task success unverified'
+        x=json.loads(Path(args.path).read_text(encoding='utf-8'));result={k:x.get(k) for k in ['codebase_version','robot_type','fps','total_episodes','total_frames','data_path','video_path']};result['features']={k:{'shape':v['shape'],'dtype':v['dtype'],'names':v.get('names')} for k,v in x['features'].items()};result['note']='metadata inspected; numeric quality, camera synchronization and task success unverified'
     elif args.command=='train-bc':
         from .learning import train
         result=train(args.path,args.output,args.max_episodes)

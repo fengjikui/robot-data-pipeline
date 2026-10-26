@@ -1,0 +1,47 @@
+name: Workbench platforms
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: platforms-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  workbench:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.11', '3.14']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      VECLIB_MAXIMUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Build wheel
+        run: python -m pip wheel . --no-deps --wheel-dir dist
+      - name: Install and test wheel outside checkout
+        run: python scripts/test_installed_workbench.py
+      - name: Workbench contract and platform tests
+        run: python -m unittest discover -s tests -p "test_workbench*.py" -v
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wheel-${{ matrix.os }}-py${{ matrix.python }}
+          path: dist/*.whl
