@@ -45,6 +45,7 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 - [具身智能数据管线报告 v12，PPT 与 Windows 完整演示包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v12)：目录、23 页正文、启动步骤备查，以及逐页讲稿、官方来源与离线原始资料。完整解压演示包后保持相对目录。
 - [v0.1.0 安装包与界面截图](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.1.0)
 - [首版验收记录](docs/implementation/04_首版验收记录.md)
+- [用户视角实测：当前能做什么、怎么使用、还缺什么](docs/implementation/06_用户视角实测与使用路径.md)
 - [跨平台架构与验收设计](docs/implementation/01_跨平台架构与验收设计.md)
 - [首版实现与后续适配](docs/implementation/02_首版实现与后续适配.md)
 - [安装、启动与日常使用](docs/implementation/03_安装启动与日常使用.md)

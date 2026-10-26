@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-26",
+  "source_commit": "7e2f0d48c2e77cbbc8a2e11c7a13b741d236a20e",
+  "test_method": "macOS in-app browser; operated visible controls; clicked artifact downloads",
+  "application_version": "0.1.0",
+  "workspace_type": "isolated user-review workspace; regular workspace unchanged",
+  "tests": [
+    {
+      "scenario": "empty start + project configuration",
+      "result": "passed",
+      "observed": "no seeded assets; saved task/target/policy"
+    },
+    {
+      "scenario": "explicit synthetic sample",
+      "result": "passed",
+      "records": 12
+    },
+    {
+      "scenario": "standalone quality check then export",
+      "result": "passed",
+      "download": "contract.json downloaded through browser; synthetic=true, is_lerobot_dataset=false"
+    },
+    {
+      "scenario": "official historical raw data import + check_export",
+      "result": "passed",
+      "records": 167,
+      "source_files": 335,
+      "training_ready": false
+    },
+    {
+      "scenario": "download actual records.jsonl",
+      "result": "passed",
+      "records": 167,
+      "state_dim": 28,
+      "action_dim": 28,
+      "all_recorded_state_action_values_equal_source": true,
+      "raw_goal_preserved": true,
+      "sha256": "8ae2e0bfbaae5bda1a02ae29c6d20dc7188a5d66009cbc0b0ac49a89ef961da0"
+    },
+    {
+      "scenario": "bad directory path",
+      "result": "passed with UX finding",
+      "observed": "error shown; input retained; corrected path can retry"
+    },
+    {
+      "scenario": "intentionally invalid qpos dimension",
+      "result": "passed",
+      "records": 6,
+      "observed": "frame0 left_arm dimension rejected; chain failed; export disabled; only quality report offered"
+    },
+    {
+      "scenario": "tag/task text search + source filter",
+      "result": "passed",
+      "observed": "one matching official asset from three"
+    },
+    {
+      "scenario": "page reload",
+      "result": "passed",
+      "observed": "project, three assets, quality and job history persisted; UI selection/filter reset"
+    },
+    {
+      "scenario": "browser console",
+      "result": "passed",
+      "observed": "no captured error or warning logs at completion"
+    }
+  ],
+  "open_findings": [
+    {
+      "priority": "P1",
+      "finding": "Import form automatically uses target project task as source-data task",
+      "impact": "may mislabel unrelated external datasets unless manually corrected",
+      "status": "not fixed in this review"
+    },
+    {
+      "priority": "P2",
+      "finding": "Nonexistent directory shows raw Errno/file path rather than concise user-oriented guidance",
+      "status": "not fixed in this review"
+    },
+    {
+      "priority": "P2",
+      "finding": "Switching asset/job briefly displays previous job detail until async response arrives",
+      "status": "not fixed in this review"
+    },
+    {
+      "priority": "P2",
+      "finding": "Some form maxlength values exceed server field limits; long values can be accepted by field then rejected on submit",
+      "status": "source-reviewed, not exercised with long text in this browser review"
+    }
+  ],
+  "boundaries": [
+    "No Windows-native GUI use this turn; native Windows CI remains separate historical evidence",
+    "Did not perform real capture, official LeRobot conversion, augmentation, model training, simulation or deployment",
+    "Tiny jobs do not provide a meaningful manual stop timing test; cancellation has separate native automated coverage",
+    "Structured QC does not decode images or verify synchronization/calibration/task success"
+  ]
+}
