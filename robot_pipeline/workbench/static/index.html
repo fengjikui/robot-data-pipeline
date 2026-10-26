@@ -41,9 +41,9 @@
 
       <section id="import-section" class="import-section" aria-labelledby="import-heading" hidden>
         <div class="section-title"><div><div class="eyebrow">来源接入</div><h2 id="import-heading">导入本地数据</h2></div><button id="close-import" class="text-button" type="button">收起</button></div>
-        <p class="section-copy">选择运行工作台这台电脑上的数据文件夹，也可直接粘贴路径。系统复制入库并记录文件清单；从网站或硬盘收到的数据，请先下载到本机。</p>
+        <p class="section-copy">选择运行工作台这台电脑上的数据文件夹，也可直接粘贴路径。系统复制入库并记录文件清单；从网站或硬盘收到的数据，请先下载到本机。真机遥操作服务尚未接入，本页用于导入已保存的数据。</p>
         <form id="import-form">
-          <div class="field"><label for="import-path">数据目录 <span>必填</span></label><div class="path-input"><input id="import-path" name="path" required autocomplete="off" spellcheck="false" placeholder="选择数据文件夹，也可粘贴完整路径"><button type="button" class="button" data-path-input="import-path" aria-label="选择数据目录">选择文件夹…</button></div><p class="field-note">选择运行工作台这台电脑上的目录，支持中文和空格。选完后再确认复制入库。</p></div>
+          <div class="field"><label for="import-path">数据目录 <span>必填</span></label><div class="path-input"><input id="import-path" name="path" required autocomplete="off" spellcheck="false" placeholder="使用系统选择器，也可粘贴完整路径"><button type="button" class="button" data-path-input="import-path" aria-label="选择数据目录">选择文件夹…</button></div><p class="field-note">将打开当前电脑的系统目录选择窗口。支持中文和空格，选完后再确认复制入库。</p></div>
           <div class="form-grid">
             <div class="field"><label for="import-name">资产名称</label><input id="import-name" name="name" maxlength="200" required placeholder="例如 搬箱样本 · 第一次采集"></div>
             <div class="field"><label for="import-source">来源类别</label><select id="import-source" name="source_kind"><option value="self_capture">自行采集</option><option value="open">开源数据</option><option value="purchased">采购交付</option><option value="simulation">仿真数据</option></select></div>
@@ -94,16 +94,5 @@
       <footer class="workspace-footer"><span>本地数据准备原型</span><span>真机采集、训练与部署能力将逐项接入和验收。</span><button class="text-button" id="refresh">刷新状态</button></footer>
     </main>
   </div>
-  <dialog id="path-picker" class="path-picker" aria-labelledby="path-picker-title" aria-describedby="path-picker-description">
-    <div class="picker-header"><h2 id="path-picker-title">选择数据目录</h2><button type="button" class="text-button" id="picker-close">取消</button></div>
-    <p id="path-picker-description" class="field-note">浏览运行工作台这台电脑上的文件夹。选择目录后回填路径，尚不会导入文件。</p>
-    <div id="picker-roots" class="picker-roots" aria-label="常用目录与磁盘"></div>
-    <form id="picker-location-form" class="picker-location"><label class="sr-only" for="picker-location">当前目录路径</label><input id="picker-location" autocomplete="off" spellcheck="false"><button type="submit" class="button" id="picker-go">前往</button></form>
-    <div class="picker-toolbar"><button type="button" class="button small" id="picker-parent">上一级</button><label class="picker-search"><span class="sr-only">筛选当前目录下的文件夹</span><input id="picker-query" type="search" placeholder="筛选文件夹名称" autocomplete="off"></label></div>
-    <p id="picker-status" class="picker-status" role="status" aria-live="polite"></p>
-    <div id="picker-list" class="picker-list" aria-label="子目录列表"></div>
-    <button type="button" class="text-button" id="picker-more" hidden>显示更多文件夹</button>
-    <div class="picker-footer"><div><span class="field-note">将选择此目录</span><p id="picker-selection" class="picker-selection"></p></div><button type="button" class="button primary" id="picker-confirm" disabled>使用此目录</button></div>
-  </dialog>
 </body>
 </html>

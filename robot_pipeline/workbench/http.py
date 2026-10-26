@@ -8,18 +8,19 @@ import re
 from urllib.parse import unquote,urlsplit
 from .paths import within
 from .service import Workbench
-from .file_browser import list_directory
+from .native_picker import NativeDirectoryPicker, NativePickerBusy, NativePickerUnavailable
 from . import __version__
 
 class Server(ThreadingHTTPServer):
     daemon_threads=True
-    def __init__(self,workspace,port=8765):
+    def __init__(self,workspace,port=8765,directory_picker=None):
+        self.directory_picker=directory_picker or NativeDirectoryPicker()
         self.workbench=Workbench(workspace)
         self.app=self.workbench
         try:super().__init__(('127.0.0.1',port),Handler)
-        except BaseException:self.workbench.close();raise
+        except BaseException:self.workbench.close();self.directory_picker.close();raise
     def server_close(self):
-        self.workbench.close();super().server_close()
+        self.directory_picker.close();self.workbench.close();super().server_close()
 
 class Handler(BaseHTTPRequestHandler):
     server_version='RobotPipeline/0.1'
@@ -47,7 +48,8 @@ class Handler(BaseHTTPRequestHandler):
         if filename:self.send_header('Content-Disposition','attachment; filename="'+filename+'"')
         self.end_headers();self.wfile.write(data)
     def _error(self,exc):
-        self._send(403 if isinstance(exc,PermissionError) else 400,{'error':str(exc)})
+        code=403 if isinstance(exc,PermissionError) else 409 if isinstance(exc,NativePickerBusy) else 503 if isinstance(exc,NativePickerUnavailable) else 400
+        self._send(code,{'error':str(exc)})
     def do_GET(self):
         try:
             self._allowed();app=self.server.workbench
@@ -80,7 +82,7 @@ class Handler(BaseHTTPRequestHandler):
             payload=json.loads(self.rfile.read(length).decode('utf-8'))
             if not isinstance(payload,dict):raise ValueError('请求体必须是 JSON 对象')
             path=urlsplit(self.path).path
-            if path=='/api/paths/list':result=list_directory(payload)
+            if path=='/api/paths/pick':result=self.server.directory_picker.choose(payload.get('initial_path'))
             elif path=='/api/project':result=app.project(payload)
             elif path=='/api/assets/import':result=app.import_asset(payload)
             elif path=='/api/demo':result=app.demo()
@@ -90,4 +92,4 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(200,result)
         except (ValueError,OSError,TypeError,KeyError,PermissionError) as exc:self._error(exc)
 
-def create_server(workspace,port=0):return Server(workspace,port)
+def create_server(workspace,port=0,*,directory_picker=None):return Server(workspace,port,directory_picker)

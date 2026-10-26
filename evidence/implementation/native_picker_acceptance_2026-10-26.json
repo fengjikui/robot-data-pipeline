@@ -1,0 +1,30 @@
+{
+  "version": "0.1.2",
+  "source_commit": null,
+  "ci": {
+    "status": "pending"
+  },
+  "local_workbench_tests": {
+    "tests_run": 49,
+    "passed": 48,
+    "skipped": 1,
+    "reason": "当前文件系统不能创建仅大小写不同的两个文件"
+  },
+  "installed_wheel_smoke": "passed; isolated venv outside checkout, injected picker result, real import/QC/export worker",
+  "native_components": {
+    "macOS": "actual AppleScript compiled with osacompile; passed",
+    "Windows": "FolderBrowserDialog instantiation scheduled on native CI",
+    "Linux": "headless error and desktop provider contracts passed"
+  },
+  "browser_review": {
+    "platform": "macOS in-app browser",
+    "native_helper_started": true,
+    "timeout_recovery_observed": true,
+    "path_preserved_after_timeout": true,
+    "assets_remain_empty_before_import": true,
+    "real_dialog_confirm_cancel_clicked": false,
+    "limitation": "CUA cannot bind the unbundled osascript dialog owner; no claim of completed native GUI selection/cancel on any platform"
+  },
+  "scope": "System folder picker replaces custom web directory browser; selection only fills path; import remains explicit.",
+  "capture_status": "research and manual startup materials exist; real-robot service orchestration and recording bridge are not implemented"
+}

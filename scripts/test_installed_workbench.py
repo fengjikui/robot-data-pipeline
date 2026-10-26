@@ -15,7 +15,11 @@ from urllib.request import Request, urlopen
 from robot_pipeline.workbench.http import create_server
 
 assert files('robot_pipeline.workbench').joinpath('static/index.html').is_file()
-server = create_server(Path.cwd() / '数据 workspace & spaces', 0)
+class SmokePicker:
+    def choose(self, initial_path=None):
+        return {'cancelled': False, 'path': str(Path.cwd() / 'picker 外部数据 spaces'), 'backend': 'injected smoke contract'}
+    def close(self): pass
+server = create_server(Path.cwd() / '数据 workspace & spaces', 0, directory_picker=SmokePicker())
 thread = threading.Thread(target=server.serve_forever, daemon=True)
 thread.start()
 base = 'http://127.0.0.1:' + str(server.server_port)
@@ -43,9 +47,9 @@ try:
     assert asset['synthetic'] is True
     source = Path.cwd() / 'picker 外部数据 spaces'
     shutil.copytree(server.workbench.workspace / asset['path'], source)
-    page = post('/api/paths/list', {'path': str(Path.cwd()), 'query': 'picker 外部数据'})
-    assert page['read_only'] is True and len(page['entries']) == 1, page
-    asset = post('/api/assets/import', {'path': page['entries'][0]['path'], 'name': 'Picked fixture', 'source_kind': 'simulation', '_synthetic': True, 'task': 'SYNTHETIC picker smoke test'})
+    choice = post('/api/paths/pick', {'initial_path': str(source)})
+    assert choice['cancelled'] is False and choice['path'] == str(source), choice
+    asset = post('/api/assets/import', {'path': choice['path'], 'name': 'Picked fixture', 'source_kind': 'simulation', '_synthetic': True, 'task': 'SYNTHETIC picker smoke test'})
     job = post('/api/jobs', {'asset_id': asset['id'], 'stage': 'check_export'})
     deadline = time.monotonic() + 20
     while time.monotonic() < deadline:

@@ -2,7 +2,7 @@
 
 面向单人、单机器人，把数据来源、检查结果、转换计划与运行记录组织到同一个界面。首期以 G1 为研究对象，保留按本体和训练配方逐项接入的边界。
 
-**当前版本 v0.1.1：已实现本机浏览器工作台。** 数据目录可点击选择，也可粘贴路径；可以登记数据目录、复制原始快照、填写来源与标签，执行结构质检、导出本项目 JSONL，或串联“检查 → 导出”；保存项目配置、日志、输入哈希与产物，支持取消和中断恢复。首次启动为空，合成样例由使用者主动载入。
+**当前版本 v0.1.2：已实现本机浏览器工作台。** 数据目录通过系统原生窗口选择，也可粘贴路径；可以登记数据目录、复制原始快照、填写来源与标签，执行结构质检、导出本项目 JSONL，或串联“检查 → 导出”；保存项目配置、日志、输入哈希与产物，支持取消和中断恢复。首次启动为空，合成样例由使用者主动载入。
 
 真机遥操作、官方 LeRobot 转换、ACT/Diffusion/openpi/OpenVLA 训练、仿真与部署尚未接入工作台。自有 JSONL 不是 LeRobot，也不能据此声称可以直接训练或部署机器人。现有离线实验 CLI 单独保留。
 
@@ -34,7 +34,7 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 `python` 应是你选择的 Python 3.11+ 解释器。虚拟环境中可直接调用 `bin/python`（macOS/Linux）或 `Scripts\python.exe`（Windows），无需依赖 shell 激活脚本。离开源码目录后，已安装的命令仍可运行。
 
 1. 保存任务、目标本体和策略设置。
-2. 点击“选择文件夹…”浏览**服务所在电脑**的目录，或粘贴绝对路径；也可主动载入“合成流程样例”。
+2. 点击“选择文件夹…”打开**服务所在电脑**的系统目录窗口，或粘贴绝对路径；也可主动载入“合成流程样例”。Linux 需要桌面与 Zenity/KDialog，无图形桌面时直接粘贴路径。
 3. 查看资产档案，点击质检；通过后点击导出，也可一次串联两步。
 4. 在运行记录中查看实际日志、错误和下载产物。
 
@@ -43,8 +43,9 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 ## 报告与设计
 
 - [具身智能数据管线报告 v12，PPT 与 Windows 完整演示包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v12)：目录、23 页正文、启动步骤备查，以及逐页讲稿、官方来源与离线原始资料。完整解压演示包后保持相对目录。
-- [v0.1.1 安装包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.1.1)
+- [v0.1.2 安装包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.1.2)
 - [路径选择与三平台说明](docs/implementation/07_路径选择与三平台说明.md)
+- [真机采集接入现状与实施顺序](docs/implementation/08_真机采集接入现状与实施顺序.md)
 - [首版验收记录](docs/implementation/04_首版验收记录.md)
 - [用户视角实测：当前能做什么、怎么使用、还缺什么](docs/implementation/06_用户视角实测与使用路径.md)
 - [跨平台架构与验收设计](docs/implementation/01_跨平台架构与验收设计.md)
@@ -59,7 +60,7 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 
 ## 运行范围与跨平台检查
 
-工作台基础服务与自有 worker 面向 Windows、macOS、Linux，使用当前解释器、参数数组、显式 UTF-8、受管理相对路径和单 worker。CI 在三种原生 runner 上分别用 Python 3.11、3.14 构建 wheel、在仓库外安装运行，并执行平台与 API 测试。v0.1.1 的[六组原生检查已全部通过](https://github.com/fengjikui/robot-data-pipeline/actions/runs/40256534146)；记录对应源码 commit、跳过项与 wheel 哈希。
+工作台基础服务与自有 worker 面向 Windows、macOS、Linux，使用当前解释器、参数数组、显式 UTF-8、受管理相对路径和单 worker。CI 在三种原生 runner 上分别用 Python 3.11、3.14 构建 wheel、在仓库外安装运行，并执行平台与 API 测试。版本验收记录对应源码 commit、跳过项与 wheel 哈希；原生选择器的组件/API 测试不等于各系统 GUI 自动点选，具体范围见[路径选择说明](docs/implementation/07_路径选择与三平台说明.md)。
 
 机器人 Host、PC2、XR 服务和 GPU 训练机可以是不同计算设备。工作台在 Windows 运行，不代表这些厂商工具也支持 Windows。旧 MuJoCo 渲染与报告制作脚本仍有本机资源/字体依赖，未列入基础工作台跨平台承诺。
 
