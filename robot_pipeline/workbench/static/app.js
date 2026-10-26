@@ -4,7 +4,7 @@
   const $ = (id) => document.getElementById(id);
   const sourceLabels = {self_capture: "自行采集", open: "开源数据", purchased: "采购交付", simulation: "仿真数据", synthetic: "合成教学样例"};
   const stageLabels = {check: "质量检查", export: "派生导出", check_export: "检查并导出"};
-  const statusLabels = {queued: "排队中", running: "运行中", succeeded: "已完成", failed: "失败", cancelled: "已停止", interrupted: "中断待重试"};
+  const statusLabels = {queued: "排队中", running: "运行中", cancelling: "正在停止", succeeded: "已完成", failed: "失败", cancelled: "已停止", interrupted: "中断待重试"};
   const policyLabels = {act: "ACT", diffusion: "Diffusion Policy", openpi: "openpi / π0", openvla: "OpenVLA", ppo: "PPO"};
   const guidance = {
     act: "ACT 可使用具有兼容观察、动作语义和时间组织的 LeRobot 数据。本版导出的是工作台 JSONL 契约；接入指定 LeRobot 后端、相机映射、归一化与训练窗口后，仍需完成训练读取验收。",
@@ -48,7 +48,7 @@
 
   const selectedAsset = () => state.data?.assets?.find((asset) => asset.id === state.assetId);
   const selectedJobs = () => (state.data?.jobs || []).filter((job) => job.asset_id === state.assetId);
-  const active = (job) => ["queued", "running"].includes(job.status);
+  const active = (job) => ["queued", "running", "cancelling"].includes(job.status);
   const isGood = (asset) => asset?.quality?.valid === true;
   const formatTime = (value) => {
     if (!value) return "时间未记录";
