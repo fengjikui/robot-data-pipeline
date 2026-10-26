@@ -65,7 +65,8 @@ class Handler(BaseHTTPRequestHandler):
             static=Path(__file__).with_name('static')
             relative='index.html' if path=='/' else path.removeprefix('/')
             p=within(static,relative,exists=True)
-            mime=mimetypes.guess_type(p.name)[0] or 'application/octet-stream'
+            # Windows registry file associations must not change executable UI types.
+            mime={'.html':'text/html','.css':'text/css','.js':'text/javascript'}.get(p.suffix.lower()) or mimetypes.guess_type(p.name)[0] or 'application/octet-stream'
             return self._send(200,p.read_bytes(),mime+('; charset=utf-8' if mime.startswith(('text/','application/javascript')) else ''))
         except (ValueError,OSError,TypeError,PermissionError) as exc:self._error(exc)
     def do_POST(self):

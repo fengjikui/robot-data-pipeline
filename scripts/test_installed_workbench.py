@@ -20,14 +20,16 @@ thread = threading.Thread(target=server.serve_forever, daemon=True)
 thread.start()
 base = 'http://127.0.0.1:' + str(server.server_port)
 try:
-    def get(path):
+    def get(path, mime=None):
         with urlopen(base + path, timeout=10) as response:
+            if mime:
+                assert response.headers.get_content_type() == mime, response.headers
             return response.read()
     state = json.loads(get('/api/state'))
     assert not state['assets'] and not state['jobs'], 'fresh workspace must be empty'
-    assert b'app.js' in get('/')
-    assert len(get('/app.js')) > 500
-    assert len(get('/styles.css')) > 500
+    assert b'app.js' in get('/', 'text/html')
+    assert len(get('/app.js', 'text/javascript')) > 500
+    assert len(get('/styles.css', 'text/css')) > 500
     def post(path, payload):
         data = json.dumps(payload, ensure_ascii=False).encode('utf-8')
         request = Request(base + path, data=data, headers={

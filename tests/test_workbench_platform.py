@@ -154,6 +154,19 @@ class WorkbenchPlatformAPITests(unittest.TestCase):
                 self.assertEqual(self.request("GET",path,headers=headers)[0],403)
         self.assertEqual(self.request("POST","/api/demo",{},headers=headers)[0],403)
 
+    def test_ui_mime_types_do_not_depend_on_windows_file_associations(self):
+        with patch('robot_pipeline.workbench.http.mimetypes.guess_type',return_value=('text/plain',None)):
+            for path,mime in (('/','text/html'),('/styles.css','text/css'),('/app.js','text/javascript')):
+                with self.subTest(path=path):
+                    conn=http.client.HTTPConnection('127.0.0.1',self.server.server_port,timeout=10)
+                    try:
+                        conn.request('GET',path)
+                        response=conn.getresponse()
+                        self.assertEqual(response.status,200)
+                        self.assertEqual(response.getheader('Content-Type'),mime+'; charset=utf-8')
+                        self.assertTrue(response.read())
+                    finally:conn.close()
+
     def test_static_path_escape_cannot_expose_catalog_or_source(self):
         for path in ("/../catalog.sqlite3", "/%2e%2e/catalog.sqlite3", "/..%5ccatalog.sqlite3", "/C:%5cWindows%5cwin.ini", "/%2fetc/passwd"):
             with self.subTest(path=path):
