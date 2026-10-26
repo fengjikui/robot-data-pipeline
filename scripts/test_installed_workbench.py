@@ -8,7 +8,7 @@ import venv
 
 ROOT = Path(__file__).resolve().parents[1]
 SMOKE = r'''
-import json, threading, time
+import json, shutil, threading, time
 from importlib.resources import files
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -30,6 +30,7 @@ try:
     assert b'app.js' in get('/', 'text/html')
     assert len(get('/app.js', 'text/javascript')) > 500
     assert len(get('/styles.css', 'text/css')) > 500
+    assert len(get('/path-picker.js', 'text/javascript')) > 500
     def post(path, payload):
         data = json.dumps(payload, ensure_ascii=False).encode('utf-8')
         request = Request(base + path, data=data, headers={
@@ -40,6 +41,11 @@ try:
             return json.load(response)
     asset = post('/api/demo', {})
     assert asset['synthetic'] is True
+    source = Path.cwd() / 'picker 外部数据 spaces'
+    shutil.copytree(server.workbench.workspace / asset['path'], source)
+    page = post('/api/paths/list', {'path': str(Path.cwd()), 'query': 'picker 外部数据'})
+    assert page['read_only'] is True and len(page['entries']) == 1, page
+    asset = post('/api/assets/import', {'path': page['entries'][0]['path'], 'name': 'Picked fixture', 'source_kind': 'simulation', '_synthetic': True, 'task': 'SYNTHETIC picker smoke test'})
     job = post('/api/jobs', {'asset_id': asset['id'], 'stage': 'check_export'})
     deadline = time.monotonic() + 20
     while time.monotonic() < deadline:

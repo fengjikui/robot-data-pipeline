@@ -46,6 +46,8 @@
     return result;
   }
 
+  window.WorkbenchPathPicker.init({api, notify});
+
   const selectedAsset = () => state.data?.assets?.find((asset) => asset.id === state.assetId);
   const selectedJobs = () => (state.data?.jobs || []).filter((job) => job.asset_id === state.assetId);
   const active = (job) => ["queued", "running", "cancelling"].includes(job.status);

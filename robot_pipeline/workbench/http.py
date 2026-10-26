@@ -8,6 +8,8 @@ import re
 from urllib.parse import unquote,urlsplit
 from .paths import within
 from .service import Workbench
+from .file_browser import list_directory
+from . import __version__
 
 class Server(ThreadingHTTPServer):
     daemon_threads=True
@@ -50,7 +52,7 @@ class Handler(BaseHTTPRequestHandler):
         try:
             self._allowed();app=self.server.workbench
             path=unquote(urlsplit(self.path).path)
-            if path=='/api/health':return self._send(200,{'status':'ok','version':'0.1.0'})
+            if path=='/api/health':return self._send(200,{'status':'ok','version':__version__})
             if path=='/api/state':return self._send(200,app.state())
             if re.fullmatch('/api/jobs/[a-f0-9]{32}',path):return self._send(200,app.detail(path.rsplit('/',1)[-1]))
             if path.startswith('/api/artifacts/'):
@@ -78,7 +80,8 @@ class Handler(BaseHTTPRequestHandler):
             payload=json.loads(self.rfile.read(length).decode('utf-8'))
             if not isinstance(payload,dict):raise ValueError('请求体必须是 JSON 对象')
             path=urlsplit(self.path).path
-            if path=='/api/project':result=app.project(payload)
+            if path=='/api/paths/list':result=list_directory(payload)
+            elif path=='/api/project':result=app.project(payload)
             elif path=='/api/assets/import':result=app.import_asset(payload)
             elif path=='/api/demo':result=app.demo()
             elif path=='/api/jobs':result=app.submit(payload)
