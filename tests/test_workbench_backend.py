@@ -1,13 +1,14 @@
 """Dependency-free acceptance tests for the local workbench and immutable snapshots."""
 import copy
 import json
+import os
 from pathlib import Path
 import tempfile
 import time
 import unittest
 from unittest import mock
 from robot_pipeline.workbench.service import Workbench
-from robot_pipeline.workbench.paths import within,read_json,write_json
+from robot_pipeline.workbench.paths import within,read_json,write_json,safe_relative
 from robot_pipeline.workbench.data import check
 
 class BackendTests(unittest.TestCase):
@@ -87,7 +88,11 @@ class BackendTests(unittest.TestCase):
     def test_rejects_commands_and_invalid_policy(self):
         with self.assertRaises(ValueError):self.app.submit({'asset_id':'anything','stage':'shell'})
         with self.assertRaises(ValueError):self.app.project({'policy':'invented'})
-    def test_source_case_collision_and_windows_reserved_names(self):
+    def test_windows_reserved_name_guard_and_posix_source_rejection(self):
+        with self.assertRaises(ValueError):safe_relative('CON.txt')
+        # Windows treats CON as a device; never open it just to build a fixture.
+        # On POSIX we can additionally prove the importer rejects such a source.
+        if os.name=='nt':return
         source=Path(self.tmp.name)/'source';source.mkdir();(source/'CON.txt').write_text('x',encoding='utf-8')
         with self.assertRaises(ValueError):self.app.import_asset({'path':str(source),'name':'test'})
     def test_unknown_directory_can_catalog_but_not_export(self):
