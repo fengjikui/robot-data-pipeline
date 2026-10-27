@@ -1,0 +1,264 @@
+{
+  "checked_on": "2026-10-27",
+  "primary_sources_only": true,
+  "scope": "Read-only research and small text/source metadata checks; no model/media download, training, simulator execution, or PPT edits by this subagent",
+  "sources": [
+    {
+      "id": "S1",
+      "title": "LeRobot current transforms",
+      "url": "https://github.com/huggingface/lerobot/blob/45cca1a6ba368cf29cc8b4e0f49a1db875d15f61/src/lerobot/transforms/transforms.py",
+      "version": "fixed commit 45cca1a; not the older Unitree gitlink a5b29d4",
+      "supports": "Observation-only transforms, including color/photometric/sensor and batched implementations; old-fork compatibility must be checked separately"
+    },
+    {
+      "id": "S2",
+      "title": "Torchvision transforms",
+      "url": "https://docs.pytorch.org/vision/stable/transforms.html",
+      "version": "0.29 documentation at access",
+      "supports": "Image/video tensor and geometry/photometric transforms; custom callable integration"
+    },
+    {
+      "id": "S3",
+      "title": "Isaac Sim randomization snippets",
+      "url": "https://docs.isaacsim.omniverse.nvidia.com/latest/replicator_tutorials/tutorial_replicator_isaac_randomizers.html",
+      "version": "latest docs at access",
+      "supports": "Lighting, material, object placement and camera scripts for SDG"
+    },
+    {
+      "id": "S4",
+      "title": "Replicator randomizer examples",
+      "url": "https://docs.omniverse.nvidia.com/extensions/latest/ext_replicator/randomizer_details.html",
+      "version": "latest docs at access",
+      "supports": "Off-the-shelf pose, scale, texture and light randomizers"
+    },
+    {
+      "id": "S5",
+      "title": "Isaac Lab domain randomization API",
+      "url": "https://isaac-sim.github.io/IsaacLab/v2.3.0/source/api/lab/isaaclab.envs.mdp.html",
+      "version": "v2.3.0 API; current source a8ae4d4 independently checked",
+      "supports": "Rigid-body material/mass/scale and actuator/joint randomization changes simulated conditions, not automatically labeled robot trajectories"
+    },
+    {
+      "id": "S6",
+      "title": "MimicGen official release",
+      "url": "https://github.com/NVlabs/mimicgen/blob/c0fbff22ba40060f05a917a80817f3f5c20731e7/README.md",
+      "version": "c0fbff22ba40060f05a917a80817f3f5c20731e7",
+      "supports": "Public generation code, environments and datasets; object-relative skill transformation and execution"
+    },
+    {
+      "id": "S7",
+      "title": "Isaac Lab Mimic workflow",
+      "url": "https://isaac-sim.github.io/IsaacLab/main/source/features/imitation-learning/teleop_imitation.html",
+      "version": "main docs accessed2026-10-27; source repository a8ae4d4",
+      "supports": "Collected and annotated demonstrations are expanded with matched task/environment"
+    },
+    {
+      "id": "S8",
+      "title": "Isaac Lab SkillGen workflow",
+      "url": "https://isaac-sim.github.io/IsaacLab/main/source/features/imitation-learning/skillgen.html",
+      "version": "pinned source a8ae4d450239ac5b035b3c1108d6f877e59151eb",
+      "supports": "Annotated skill segments plus cuRobo planner; recompose and execute trajectories in sampled object configurations"
+    },
+    {
+      "id": "S9",
+      "title": "DexMimicGen official released scope",
+      "url": "https://github.com/NVlabs/dexmimicgen/blob/940e8a1b3ad70eb1925ada6b364b197de6bb2af9/README.md",
+      "version": "940e8a1b3ad70eb1925ada6b364b197de6bb2af9",
+      "supports": "Release states simulation environments and datasets; recursive tree had training-config generation but no dataset-generation entry point matching MimicGen"
+    },
+    {
+      "id": "S9b",
+      "title": "DexMimicGen author project",
+      "url": "https://dexmimicgen.github.io/",
+      "version": "ICRA2025 paper/project",
+      "supports": "Research evidence for bimanual dexterous demonstration generation; not a generic G1 integration claim"
+    },
+    {
+      "id": "S10",
+      "title": "Cosmos Transfer2.5 reference workflow",
+      "url": "https://github.com/nvidia-cosmos/cosmos-transfer2.5/blob/2ff49d0717af02057ae79bc75c00fbff9da1b4e7/README.md",
+      "version": "2ff49d0717af02057ae79bc75c00fbff9da1b4e7",
+      "supports": "RGB and multimodal structural video conditioning; direct output is video; repository now limited maintenance, points toCosmos3"
+    },
+    {
+      "id": "S11",
+      "title": "Isaac Lab visual augmentation pipeline",
+      "url": "https://isaac-sim.github.io/IsaacLab/main/source/features/imitation-learning/augmented_imitation.html",
+      "version": "pinned source a8ae4d450239ac5b035b3c1108d6f877e59151eb",
+      "supports": "Export HDF5 to video, visually augment, pair back with original nonvisual states/actions via mp4_to_hdf5.py"
+    },
+    {
+      "id": "S12",
+      "title": "Cosmos3 current family",
+      "url": "https://github.com/NVIDIA/cosmos/blob/0c9e2f1330b235c87dc77d7af489c78a901c4c9e/README.md",
+      "version": "0c9e2f1330b235c87dc77d7af489c78a901c4c9e",
+      "supports": "Current family with generation/reasoning/action surfaces; October2026 interactive simulation examples"
+    },
+    {
+      "id": "S12b",
+      "title": "Cosmos3 official cookbook",
+      "url": "https://github.com/NVIDIA/cosmos/blob/0c9e2f1330b235c87dc77d7af489c78a901c4c9e/COOKBOOK.md",
+      "version": "0c9e2f1330b235c87dc77d7af489c78a901c4c9e",
+      "supports": "Video transfer, forward/inverse dynamics, and matched bimanual neural-simulation recipes"
+    },
+    {
+      "id": "S13",
+      "title": "GR00T Dreams DreamGen pipeline",
+      "url": "https://github.com/NVIDIA/GR00T-Dreams/blob/ec3881d44545016871997f8e17dd15f1d792e91d/README.md",
+      "version": "ec3881d44545016871997f8e17dd15f1d792e91d",
+      "supports": "Video model fine-tuning/generation, embodiment-specific inverse dynamics action extraction toLeRobot, GR00T training; listed processing bodies Franka/GR1/SO100/RoboCasa"
+    },
+    {
+      "id": "S14",
+      "title": "GenAug author project",
+      "url": "https://genaug.github.io/",
+      "version": "2023 author project",
+      "supports": "Generative changes to objects, textures, distractors, table and background"
+    },
+    {
+      "id": "S15",
+      "title": "ROSIE author project",
+      "url": "https://diffusion-rosie.github.io/",
+      "version": "RSS2023 author project",
+      "supports": "Text-guided region inpainting with semantic labels/instructions; original described backend Imagen Editor"
+    },
+    {
+      "id": "S16",
+      "title": "DAgger original paper",
+      "url": "https://proceedings.mlr.press/v15/ross11a.html",
+      "version": "AISTATS2011 PMLR15",
+      "supports": "Expert-label learner-induced states and aggregate demonstrations; genuine data acquisition rather than pixel augmentation"
+    }
+  ],
+  "repository_revisions": {
+    "NVIDIA/GR00T-Dreams": "ec3881d44545016871997f8e17dd15f1d792e91d",
+    "NVIDIA/cosmos": "0c9e2f1330b235c87dc77d7af489c78a901c4c9e",
+    "nvidia-cosmos/cosmos-transfer2.5": "2ff49d0717af02057ae79bc75c00fbff9da1b4e7",
+    "huggingface/lerobot": "45cca1a6ba368cf29cc8b4e0f49a1db875d15f61",
+    "NVlabs/dexmimicgen": "940e8a1b3ad70eb1925ada6b364b197de6bb2af9",
+    "NVlabs/mimicgen": "c0fbff22ba40060f05a917a80817f3f5c20731e7",
+    "isaac-sim/IsaacLab": "a8ae4d450239ac5b035b3c1108d6f877e59151eb",
+    "isaac-sim/IsaacLab-Arena": "5fec4a215dfa1ec6764a1076ddc9482c09143c13"
+  },
+  "pinned_text_checks": [
+    {
+      "repo": "NVIDIA/GR00T-Dreams",
+      "revision": "ec3881d44545016871997f8e17dd15f1d792e91d",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/NVIDIA/GR00T-Dreams/ec3881d44545016871997f8e17dd15f1d792e91d/README.md",
+      "bytes_read": 8103,
+      "sha256": "74c88e3f91fa9db213abc8a6ae9c85d2bf2ad56adbadf95f51156c75ed64650c",
+      "verified_text_only": true
+    },
+    {
+      "repo": "NVIDIA/cosmos",
+      "revision": "0c9e2f1330b235c87dc77d7af489c78a901c4c9e",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/NVIDIA/cosmos/0c9e2f1330b235c87dc77d7af489c78a901c4c9e/README.md",
+      "bytes_read": 13171,
+      "sha256": "e5ffcdf6458890e036e0dc4147d7336bfe8ca08e9476b73d9a9ce2b2932a28cd",
+      "verified_text_only": true
+    },
+    {
+      "repo": "NVIDIA/cosmos",
+      "revision": "0c9e2f1330b235c87dc77d7af489c78a901c4c9e",
+      "path": "COOKBOOK.md",
+      "url": "https://raw.githubusercontent.com/NVIDIA/cosmos/0c9e2f1330b235c87dc77d7af489c78a901c4c9e/COOKBOOK.md",
+      "bytes_read": 6563,
+      "sha256": "33f127030ffec811127b47c1d41348ce3e1a1111cf47b7f27ff2e4d1bcf3c1b4",
+      "verified_text_only": true
+    },
+    {
+      "repo": "nvidia-cosmos/cosmos-transfer2.5",
+      "revision": "2ff49d0717af02057ae79bc75c00fbff9da1b4e7",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/nvidia-cosmos/cosmos-transfer2.5/2ff49d0717af02057ae79bc75c00fbff9da1b4e7/README.md",
+      "bytes_read": 13545,
+      "sha256": "e4c8ec0f3de09727cbbbe7730cc86cd55e09daed8e60ddcbc8b1fdff110c7e43",
+      "verified_text_only": true
+    },
+    {
+      "repo": "huggingface/lerobot",
+      "revision": "45cca1a6ba368cf29cc8b4e0f49a1db875d15f61",
+      "path": "src/lerobot/transforms/transforms.py",
+      "url": "https://raw.githubusercontent.com/huggingface/lerobot/45cca1a6ba368cf29cc8b4e0f49a1db875d15f61/src/lerobot/transforms/transforms.py",
+      "bytes_read": 79240,
+      "sha256": "d244fe063d073a589be7221894d36a6a982ab531847427ccaf75a35533e8a775",
+      "verified_text_only": true
+    },
+    {
+      "repo": "NVlabs/dexmimicgen",
+      "revision": "940e8a1b3ad70eb1925ada6b364b197de6bb2af9",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/NVlabs/dexmimicgen/940e8a1b3ad70eb1925ada6b364b197de6bb2af9/README.md",
+      "bytes_read": 3416,
+      "sha256": "a681ec8b9ed19b75da890e590373896c6be9a6221b4b4d8ad9c842fd0eefd1c1",
+      "verified_text_only": true
+    },
+    {
+      "repo": "NVlabs/mimicgen",
+      "revision": "c0fbff22ba40060f05a917a80817f3f5c20731e7",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/NVlabs/mimicgen/c0fbff22ba40060f05a917a80817f3f5c20731e7/README.md",
+      "bytes_read": 2728,
+      "sha256": "d9981b21399fa6d3bd08a4bc98e9dfd005e2308b17b761cbc95dfae2f1b559f2",
+      "verified_text_only": true
+    },
+    {
+      "repo": "isaac-sim/IsaacLab",
+      "revision": "a8ae4d450239ac5b035b3c1108d6f877e59151eb",
+      "path": "docs/source/features/imitation-learning/augmented_imitation.rst",
+      "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab/a8ae4d450239ac5b035b3c1108d6f877e59151eb/docs/source/features/imitation-learning/augmented_imitation.rst",
+      "bytes_read": 22423,
+      "sha256": "da419b60e8b6b1515a15a8248b04218c0b8e2a69ad0b73ebe733d46729b7926f",
+      "verified_text_only": true
+    },
+    {
+      "repo": "isaac-sim/IsaacLab",
+      "revision": "a8ae4d450239ac5b035b3c1108d6f877e59151eb",
+      "path": "docs/source/features/imitation-learning/skillgen.rst",
+      "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab/a8ae4d450239ac5b035b3c1108d6f877e59151eb/docs/source/features/imitation-learning/skillgen.rst",
+      "bytes_read": 27096,
+      "sha256": "80582596c055c8de7c2d1dcaa3d3eed65891f03d818c12fca406e598c38657ce",
+      "verified_text_only": true
+    },
+    {
+      "repo": "isaac-sim/IsaacLab",
+      "revision": "a8ae4d450239ac5b035b3c1108d6f877e59151eb",
+      "path": "source/isaaclab/isaaclab/envs/mdp/events.py",
+      "url": "https://raw.githubusercontent.com/isaac-sim/IsaacLab/a8ae4d450239ac5b035b3c1108d6f877e59151eb/source/isaaclab/isaaclab/envs/mdp/events.py",
+      "bytes_read": 95530,
+      "sha256": "21c0c05e13cb569c9811ac391377da8aa3cde5251497c07902c18eaa064d73d3",
+      "verified_text_only": true
+    }
+  ],
+  "method_output_taxonomy": {
+    "observation_variation": [
+      "LeRobot/torchvision",
+      "Replicator rerender",
+      "Cosmos visual transfer",
+      "GenAug/ROSIE"
+    ],
+    "physically_executed_new_demonstrations": [
+      "MimicGen",
+      "Isaac Lab Mimic",
+      "SkillGen",
+      "Task rollouts under dynamics randomization"
+    ],
+    "model_inferred_candidate_actions_or_transitions": [
+      "DreamGen IDM",
+      "Cosmos3 embodiment-specific action or world model"
+    ],
+    "new_real_demonstrations": [
+      "new-task/scene/failure-recovery capture",
+      "DAgger expert-label aggregation"
+    ]
+  },
+  "availability_notes": {
+    "cosmos_current": "Cosmos3 current; Transfer2.5 limited maintenance with historical reproducible examples",
+    "dexmimicgen": "Paper method plus released environments/data/training; no generic data-generator CLI verified in pinned tree",
+    "rosie": "Research pipeline; do not claim entireImagen Editor-backed original method is a ready local open-source tool",
+    "old_unitree_lerobot": "Fixed a5b29d4 only four factorytransform types; current main transform names are not oldCLI guarantees"
+  },
+  "no_guaranteed_task_improvement": true
+}

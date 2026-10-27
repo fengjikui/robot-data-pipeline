@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-27",
+  "status": "pass",
+  "scope": "fresh five-slide background draft; three scheme slides pending discussion",
+  "ppt_sha256": "ce3ca387dc2c2158d4c892a6fba74ae942f12aca7ac3ce7e734d7afdb332ea7d",
+  "zip_sha256": "05b211cbcfbd8d088f2c73f2faf0d44feddd91aba7eb6d05aa5fb2309a01f09f",
+  "slides": [
+    {
+      "slide": 1,
+      "title_offset_emu": [
+        396000,
+        396000
+      ],
+      "red_title": true,
+      "no_page_field": true,
+      "notes_characters": 230,
+      "bottom_1_3cm_white": true
+    },
+    {
+      "slide": 2,
+      "title_offset_emu": [
+        396000,
+        396000
+      ],
+      "red_title": true,
+      "no_page_field": true,
+      "notes_characters": 4619,
+      "bottom_1_3cm_white": true
+    },
+    {
+      "slide": 3,
+      "title_offset_emu": [
+        396000,
+        396000
+      ],
+      "red_title": true,
+      "no_page_field": true,
+      "notes_characters": 3206,
+      "bottom_1_3cm_white": true
+    },
+    {
+      "slide": 4,
+      "title_offset_emu": [
+        396000,
+        396000
+      ],
+      "red_title": true,
+      "no_page_field": true,
+      "notes_characters": 4675,
+      "bottom_1_3cm_white": true
+    },
+    {
+      "slide": 5,
+      "title_offset_emu": [
+        396000,
+        396000
+      ],
+      "red_title": true,
+      "no_page_field": true,
+      "notes_characters": 3205,
+      "bottom_1_3cm_white": true
+    }
+  ],
+  "local_ppt_targets": [
+    "resources/data_cards.html#raw",
+    "resources/data_cards.html#lerobot",
+    "resources/box_case/index.html"
+  ],
+  "html_targets_checked": 68,
+  "chinese_space_directory_relocation": true,
+  "raw_original_sha256": "1cc385b4fb8598b2a3833f7e16cfc9bdd60553ffe57886a47492fa3a4c32bceb",
+  "raw_records": 167,
+  "raw_image_files": 334,
+  "product_code_changed": false,
+  "windows_powerpoint_runtime_tested": false,
+  "animation_authored": false,
+  "gpu_training_or_simulation_executed": false
+}

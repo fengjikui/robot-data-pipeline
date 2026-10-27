@@ -1,0 +1,280 @@
+{
+  "revision": "v16",
+  "date": "2026-10-27",
+  "status": "technical background consolidation draft; core product scheme and implementation scope pending user discussion",
+  "slideCount": 5,
+  "eventualReportMaxSlides": 8,
+  "scope": "Only consolidate authorized background content; do not implement or finalize the pipeline product scheme",
+  "reservedFinalPages": [
+    1,
+    7,
+    8
+  ],
+  "pages": [
+    {
+      "contentPage": "capture_compact",
+      "title": "真机采集：设备分工、数据流与启动",
+      "subtitle": "Host 接收追踪和反馈、解算动作，并按回合保存",
+      "oldPhysicalSlides": [
+        3,
+        4,
+        5
+      ],
+      "targetFinalPosition": 2,
+      "talkSeconds": 95,
+      "shortScript": "真机采集涉及头显、外部Host和机器人机内的计算与运控。PC2开相机服务，Host运行遥操作主程序，Vision Pro在Safari进入XR会话。头手追踪进入Host，经IK和重定向变成目标；图像与实际关节反馈分别进入Host，组合成回合。每次依次检查基础状态、开图像服务与主程序、进入XR，再触发随动和录制，最后确认保存完成。",
+      "speakerNotes": "这页承接设备结构和逻辑数据流，回答“实际在哪台设备启动哪个程序”。主讲时用约半分钟概括即可，命令和详细条件供会后查阅。以下按固定版本的官方说明与源码整理，尚未经过本项目真机验证。G1_29 + Dex3 是参考软件配置，到货后需按实际本体、手部、相机与固件核对。[1][2][3]\n\n一、各设备的程序与职责\n\n1. 机器人运控侧：复用厂商交付的运控与状态服务。它负责执行目标并提供实际关节等状态。此处不给这些基础服务虚构一个 Python 脚本或 systemd 服务名，也不要求每次重新启动整套厂商控制系统。具体运控状态与接管方式以交付文档为准。Host 通过 Unitree SDK / DDS 对应控制与状态接口，关节实际状态无需先由 PC2 的相机服务汇总。[1][3]\n2. 机内 PC2：运行 teleimager 的相机服务，读取已配置的头部/腕部相机，按配置使用 ZMQ / WebRTC 发布图像。teleimager-server 与 python -m teleimager.image_server 是同一服务的两种启动入口，任选其一。相机清单、序列号、分辨率、帧率和传输方式由 cam_config_server.yaml 等配置确定。[2]\n3. 外部 Host：运行 teleop_hand_and_arm.py。主程序初始化 ImageClient、TeleVuerWrapper、IK、手部重定向/控制、SDK 通信以及开启 --record 后的 EpisodeWriter。televuer、IK 和记录器等是主程序组织的模块，包含相应线程/进程，不意味着用户要手工启动五个独立终端。Host 接收输入、组合实际状态与目标动作、在本地按回合保存。[3][4]\n4. Vision Pro：运行 Safari，打开 Host 提供的 HTTPS WebXR 页面，授权头手追踪并进入 XR 会话。按配置取得第一视角图像。WebRTC 配置下，头显还可能直接访问 PC2 的图像页面。这里不预设需要安装一个专用原生 App。[1]\n5. AP / 交换网络：提供有线/无线可达性，是基础环境。通常不需要在其上启动自定义采集程序。相机和关节是传感器/执行器，也不各自运行一份 Host Python 程序。\n\n二、首次部署与每次采集分别处理\n\n首次部署需完成软件与子模块版本固定、SDK 安装、Host/PC2 环境准备、网络接口和路由配置、相机配置，以及 Vision Pro 所需证书安装与信任。这些应按官方安装说明逐项完成，不并入每一回合的启动动作。[1][2]\n\n每次采集按下列依赖顺序准备：[1][2][3]\n\n1. 检查设备连接、厂商运控状态、Host 网卡与网络、保存位置及空间。需要用独立只读诊断先确认实际状态可达，不能用启动遥操作主程序来代替只读检查。\n2. 在 PC2 开相机服务，确认摄像头配置正确、画面持续更新。必要时用 Host 的独立图像客户端检查视频。确认后可关闭诊断客户端，主程序自身会初始化图像接收。\n3. 在 Host 用匹配的本体、手部、PC2 地址、网络接口及记录参数启动主程序。注意：普通非 --motion 路径在等待 r 之前已经涉及 Debug Mode、控制器及命令发布线程初始化，不能理解为“按 r 前只是只读连接”。[3]\n4. Vision Pro 连入预定网络，在 Safari 打开对应页面，处理证书与 XR 权限，进入 XR 会话，检查新鲜画面/追踪并按官方流程进行姿态对齐。部分 WebRTC 配置会先访问 PC2 页面检查图像与证书，再进入 Host 页面。[1]\n5. 在准备条件满足后按 r 开始随动。只有带 --record 启动时才开启记录能力，r 后按 s 开始回合，再按 s 结束并触发保存。保存由记录器后台处理，需确认保存完成后再录下一回合或退出。q 走正常退出流程，可能包含手臂回零，不能把它等同于硬件急停。[3][4]\n\n三、命令模板（仅供核对，未在真机执行）\n\nPC2，在已安装并配置好的相机环境中：\n```bash\nconda activate teleimager\nteleimager-server\n```\n等价入口是 python -m teleimager.image_server，不要把两条入口同时启动。若使用 RealSense 等特定相机，按官方配置追加对应选项。[2]\n\nHost，可选的独立图像诊断：\n```bash\nconda activate tv\npython -m teleimager.image_client --host <PC2_IP>\n```\n\nHost，双臂/手部参考配置的遥操作与记录模板：\n```bash\nconda activate tv\ncd <XR_REPO>/teleop\npython teleop_hand_and_arm.py \\\n  --arm G1_29 --ee dex3 --input-mode hand \\\n  --img-server-ip <PC2_IP> --network-interface <HOST_NIC> \\\n  --frequency 30 --record \\\n  --task-dir <RAW_ROOT> --task-name box_transfer \\\n  --task-goal \"Move the box from table A to table B.\"\n```\n<XR_REPO>、<PC2_IP>、<HOST_NIC>、<RAW_ROOT> 均须换成现场值，tv / teleimager 是官方示例环境名，可按实际环境替换。该命令是启动模板，不代表可以按到货即直接运行；实际控制模式和配置必须先核对。--frequency 30 是主循环参数，不保证所有视频/状态严格同频。--task-name 和 --task-goal 是记录元数据，不会让机器人自主理解并完成搬箱。[1][3]\n\nVision Pro 页面示例（地址/端口以实际配置为准）：\n- Host XR 页面：https://<HOST_IP>:8012/?ws=wss://<HOST_IP>:8012\n- WebRTC 相机检查页面：https://<PC2_IP>:60001\n\n四、本页范围\n\n这页展示双臂/手部采集的参考启动关系，不代表完整携箱行走链路已验证。--motion 会改变控制模式与命令通路，行走需要单独核对、验证与记录，不能直接给此模板追加一个开关就声称任务跑通。Dex3 配置无需启动 Inspire 专用桥服务，其他手部配置可能有额外依赖。后续工作台拟把本页中的环境检查、配置选择、服务启动、就绪状态及回合保存状态做成可视化阶段操作。[1][3]\n\n原始参考资料\n[1] 官方部署与运行\nhttps://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/README.md\n\n[2] 相机服务\nhttps://github.com/unitreerobotics/teleimager/blob/57cf2a40572227273fa001cd17833b755331ec97/README.md\n\n[3] 遥操作主程序\nhttps://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/teleop_hand_and_arm.py\n\n[4] 回合保存实现\nhttps://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/utils/episode_writer.py\n\n源码定位：主程序参数和初始化见 75–168 行，Dex3 分支见 188–200 行，记录切换见 265–312 行，正常退出见 533–577 行。固定版本 xr_teleoperate：817fb00c；teleimager：57cf2a40。\n\n合并后的图示使用宇树官方启动姿态图与设备图原件，不用生成式机器人插图。PC2/PC1方框是功能分区，不是精确内部装配。Host有线接入机器人交换网络，实际状态经SDK/DDS直接订阅，不要求先由PC2汇总。图像与控制/状态是不同逻辑通路。\n外观原图：https://oss-global-cdn.unitree.com/static/2522a83214744e7c8c425cc2679a84ec_670x867.png\nVision Pro原图：https://oss-global-cdn.unitree.com/static/55fb9cd245854810889855010da296f7_3415x2465.png\n图标：Lucide0.468.0，沿用仓库现有许可素材。",
+      "sources": [
+        {
+          "label": "遥操作程序与分工",
+          "url": "https://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/README.md",
+          "kind": "upstream"
+        },
+        {
+          "label": "相机服务",
+          "url": "https://github.com/unitreerobotics/teleimager/blob/57cf2a40572227273fa001cd17833b755331ec97/README.md",
+          "kind": "upstream"
+        },
+        {
+          "label": "反馈订阅",
+          "url": "https://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/robot_control/robot_arm.py",
+          "kind": "upstream"
+        },
+        {
+          "label": "回合记录",
+          "url": "https://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/utils/episode_writer.py",
+          "kind": "upstream"
+        }
+      ]
+    },
+    {
+      "contentPage": "data_compact",
+      "title": "数据样例：原始回合怎样成为训练输入",
+      "subtitle": "真实文件节选可放大查看，原始与已转换样例分别保留来源",
+      "oldPhysicalSlides": [
+        6,
+        10
+      ],
+      "targetFinalPosition": 3,
+      "talkSeconds": 95,
+      "shortScript": "左边是官方原始测试回合，保存任务、图像路径、实际state和控制目标action；右边是独立的官方LeRobot数据，用Parquet、视频和meta组织训练输入。两份样例用于说明格式，不是这次成对转换的结果。注意state是实际反馈，action是记录目标。转换工具按本体和相机配置把字段映射过去，策略类型在训练命令中选择。缩略图下的链接可以打开大图、完整JSON和数值。",
+      "speakerNotes": "本轮重新遍历了episode_0006全部167条记录：info.joint_names.left_arm有7个名称；right_arm、left_hand、right_hand、body均为空列表。每一条states与actions中的四个臂/手qpos数组均各7项，body均为null。因此元数据命名数量和样本向量维数是不同事实，不能用前者推断是否保存了后者。\n\n页面表格中的0表示关节名列表为空，不表示相应qpos为零，也不表示该身体部分没有运动。正式训练需要向来源核对完整关节顺序、单位和手型；本项目不修改官方data.json、不猜测缺失名称。历史字段left_hand/right_hand与当前采集版本left_ee/right_ee也需分别处理。\n\n这一页只讲转换前的原始格式。示例来自宇树官方 xr_teleoperate 可视化脚本附带的 rerun_testdata.zip，已直接下载原 ZIP 并提取 episode_0006。data.json 和 JPG 均保留原始字节，没有从 LeRobot 反向导出，也没有人工编造数值。[1][2]\n\n一、原始入口与本地打开方法\n\n官方固定版本 rerun_visualizer.py 的 __main__ 示例在约 192–206 行设置下载链接，再用 gdown 下载 ZIP 并解压到 testdata；读取器直接按 episode_XXXX/data.json 读取并关联图片。这证明这个入口对应原始回合结构。[1]\n\nPPT 页上“浏览原始 JSON 与图像”指向 resources/raw_episode.html，可在浏览器离线按帧查看 JSON 和两路原图；“打开原始 data.json”指向 resources/raw/episode_0006/data.json。链接均相对于 PPT 所在目录。换到 Windows 时，完整解压演示包并保持 演示 PPT 与 resources 的相对位置，无需修改成本机绝对路径。“下载官方原始样例包”仍指向官方 Google Drive，作为联网来源入口。完整原始 ZIP、回合、图片、来源记录和讲稿均随演示包携带，start.html 提供离线资料总入口。\n\n原始目录（本机已解压的完整 episode_0006）：\n```text\nepisode_0006/\n  data.json\n  colors/\n    000000_color_0.jpg\n    000000_color_1.jpg\n    ...\n    000166_color_0.jpg\n    000166_color_1.jpg\n  depths/\n  audios/\n```\n\n实际核对：data 中共 167 条记录，idx 从 0 到 166，每条两路 JPG，共 334 张；图像是 640×480，全部被引用图片均可找到。空的 depths/audios 目录或元数据声明不等于实际采集到了深度和音频。ZIP 内另有 episode_0008，其主 data.json 为 375 帧；new_data.json 是另一个 365 帧文件，不能混淆。页面只使用 episode_0006。[1][2]\n\n二、同一条原始记录怎样看\n\n顶层 info 保存格式与采集配置等元信息，text 保存任务说明，data 是顺序记录列表。下面从真实 JSON 抽取少量字段，保留被展示字段的完整原值，省略其他身体部位和字段；完整文件可直接打开。\n\n```json\n{\n  \"text\": {\n    \"goal\": \"Pick up the red cup on the table.\"\n  },\n  \"data\": [\n    {\n      \"idx\": 0,\n      \"colors\": {\n        \"color_0\": \"colors/000000_color_0.jpg\",\n        \"color_1\": \"colors/000000_color_1.jpg\"\n      },\n      \"states\": {\n        \"left_arm\": {\n          \"qpos\": [\n            -0.3336954116821289,\n            0.10036659240722656,\n            0.157912015914917,\n            0.3875539302825928,\n            -0.24062922596931458,\n            -0.3605555295944214,\n            -0.33762064576148987\n          ]\n        }\n      },\n      \"actions\": {\n        \"left_arm\": {\n          \"qpos\": [\n            -0.3122416753494884,\n            0.10507703745573826,\n            0.1530567837350236,\n            0.3759131536366903,\n            -0.23483478321041373,\n            -0.36428431290579855,\n            -0.33921337998788437\n          ]\n        }\n      }\n    }\n  ]\n}\n```\n\n- 图像：data[0].colors.color_0 是 colors/000000_color_0.jpg，相对路径以该 episode 目录为基准。页上小图就是这个原始文件。color_0 / color_1 是流标识，该包没有给出足够信息把它们命名为左右腕相机；两张首帧视觉近似头部双目，不据此确认硬件配置。\n- 实际状态：data[0].states.left_arm.qpos[0] 为 -0.3336954116821289；info.joint_names.left_arm[0] 写作 kLeftShoulderPitch，页面对应“左肩俯仰”，四舍五入显示 -0.333695。\n- 目标动作：data[0].actions.left_arm.qpos[0] 为 -0.3122416753494884，页面显示 -0.312242。它与实际反馈属于不同物理含义，不表示下一帧反馈一定等于这个目标。\n- 任务信息：text.goal 原值是 Pick up the red cup on the table.；text.desc 和 text.steps 另有描述。它们是随回合保存的文字，不能因为存在这段文本就断言机器人实际完成了任务。\n- 顺序：data[t].idx 表示记录序号。此样本没有逐条硬件时间戳，info.image.fps=30 是元数据声明，不能因此证明各流严格同步。\n\n三、实际关节反馈与控制目标\n\n用当前报告参考的固定采集代码解释语义：主程序读取 current_lr_arm_q 作为 states 的手臂关节反馈，IK 解算得到 sol_q 并交给控制器，记录 actions 的手臂目标来自 sol_q。真机发布线程还可能按速度约束限幅后再写入 motor_cmd.q，因此“记录的控制目标”和“最终电机命令报文”应分别说明。[3][4]\n\n这是对当前参考代码的语义核查，不证明这个历史样本由当前固定版本采集。旧样本没有提供完整生产提交、明确 robot_type 或完整硬件清单。正式复现仍需核对采集版本、单位、关节顺序、手型、标定和控制模式。qpos 是关节位置表达；空 qvel / torque 列不能当作已取得的速度或力矩。[3][4][5]\n\n四、旧原始样本的明确边界\n\n该包双臂各 7 维、双手各 7 维，共 28 维，但旧字段叫 left_hand/right_hand；当前参考采集代码使用 left_ee/right_ee。body 为 null。info 的 date 为空，只填写了左臂关节名，其他部位名称不完整。相同维度不能证明它就是当前 G1 + Dex3，更不能直接认作完整搬箱行走数据。\n\n尤其需要注意，text.goal 写“取红杯”，但已查看的初帧画面中可见红色方块。这至少说明任务文字与画面需要进一步核验，不宜把它描述为已核实的完整取杯示范。报告将它命名为“官方原始回放测试样本”，仅用来认识回合组织与 state/action 区别。这也可作为后面数据质量检查的直观例子。\n\n如果后续将此旧样本送入当前 G1 Dex3 转换配置，不能只凭文件存在就声称可以直接转换。先明确 left_hand 到 left_ee 等字段对应，再核对关节顺序、语义及相机映射。缺失的硬件和任务真值不能靠改名补齐。[3][5]\n\n五、核验与出处\n\n样本通过官方源码中的外部链接取得，而非从第三方转载取得。固定源码只固定下载入口，Google Drive 文件内容本身不是不可变版本；因此同时保存本次原 ZIP 和 SHA256。原始 JSON 与每个 JPG 解压后与 ZIP 条目字节一致。没有运行下载脚本中的控制程序，没有执行机器人运动。\n\n参考资料\n[1] 官方原始样本入口\nhttps://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/utils/rerun_visualizer.py#L192-L206\n\n[2] 原始测试包下载\nhttps://drive.google.com/file/d/1f5UuFl1z_gaByg_7jDRj1_NxfJZh2evD/view?usp=sharing\n\n[3] 采集与记录源码\nhttps://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/teleop_hand_and_arm.py#L361-L520\n\n[4] 控制器与限幅\nhttps://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/robot_control/robot_arm.py#L167-L196\n\n[5] 当前 EpisodeWriter 的字段与写图规则\nhttps://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/utils/episode_writer.py\n\n[6] 官方原始目录结构说明\nhttps://github.com/unitreerobotics/unitree_lerobot/blob/41c2805742de879ddab2d8d6beaeaf215f876395/README.md?plain=1#L156-L171\n\n下载核验：2026-10-26；原 ZIP 53,986,543 字节；SHA256 82315098a6cdf3ea067eb9d85f36e10307e61d81544781a4a8169f051b0cf465。\n\n在已安装匹配环境的宇树unitree_lerobot仓库根目录运行：\n```bash\npython unitree_lerobot/utils/convert_unitree_json_to_lerobot.py \\\n  --raw-dir datasets/raw \\\n  --repo-id local/g1_box_v1 \\\n  --robot-type Unitree_G1_Dex3 \\\n  --mode video \\\n  --dataset-config.image-writer-processes 1 \\\n  --dataset-config.image-writer-threads 1\n```\nraw-dir为task/episode组织的原始目录；repo-id决定HF_LEROBOT_HOME下的输出标识；robot-type选择ROBOT_CONFIGS源记录映射；mode可选video/image；push-to-hub默认false，开启时会上传；dataset-config还提供use-videos、tolerance-s、video-backend与写入并发。参数名称按tyro签名核对，使用--robot-type等连字符写法。\n\n该固定脚本没有单独的output-dir选项，写到HF_LEROBOT_HOME/repo_id；源码发现同名输出已存在会删除旧目录，所以例子必须用新repo-id，后续工作台要在调用前检查与保护产物。这里未执行转换。fps=30等固定实现也需与采集实际频率匹配，不是修改元信息就完成重采样。\n\n页面假定当前来源映射/读取适配已验收，后续LeRobot已集成策略由统一训练器处理，主要改训练配方。标准G1配置不读取body，腰腿与移动意图需要额外的采集/转换契约，不能靠改policy.type补齐。官方历史回放样例缺关节名、字段旧，不作为此命令无需核查便直接转换的证明。右侧LeRobot公开示例是独立来源，不声称由前述历史JSON实际转换而来。\n\nv16缩略图由真实本地文件值确定性排版生成，不是图像生成模型输出，也不是操作系统截图；原件未改写。原始图节选左臂完整7维，LeRobot图明确只显示数组前3项。大图入口 resources/data_cards.html，完整原始与转换样例入口分别为resources/raw_episode.html与resources/converted_episode.html。两侧任务和来源相互独立；源历史left_hand字段不能直接当作当前left_ee。\n输出缓存和完整命令见随包工具命令说明。",
+      "sources": [
+        {
+          "label": "原始样本入口",
+          "url": "https://github.com/unitreerobotics/xr_teleoperate/blob/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/utils/rerun_visualizer.py",
+          "kind": "upstream"
+        },
+        {
+          "label": "官方转换器",
+          "url": "https://github.com/unitreerobotics/unitree_lerobot/blob/41c2805742de879ddab2d8d6beaeaf215f876395/unitree_lerobot/utils/convert_unitree_json_to_lerobot.py",
+          "kind": "upstream"
+        },
+        {
+          "label": "映射配置",
+          "url": "https://github.com/unitreerobotics/unitree_lerobot/blob/41c2805742de879ddab2d8d6beaeaf215f876395/unitree_lerobot/utils/constants.py",
+          "kind": "upstream"
+        },
+        {
+          "label": "LeRobot 官方样例",
+          "url": "https://huggingface.co/datasets/unitreerobotics/G1_Dex3_ToastedBread_Dataset/tree/02cb29161f5adb2981a072aa35b408d82a556d07",
+          "kind": "upstream"
+        }
+      ]
+    },
+    {
+      "contentPage": "tools_compact",
+      "title": "处理与使用：质检、训练、仿真和部署",
+      "subtitle": "现成工具已覆盖单项执行，输入、配方与产物需要前后衔接",
+      "oldPhysicalSlides": [
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "targetFinalPosition": 4,
+      "talkSeconds": 95,
+      "shortScript": "这页把原来的多页合在一起。先检查文件、数值、时间和任务过程，决定保留、补标还是补采；转换后按训练配方读取图像、状态与目标。LeRobot已有多个策略的训练入口，用参数选择数据和策略。随后进入匹配场景，使用环境当前反馈闭环执行，留下成功率与失败视频；真机则加载模型、统计量和动作解释，接回相机与控制接口。完整移动搬箱还需要腰部与移动目标，不能只依赖当前28维臂手记录。",
+      "speakerNotes": "本页合并原质量检查、工具职责、多策略训练、模型学习、仿真评价、部署与全身控制。增强方法另起一页，细节与脚本参数保留备查，不逐项念命令。\n\n质检：文件完整性/维度/有限数值、图像解码与时序、关节/单位/动作语义、任务阶段与成功失败需要分别核对。结构规则不能证明任务成功。人或Agent可辅助检查关键回合，当前工作台v0.1.2仅接入结构质检和自有JSONL，不把本页通用流程当成软件已完成能力。\n\n训练：固定宇树LeRobot子模块a5b29d4已有lerobot-train入口和ACT、Diffusion、pi0、pi05、groot集成。在字段/读取已匹配的条件下选policy.type和对应配方。ACT调整chunk/n_action_steps；Diffusion调整n_obs_steps/horizon等；VLA依对应检查点/视觉与语言输入。时间窗、归一化、划分、seed和预算由配方控制。OpenVLA独立后端或在线PPO另走其流程。\n\n仿真：宇树eval_g1_sim.py对应其仿真/控制组合，Arena则用policy_runner.py和Isaac-GR00T服务，不把它们混成一个通用脚本。回放记录证明可播放，离线预测只提供离线误差；闭环执行才读取环境当前反馈并产生下一步动作。成功率和视频绑定初始条件、任务规则、模型与数据版本。\n\n部署：宇树eval_g1.py是现成真机执行入口，模型包还要带预处理统计、关节顺序/动作解释、本体/手型/相机及运行频率；推理位置按部署配置确定。失败、接管和场景缺口回到数据端。\n\n移动搬箱：当前Dex3+hand参考分支标准转换仅28维臂手；腰腿状态和实际移动意图需另记录/映射。Arena示例记录43维关节，N1.6配方选31维上身状态、35维高层动作，底层WBC负责腿。它是不同的固定后端组合，不是换一个policy.type就补出缺失监督。所有上游真实训练/仿真/真机命令尚未由本工作台接齐。完整参数见notes/tool_commands_guide.html和notes/box_case_guide.html。",
+      "sources": [
+        {
+          "label": "LeRobot 训练入口",
+          "url": "https://github.com/huggingface/lerobot/blob/a5b29d430105f5235eb05bbf2db5a0d747a869d6/src/lerobot/scripts/lerobot_train.py",
+          "kind": "upstream"
+        },
+        {
+          "label": "宇树仿真评估",
+          "url": "https://github.com/unitreerobotics/unitree_lerobot/blob/41c2805742de879ddab2d8d6beaeaf215f876395/unitree_lerobot/eval_robot/eval_g1_sim.py",
+          "kind": "upstream"
+        },
+        {
+          "label": "宇树真机执行",
+          "url": "https://github.com/unitreerobotics/unitree_lerobot/blob/41c2805742de879ddab2d8d6beaeaf215f876395/unitree_lerobot/eval_robot/eval_g1.py",
+          "kind": "upstream"
+        },
+        {
+          "label": "Arena 闭环与WBC",
+          "url": "https://github.com/isaac-sim/IsaacLab-Arena/blob/38b200cdb4b506ee8329e89480c6479cae5bc2dc/docs/pages/example_workflows/locomanipulation/step_5_evaluation.rst",
+          "kind": "upstream"
+        }
+      ]
+    },
+    {
+      "contentPage": "augmentation_compact",
+      "title": "数据增强：从图像变化，到新的动作示范",
+      "subtitle": "按产出区分新观察、物理执行轨迹和模型推断动作",
+      "oldPhysicalSlides": [
+        8,
+        9
+      ],
+      "targetFinalPosition": 5,
+      "talkSeconds": 120,
+      "shortScript": "增强不只是把视频调亮。可以在训练读取时做颜色、噪声、模糊或裁剪，也能在三维场景里改灯光、材质和相机重新渲染。进一步改变物体位置、质量或摩擦，再执行任务，会产生新回合。MimicGen和Isaac Lab Mimic从少量示范生成新轨迹，SkillGen可用规划连接技能。生成式方法又分两类：GenAug、ROSIE和Cosmos改变视觉；DreamGen还通过逆动力学从视频推断动作。最后，真实失败恢复与新场景补采直接补任务缺口。",
+      "speakerNotes": "# 数据增强方法全景：一页版材料（v16）\n\n核查：2026-10-27。仅查官方文档、作者论文与公开源码，没有下载模型、运行仿真或训练。本文给报告提供方法和来源，不表示工作台已接入这些能力。\n\n## 一页正文建议\n\n标题：**数据增强：从图像变化，到新的动作示范**\n\n页面主体可用六行表格，最后用一条短横栏补充真实补采。每行说清“改什么、得到什么、有什么现成方法”，避免只有产品名。\n\n| 方法层级 | 具体可以做什么 | 输入与产出 | 工具或公开研究 |\n| --- | --- | --- | --- |\n| 训练输入增强 | 亮度、对比度、色温、阴影；噪声、模糊、压缩；裁剪、平移与小幅仿射 | 已有图像/视频帧 → 变化后的观察 | LeRobot、torchvision、自定义变换 |\n| 三维场景重渲染 | 改灯光、HDR背景、材质/纹理、相机位置；重出RGB、深度、分割 | 可恢复的场景/轨迹 → 新视图与视觉标注 | Isaac Sim / Omniverse Replicator |\n| 场景与动力学随机化 | 改物体初始位姿、尺寸、质量、摩擦、控制参数；重新执行交互 | 场景与执行策略 → 新场景中的state/action回合 | Isaac Lab事件随机化与任务控制器 |\n| 示范扩增与轨迹重定向 | 子任务分段、物体相对轨迹迁移、连接与重组、双臂协调、规划连接 | 少量已标注示范 + 匹配环境 → 新动作示范 | MimicGen、Isaac Lab Mimic / SkillGen；DexMimicGen研究 |\n| 生成式外观扩增 | 替换背景、纹理、物体外观和干扰物；用深度/边缘/分割约束视频变化 | 原图/视频 + 掩码或结构条件 → 新图像/视频 | GenAug、ROSIE；Cosmos视频迁移路线 |\n| 世界模型生成行为 | 从图像与任务生成机器人视频；由逆动力学模型提取动作，或使用已适配的世界动作模型 | 图像/指令/动作条件 → 候选视频、推断动作或想象转移 | GR00T-Dreams / DreamGen；Cosmos 3公开示例 |\n\n**补充真实覆盖：**换光照/物体/桌位补采、失败恢复示范、专家介入重标与DAgger数据聚合；语言条件任务还可以扩充语义一致的任务表述。\n\n信息密度需要进一步压缩时，可把“输入与产出”列合进每行第二行文字。主讲控制在2–3分钟，突出三种产出：**新的观察、新的物理执行轨迹、模型推断的候选轨迹**。注意事项与方法边界留讲稿，页面不放大段风险提示。\n\n## 可以直接使用的精讲口述\n\n增强不只是把视频调亮。第一层是训练读取时改变颜色、成像退化和局部视野，LeRobot和torchvision已经有很多工具，也可以自写变换。第二层是有了三维场景以后重新渲染灯光、材质和相机；进一步改变物体位置、质量与摩擦，就能在新条件里重新执行。第三层是从少量示范扩出新的动作：MimicGen一类方法按子任务重定向与重组，SkillGen再用运动规划连接。生成模型又提供两条路线：GenAug、ROSIE和Cosmos迁移外观；DreamGen则还要从生成的视频中推断动作。最后，真实失败与新场景补采也很重要，它直接增加我们缺少的操作覆盖。工作台应该把这些不同方法作为配方接入，保存原件、来源和生成结果，便于预览与复用。\n\n## 讲稿中的事实与实现层级\n\n### 1. LeRobot与自写增强\n\n2026-10-27核查的LeRobot main提交为 `45cca1a6ba368cf29cc8b4e0f49a1db875d15f61`。当前源码含图像变换与按样本批处理的后端，能覆盖颜色、gamma、色温、局部阴影、传感器噪声、运动模糊等；torchvision另有裁剪、仿射、锐度等通用变换。训练时作用于解码帧，不必先重写整套视频。这里的产出是新的观察，不是新动作真值。\n\n前版报告固定的宇树LeRobot子模块仍是 `a5b29d4`，它的内置工厂只有 `Identity / ColorJitter / SharpnessJitter / RandomAffine`。因此增强页可以讲方法全景，但不能把当前main的新type直接放进旧版CLI冒充可用。旧版可通过callable、变换工厂或读取器扩展。具体参数和安装版本另放备查。\n\n### 2. Replicator与Isaac Lab不是同一层\n\nReplicator是Isaac Sim里的可脚本化场景/渲染与标注工具，官方示例覆盖灯光、材质、物体摆放和相机随机化。它能输出RGB及由仿真直接得到的视觉标注；单纯重渲染不自动生成新的机器人行为。[S3][S4]\n\nIsaac Lab的事件随机化接口能改变刚体质量、物理材料、关节/执行器参数、初始状态等。为取得新的机器人控制数据，仍要让任务控制器、已有策略或示范生成器在这些条件下执行，再保存观测和动作。[S5] 报告不沿用某些营销摘要中“Isaac Lab没有合成数据生成”的笼统说法，官方Mimic和SkillGen文档明确提供这类流程。\n\n### 3. Mimic、MimicGen、DexMimicGen与SkillGen\n\nMimicGen有公开数据生成代码，利用物体相对的子任务运动，将少量源示范迁到新的物体配置并执行，输出新回合。Isaac Lab Mimic提供收集、标注、生成与模仿学习流程。[S6][S7]\n\nSkillGen是Isaac Lab的扩展：从标注示范取局部技能段，用cuRobo运动规划连接，并在新物体摆放中生成和筛选成功回合。[S8] 它比仅改图片更接近“新增有效轨迹”，但需要匹配环境、技能标注和规划配置。\n\nDexMimicGen论文研究了双臂、多指、协调与异步子任务的数据生成。**固定公开仓库 `940e8a1` 的README声明释放环境和数据集，树中未查到与MimicGen同等的数据生成器入口，主要包含数据下载/回放、环境和训练配置。** 页面可把它列为双臂灵巧操作的研究方法与公开数据参考，不能宣称已有可直接运行的“DexMimicGen通用生成命令”。[S9]\n\n### 4. NVIDIA的视觉迁移与世界模型路线\n\nCosmos-Transfer2.5的明确公开机器人工作流，输入RGB和深度、边缘、分割等结构控制，可生成不同环境/材质/光照的视频。它的直接产出是视频。Isaac Lab Augmented Imitation官方教程有HDF5导出视频、Cosmos改外观、再由 `mp4_to_hdf5.py` 与原始state/action配对的流程；这能具体说明增强如何回到训练数据，而不是只展示漂亮视频。[S10][S11]\n\n时效性：2026-10-27，Cosmos-Transfer2.5仓库已声明进入有限维护并引导迁移Cosmos 3。**Cosmos 3是当前官方模型家族**，公开README/COOKBOOK包含生成、迁移、动作/逆动力学，以及2026年10月的交互式双臂神经仿真示例。[S12] 因此主页面推荐写“Cosmos视频迁移/世界模型”，讲稿再区分已有Transfer2.5参考流程与当前Cosmos 3具体变体，避免把Transfer1说成最新模型，也避免认定不同模型的能力和接口完全相同。\n\nGR00T-Dreams公开的DreamGen流程先适配视频世界模型，生成视频，然后由为目标本体训练的逆动力学模型（IDM）提取动作、转成LeRobot并训练策略。固定仓库列出的处理本体是Franka、Fourier GR1、SO-100和RoboCasa；这不是当前G1的现成通用动作生成器。[S13] 产出动作属于推断标签，报告不把它称为物理仿真已执行的真值。Cosmos 3的动作或交互仿真示例同样要选匹配本体和后训练配置。\n\n### 5. GenAug、ROSIE与真实补采\n\nGenAug/ROSIE是作者公开的生成式视觉增强研究。它们用生成模型改变背景、物体外观或干扰物，ROSIE还结合指令与区域掩码产生语义标注。ROSIE原流程依赖Imagen Editor，作者页面不等于已经提供一个完全可本地复现的开源生成器；可列研究方案，不能包装成工作台现成功能。[S14][S15]\n\n真实补采与DAgger归在“扩量/覆盖补充”，与不增加机器人执行的图像增强分开。DAgger的要点是采样当前策略会到达的状态、请专家给对应动作标签，再聚合训练。[S16] 对搬箱，可以补充不同桌位、箱体、照明和抓持失败恢复。任务指令改写只用于有语言条件的配方；普通的重采样、切片或重复回合本身不等于产生新技能。\n\n## 平台接入时只保留一条讲稿原则\n\n每个方法都声明输入条件、输出种类和调用后端。产物带原始母回合、配方与随机种子，允许人/Agent看原始/生成对照。具体几何、时序、接触和任务效果检查留到配方审核与实验，不能在这一页挤成注意事项墙。这里没有承诺任意方法必然改善G1搬箱效果。\n\n## 权威来源\n\n- [S1 LeRobot固定当前源码](https://github.com/huggingface/lerobot/blob/45cca1a6ba368cf29cc8b4e0f49a1db875d15f61/src/lerobot/transforms/transforms.py)\n- [S2 Torchvision图像与视频变换（访问时为0.29文档）](https://docs.pytorch.org/vision/stable/transforms.html)\n- [S3 Isaac Sim官方随机化示例](https://docs.isaacsim.omniverse.nvidia.com/latest/replicator_tutorials/tutorial_replicator_isaac_randomizers.html)\n- [S4 Replicator随机化API示例](https://docs.omniverse.nvidia.com/extensions/latest/ext_replicator/randomizer_details.html)\n- [S5 Isaac Lab事件/动力学随机化API（v2.3.0）](https://isaac-sim.github.io/IsaacLab/v2.3.0/source/api/lab/isaaclab.envs.mdp.html)\n- [S6 MimicGen固定公开代码](https://github.com/NVlabs/mimicgen/blob/c0fbff22ba40060f05a917a80817f3f5c20731e7/README.md)\n- [S7 Isaac Lab Mimic官方流程](https://isaac-sim.github.io/IsaacLab/main/source/features/imitation-learning/teleop_imitation.html)\n- [S8 Isaac Lab SkillGen官方流程](https://isaac-sim.github.io/IsaacLab/main/source/features/imitation-learning/skillgen.html)\n- [S9 DexMimicGen固定公开仓库](https://github.com/NVlabs/dexmimicgen/blob/940e8a1b3ad70eb1925ada6b364b197de6bb2af9/README.md)与[作者项目/论文](https://dexmimicgen.github.io/)\n- [S10 Cosmos-Transfer2.5固定公开工作流](https://github.com/nvidia-cosmos/cosmos-transfer2.5/blob/2ff49d0717af02057ae79bc75c00fbff9da1b4e7/README.md)\n- [S11 Isaac Lab Augmented Imitation：视频增强回配原动作](https://isaac-sim.github.io/IsaacLab/main/source/features/imitation-learning/augmented_imitation.html)\n- [S12 Cosmos 3当前家族](https://github.com/NVIDIA/cosmos/blob/0c9e2f1330b235c87dc77d7af489c78a901c4c9e/README.md)及[公开Cookbook](https://github.com/NVIDIA/cosmos/blob/0c9e2f1330b235c87dc77d7af489c78a901c4c9e/COOKBOOK.md)\n- [S13 GR00T-Dreams / DreamGen固定公开管线](https://github.com/NVIDIA/GR00T-Dreams/blob/ec3881d44545016871997f8e17dd15f1d792e91d/README.md)\n- [S14 GenAug作者项目](https://genaug.github.io/)\n- [S15 ROSIE作者项目](https://diffusion-rosie.github.io/)\n- [S16 DAgger原论文（AISTATS 2011）](https://proceedings.mlr.press/v15/ross11a.html)\n\n来源与版本清单见 `evidence/report_v16_augmentation_sources.json`。自行归纳的六类结构是报告编排，不当作权威分类标准。\n\n\n正文六类方法是调研清单，不是本工作台已实现的功能清单。宇树旧固定分支的变换类型与2026-10-27 LeRobot main不同，具体开关按实际版本验收。正文不堆注意事项；配方审核、来源、随机种子、时序/接触及闭环效果放讲稿和后续方案讨论。",
+      "sources": [
+        {
+          "label": "LeRobot 变换",
+          "url": "https://github.com/huggingface/lerobot/blob/45cca1a6ba368cf29cc8b4e0f49a1db875d15f61/src/lerobot/transforms/transforms.py",
+          "kind": "upstream"
+        },
+        {
+          "label": "Isaac Sim / Replicator",
+          "url": "https://docs.isaacsim.omniverse.nvidia.com/latest/replicator_tutorials/tutorial_replicator_isaac_randomizers.html",
+          "kind": "upstream"
+        },
+        {
+          "label": "Isaac Lab Mimic",
+          "url": "https://isaac-sim.github.io/IsaacLab/main/source/features/imitation-learning/teleop_imitation.html",
+          "kind": "upstream"
+        },
+        {
+          "label": "Cosmos / DreamGen",
+          "url": "https://github.com/NVIDIA/cosmos/blob/0c9e2f1330b235c87dc77d7af489c78a901c4c9e/README.md",
+          "kind": "upstream"
+        },
+        {
+          "label": "Torchvision transforms",
+          "url": "https://docs.pytorch.org/vision/stable/transforms.html",
+          "kind": "upstream"
+        },
+        {
+          "label": "Replicator randomizer examples",
+          "url": "https://docs.omniverse.nvidia.com/extensions/latest/ext_replicator/randomizer_details.html",
+          "kind": "upstream"
+        },
+        {
+          "label": "Isaac Lab domain randomization API",
+          "url": "https://isaac-sim.github.io/IsaacLab/v2.3.0/source/api/lab/isaaclab.envs.mdp.html",
+          "kind": "upstream"
+        },
+        {
+          "label": "MimicGen official release",
+          "url": "https://github.com/NVlabs/mimicgen/blob/c0fbff22ba40060f05a917a80817f3f5c20731e7/README.md",
+          "kind": "upstream"
+        },
+        {
+          "label": "Isaac Lab SkillGen workflow",
+          "url": "https://isaac-sim.github.io/IsaacLab/main/source/features/imitation-learning/skillgen.html",
+          "kind": "upstream"
+        },
+        {
+          "label": "DexMimicGen official released scope",
+          "url": "https://github.com/NVlabs/dexmimicgen/blob/940e8a1b3ad70eb1925ada6b364b197de6bb2af9/README.md",
+          "kind": "upstream"
+        },
+        {
+          "label": "DexMimicGen author project",
+          "url": "https://dexmimicgen.github.io/",
+          "kind": "upstream"
+        },
+        {
+          "label": "Cosmos Transfer2.5 reference workflow",
+          "url": "https://github.com/nvidia-cosmos/cosmos-transfer2.5/blob/2ff49d0717af02057ae79bc75c00fbff9da1b4e7/README.md",
+          "kind": "upstream"
+        },
+        {
+          "label": "Isaac Lab visual augmentation pipeline",
+          "url": "https://isaac-sim.github.io/IsaacLab/main/source/features/imitation-learning/augmented_imitation.html",
+          "kind": "upstream"
+        },
+        {
+          "label": "Cosmos3 official cookbook",
+          "url": "https://github.com/NVIDIA/cosmos/blob/0c9e2f1330b235c87dc77d7af489c78a901c4c9e/COOKBOOK.md",
+          "kind": "upstream"
+        },
+        {
+          "label": "GR00T Dreams DreamGen pipeline",
+          "url": "https://github.com/NVIDIA/GR00T-Dreams/blob/ec3881d44545016871997f8e17dd15f1d792e91d/README.md",
+          "kind": "upstream"
+        },
+        {
+          "label": "GenAug author project",
+          "url": "https://genaug.github.io/",
+          "kind": "upstream"
+        },
+        {
+          "label": "ROSIE author project",
+          "url": "https://diffusion-rosie.github.io/",
+          "kind": "upstream"
+        },
+        {
+          "label": "DAgger original paper",
+          "url": "https://proceedings.mlr.press/v15/ross11a.html",
+          "kind": "upstream"
+        }
+      ]
+    },
+    {
+      "contentPage": "external_compact",
+      "title": "外部数据：真实候选、获取范围与采购要点",
+      "subtitle": "用搬箱案例说明格式和用途，先看任务与回合，再决定获取范围",
+      "oldPhysicalSlides": [
+        19,
+        20,
+        21,
+        24,
+        26
+      ],
+      "targetFinalPosition": 6,
+      "talkSeconds": 85,
+      "shortScript": "外部数据看三个具体例子。Arena有完整G1仿真搬箱数据和匹配环境，是优先复现候选；宇树Plastic Box Parts实际是从箱内搬零件，不能只按名字选；DROID是Franka单臂大库，提供RLDS和原始记录。先看说明、任务表和代表回合，再选范围。Arena整仓24GB，但LeRobot子目录约298MB，单回合样本约3MB。采购也要先说清任务设备、实际信号、覆盖和用途，再用样本读取/转换/评价确定交付。入库后持续保留来源、持有范围、选数和后续实验关联。",
+      "speakerNotes": "本页只保留三个能点击核查的真实案例，接续前页格式介绍。\n\n1. NVIDIA Arena-G1-Loco-Manipulation-Task：固定数据07de42f为LeRobot v2.1，共100回合、94,936帧、50Hz。任务是在Galileo Lab里从货架取棕色箱、步行、放入桌上蓝筐；同时提供HDF5，但首轮可直接选已转换LeRobot。匹配的GR00T配方、控制器和闭环环境使它适合做第一条可复现路线。数据许可CC-BY-4.0；模型许可另核对。\n2. Unitree G1_WBT_Brainco_Plastic_Box_Parts：固定6a5fe2a的tasks.parquet实际任务是Move parts from the plastic box to the shelf.。已用Parquet读取器核实，表示搬零件而非搬箱。LeRobot v3、400回合，BrainCo手与本项目Dex3参考配置也不同。全身字段和名称命中不代表适合目标微调，本轮不直接采用。\n3. DROID：Franka Panda单臂数据，提供RLDS/TFRecord训练组织，也有HDF5轨迹及MP4/SVO原始包。先按语言指令和回合元信息筛选相关操作；不能仅改容器就得到G1双臂与行走标签。官方100回合调试子集可用于读取和检索验证。\n\n平台先读轻量目录、任务和版本，再显示候选理由、代表视频、实际持有范围和下载量。这里的任务语义筛选不能只靠文件名。选中的回合映射到真实Parquet/视频文件后再下载；对于共享分片，可能仍需取整个分片。\n\nArena固定仓库总计24,105,367,207字节，而lerobot/子树298,300,032字节。先取元信息和episode0约2.9MB进行检查，再按需取训练数据。原README与元数据数量描述有差异，本页按固定meta/info.json的100回合核实并保留差异。\n\n可以直接对供应商这样提需求：目标是指定G1硬件/手型和已选控制器，完成桌A取箱、抱持移动、桌B放置。请先提供代表回合、字段说明、来源本体及控制配置；我们确认样本能进入目标配方后再约定有效回合数量和分批交付。箱体尺寸/重量、桌高、距离、光照、失败恢复等范围由团队填定，不能临时编一个通用数值。\n\n信号必须对应所选学习层级：图像、实际状态、真正下发的臂手目标；若学移动操作，还要有机身速度/高度等命令、腰腿反馈、阶段及时间关系。关节角、基座速度、末端位姿分开定义。应交原始文件、字段/单位/坐标和频率、必要标定、任务结果与完整清单；可以协商可读训练格式及转换责任。\n\n已有数据：先说明实际覆盖哪些阶段、手型和场景，取代表样本做加载及差异检查，必要转换后小规模试训/闭环验证。委托新采：先试采确认定义和质量，再按有效完整回合及覆盖分批验收。检查同步、缺帧、失真、动作与状态关系；保留失败样本和独立评价划分，不能只按文件数、视频时长或一个成功视频结算。\n\n交付条件另列：允许哪些训练、转换和衍生模型用途，数据来源及许可链，缺项补交/补采、整改责任和批次验收方式。Arena例子中数据CC-BY-4.0而现成模型是非商用条件，正说明这些对象应分开登记。以上是项目采购建议，不是已签订合同或法律结论。\n\n实际核查：数据revision07de42f；本次取得meta/info、tasks、modality、episode0 Parquet和原始ego视频。使用PyArrow读取915条记录，时间0.00到18.28秒；ffprobe核对视频915帧、50Hz、640×480、H.264、时长18.3秒。原件按哈希保存，截图来自第9秒。原库100回合，当前只持有1回合；元数据未改写成一回合训练集。可点击本地案例页查看原始文件与真实行值。\n\n具体路线：先读清单和回合，再下载所需lerobot子树；已经是LeRobot v2.1就接Arena对应读取器。选HDF5时使用Arena自己的convert_hdf5_to_lerobot.py和任务yaml，不能使用Unitree标准28维转换器代替。若要从生成开始，另走匹配场景的示范标注/Mimic工具链。\n\n官方N1.6配置从43维关节记录中取双臂双手和腰的31维状态，动作再加1维机身高度与3维导航，共35维高层动作；腿由匹配WBC执行。这是一组完整的控制和数据配方，不能只因G1同名就直接接当前28维遥操作数据。真机路线需要补录和定义移动意图、腰部等缺失信号，并核对到货手型/控制器/相机。\n\n运行顺序：先下载必要的现成检查点与配置，启动GR00T policy server，在galileo_g1_locomanip_pick_and_place/g1_wbc_joint上验证控制/观察接口；这是推理基线。再用本轮冻结的数据划分训练自己的策略，保存配置、模型和真实闭环结果。统计完整取箱、携带、放置及总成功，保留失败分类和视频；回放与单个成功视频不能替代闭环统计。\n\n本轮没有Linux/NVIDIA服务器连接，不在Mac上启动Isaac Sim或整套训练。官方训练示例建议8×48GB GPU、4–8小时；较小资源需重配并实测。模型仓库带训练状态，推理只需约6.57GB权重及必要配置；模型卡non-commercial，数据CC-BY-4.0。完整命令、版本和许可在随附案例指南中，实际环境可用后再执行。现有Panda短训与Fetch演示不能替代本任务验收。\n\nArena此例使用其固定的Isaac-GR00T N1.6后端，与前半Unitree LeRobot命令入口分别管理。平台复用这些现成工具，各配方保留对应环境、读取器与参数，不用切一个groot字符串就宣称依赖与控制器完全通用。\n\n本页只压缩外部数据背景，内部仓库和完整pipeline责任边界仍需与用户讨论，不在这里把下载/入库按钮当成整个产品。当前Arena样本只持有一个回合，meta原库100回合；已用PyArrow核对915条记录，视频18.3秒/50Hz。公开示范不是本项目模型闭环结果。用户已表示有服务器，SSH别名和规格尚未提供。",
+      "sources": [
+        {
+          "label": "Arena 公开数据",
+          "url": "https://huggingface.co/datasets/nvidia/Arena-G1-Loco-Manipulation-Task/tree/07de42fdade76102fc09d921c7b6200d0b31ec01",
+          "kind": "upstream"
+        },
+        {
+          "label": "宇树实际任务表",
+          "url": "https://huggingface.co/datasets/unitreerobotics/G1_WBT_Brainco_Plastic_Box_Parts/blob/6a5fe2adb86604dc5fe821c7c3b9a44e169119f4/meta/tasks.parquet",
+          "kind": "upstream"
+        },
+        {
+          "label": "DROID 格式与样例",
+          "url": "https://droid-dataset.github.io/droid/the-droid-dataset",
+          "kind": "upstream"
+        },
+        {
+          "label": "Hub 按范围下载",
+          "url": "https://huggingface.co/docs/huggingface_hub/guides/download",
+          "kind": "upstream"
+        }
+      ]
+    }
+  ],
+  "format": {
+    "headerLeftCm": 1.1,
+    "headerTopCm": 1.1,
+    "footerReservedCm": 1.3,
+    "pageNumbers": false
+  },
+  "backendCodeChanged": false
+}

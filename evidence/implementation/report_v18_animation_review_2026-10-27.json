@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-27",
+  "status": "pass",
+  "revision": "v18",
+  "ppt_sha256": "0e89f72ddee7250b28503fd8abbf8282ffe67590a0b1eee5980227a877ac3023",
+  "tested_candidate_is_identical_to_final": true,
+  "animation_extension_changed_parts": [
+    "ppt/slides/slide2.xml"
+  ],
+  "slide_count": 5,
+  "on_click_groups": 1,
+  "mutually_exclusive_native_groups": [
+    95,
+    96
+  ],
+  "native_visibility_behaviors": [
+    "visible",
+    "hidden"
+  ],
+  "other_pages_pixel_identical_to_v17": {
+    "1": true,
+    "3": true,
+    "4": true,
+    "5": true
+  },
+  "blank_company_footer_verified_both_states": true,
+  "playback": {
+    "date": "2026-10-27",
+    "app": "WPS Office for macOS",
+    "candidate": "../candidate.pptx",
+    "tests": {
+      "initial_topology": true,
+      "right_to_data": true,
+      "left_to_topology": true,
+      "wheel_down_to_data": true,
+      "wheel_up_to_topology": true,
+      "mouse_click_to_data": true,
+      "next_after_build_to_slide3": true
+    },
+    "windows_runtime_tested": false
+  },
+  "wps_version": "12.1.25205",
+  "windows_powerpoint_wps_runtime_tested": false,
+  "zip_sha256": "ae1c7646e05cc99be60371208714724055ab572f3665d161d8bdae5a275bd03a",
+  "zip_chinese_space_directory_relocation": true,
+  "html_targets_checked": 72,
+  "product_business_code_changed": false,
+  "repair_verified": "AP image initially lacked exported alt metadata; source geometry resolves it into the topology group, then real playback confirmed AP disappears with its text."
+}

@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-27",
+  "reviewer": "background_v16_qa",
+  "status": "pass",
+  "scope": "v18第2页物理拓扑/逻辑数据流两态原生动画的视觉与结构独立QA；不修改PPT或业务代码。",
+  "candidate": ".build/full-report/v18/candidate.pptx",
+  "artifact": "artifacts/report/具身智能数据管线报告_v18.pptx",
+  "artifactSha256": "0e89f72ddee7250b28503fd8abbf8282ffe67590a0b1eee5980227a877ac3023",
+  "candidateSha256": "0e89f72ddee7250b28503fd8abbf8282ffe67590a0b1eee5980227a877ac3023",
+  "candidateEqualsFinal": true,
+  "slideCount": 5,
+  "visualSources": [
+    ".build/full-report/v18/wps-playback/01-topology.png",
+    ".build/full-report/v18/wps-playback/02-data.png",
+    ".build/full-report/v18/wps-playback/07-next-slide.png"
+  ],
+  "visualChecks": [
+    {
+      "state": "topology",
+      "check": "AP图标、Wi-Fi/AP、可访问Host与PC2、无线拓扑和有线交换网络及网线说明同层显示。",
+      "status": "pass"
+    },
+    {
+      "state": "topology",
+      "check": "无红色头手/目标动作路线、蓝色逻辑图像/WebRTC路线、灰色反馈路线及它们的标签残留。",
+      "status": "pass"
+    },
+    {
+      "state": "data",
+      "check": "AP、Wi-Fi/AP、可达文字和物理网线拓扑全部隐藏，无孤立物理标签残留。",
+      "status": "pass"
+    },
+    {
+      "state": "data",
+      "check": "头手姿态→Host、目标动作→运控PC1、PC2图像→Host、按配置WebRTC→Vision Pro、关节实际状态→Host的全部带方向路线及标签同时显示。",
+      "status": "pass"
+    },
+    {
+      "state": "data",
+      "check": "实际状态仍由Host直接订阅，不经过PC2转发。",
+      "status": "pass"
+    },
+    {
+      "state": "both",
+      "check": "Vision Pro、Host、G1、机内PC2/PC1、相机引线、设备程序、功能示意说明、启动时间线与r/s/保存条件均完整。",
+      "status": "pass"
+    },
+    {
+      "state": "nextSlide",
+      "check": "动画后进入第3页，原始JSON/图像、LeRobot样例、转换/训练命令与后续流程完整，无漏页或残留动画层。",
+      "status": "pass"
+    }
+  ],
+  "sharedElementsStability": {
+    "method": "六个共享区域在两态3840×2160截图中进行像素比较；全部完全一致。标题旁鼠标指针差异不计为布局变化。",
+    "regions": [
+      {
+        "region": "vision_pro",
+        "coordinates": [
+          150,
+          520,
+          600,
+          1000
+        ],
+        "pixelIdentical": true
+      },
+      {
+        "region": "host_device_and_program",
+        "coordinates": [
+          150,
+          1360,
+          900,
+          1610
+        ],
+        "pixelIdentical": true
+      },
+      {
+        "region": "robot_head",
+        "coordinates": [
+          2070,
+          480,
+          2335,
+          690
+        ],
+        "pixelIdentical": true
+      },
+      {
+        "region": "robot_lower_body",
+        "coordinates": [
+          1960,
+          1050,
+          2360,
+          1540
+        ],
+        "pixelIdentical": true
+      },
+      {
+        "region": "right_equipment_and_programs",
+        "coordinates": [
+          2680,
+          475,
+          3600,
+          1550
+        ],
+        "pixelIdentical": true
+      },
+      {
+        "region": "startup_timeline_and_footer",
+        "coordinates": [
+          80,
+          1620,
+          3750,
+          2020
+        ],
+        "pixelIdentical": true
+      }
+    ]
+  },
+  "nativeStructure": {
+    "groups": [
+      {
+        "layer": "topology",
+        "groupId": 95,
+        "manifestChildCount": 17,
+        "missingChildren": []
+      },
+      {
+        "layer": "data",
+        "groupId": 96,
+        "manifestChildCount": 19,
+        "missingChildren": []
+      }
+    ],
+    "effects": [
+      {
+        "groupId": 96,
+        "visibility": "visible"
+      },
+      {
+        "groupId": 95,
+        "visibility": "hidden"
+      }
+    ],
+    "timingNodesPerSlide": {
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "onClickGroups": 1,
+    "staticOtherSlides": [
+      {
+        "slide": 1,
+        "textIdenticalToV17": true,
+        "shapeGeometryIdenticalToV17": true
+      },
+      {
+        "slide": 3,
+        "textIdenticalToV17": true,
+        "shapeGeometryIdenticalToV17": true
+      },
+      {
+        "slide": 4,
+        "textIdenticalToV17": true,
+        "shapeGeometryIdenticalToV17": true
+      },
+      {
+        "slide": 5,
+        "textIdenticalToV17": true,
+        "shapeGeometryIdenticalToV17": true
+      }
+    ]
+  },
+  "footerCheck": {
+    "reservedHeightCm": 1.3,
+    "status": "pass",
+    "screenshots": [
+      {
+        "screenshot": ".build/full-report/v18/wps-playback/01-topology.png",
+        "footerYStart": 2013,
+        "nonWhitePixels": 0
+      },
+      {
+        "screenshot": ".build/full-report/v18/wps-playback/02-data.png",
+        "footerYStart": 2013,
+        "nonWhitePixels": 0
+      },
+      {
+        "screenshot": ".build/full-report/v18/wps-playback/07-next-slide.png",
+        "footerYStart": 2013,
+        "nonWhitePixels": 0
+      }
+    ]
+  },
+  "livePlaybackEvidence": {
+    "performedBy": "root",
+    "independentlyLiveOperatedByReviewer": false,
+    "app": "WPS Office for macOS",
+    "observations": ".build/full-report/v18/wps-playback/observations.json",
+    "testsReportedByRoot": {
+      "initial_topology": true,
+      "right_to_data": true,
+      "left_to_topology": true,
+      "wheel_down_to_data": true,
+      "wheel_up_to_topology": true,
+      "mouse_click_to_data": true,
+      "next_after_build_to_slide3": true
+    },
+    "windowsRuntimeTested": false,
+    "sourceStatement": "实际Next/Prev、滚轮和单击测试由主代理在Mac WPS中执行；本审稿人阅读观察记录并独立目视两态与下一页截图。"
+  },
+  "resourceSnapshot": {
+    "loadAverages": [
+      2.74,
+      2.44,
+      2.27
+    ],
+    "systemMemoryFreePercentage": 55,
+    "thermal": "pmset未记录热警告或性能警告；没有具体温度读数",
+    "workload": "只读图片和XML，单进程轻量检查，无重新渲染"
+  },
+  "unresolvedIssueCount": 0,
+  "limitations": [
+    "未在Windows PowerPoint/WPS运行时验证动画；不将Mac实播通过外推为Windows实播通过。",
+    "两态截图证明显示结果，不单独证明按键或滚轮行为；交互结论依据主代理实际播放观察记录。"
+  ]
+}

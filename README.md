@@ -51,9 +51,11 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 
 ## 报告与设计
 
+- [最新 PPT：具身智能数据管线报告 v18（前半部分，5张）](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v18)：重新整合技术背景，采集页包含拓扑 / 数据流切换动画。下载 Windows 离线演示 ZIP 并完整解压，可一并获得 PPT、讲稿、预览、原始数据和配套资料；核心方案部分尚未合并进这份新版，旧完整版 v15 继续保留。动画已在 Mac WPS 实播，Windows 仍需目标机试播。
 - [具身智能数据管线报告 v15，PPT 与 Windows 完整演示包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v15)：共26张（目录、23页正文、2页备查），保留前19张，第20张起从10页收束为7页。用真实数据案例讲筛选与采购，重点说明问题、七步整体方案、首期G1搬箱、三阶段路线及企业数据仓库。附公开G1搬箱单回合视频与字段，完整解压后保持相对目录。
 - [转换、增强与训练工具命令备查](docs/report/14_工具命令与参数备查.md)
-- [v0.1.2 安装包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.1.2)
+- [工作台 v0.2.0 安装包与源码](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.2.0)
+- [下载最新 main 分支代码 ZIP](https://github.com/fengjikui/robot-data-pipeline/archive/refs/heads/main.zip)：代码 ZIP 不含大型 PPT 成品，请从上方报告 Release 下载演示包。
 - [路径选择与三平台说明](docs/implementation/07_路径选择与三平台说明.md)
 - [真机采集接入现状与实施顺序](docs/implementation/08_真机采集接入现状与实施顺序.md)
 - [首版验收记录](docs/implementation/04_首版验收记录.md)
@@ -70,7 +72,7 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 
 ## 运行范围与跨平台检查
 
-工作台基础服务与自有 worker 面向 Windows、macOS、Linux，使用当前解释器、参数数组、显式 UTF-8、受管理相对路径和单 worker。CI 在三种原生 runner 上分别用 Python 3.11、3.14 构建 wheel、在仓库外安装运行，并执行平台与 API 测试。v0.1.2 的[六组原生检查全部通过](https://github.com/fengjikui/robot-data-pipeline/actions/runs/40259009291)，每组49项测试；版本验收记录对应源码 commit、跳过项与 wheel 哈希。原生选择器的组件/API 测试不等于各系统 GUI 自动点选，具体范围见[路径选择说明](docs/implementation/07_路径选择与三平台说明.md)。
+工作台基础服务与自有 worker 面向 Windows、macOS、Linux，使用当前解释器、参数数组、显式 UTF-8、受管理相对路径和单 worker。CI 在三种原生 runner 上分别用 Python 3.11、3.14 构建 wheel、在仓库外安装运行，并执行平台与 API 测试。v0.1.2 的[六组原生检查全部通过](https://github.com/fengjikui/robot-data-pipeline/actions/runs/40259009291)，每组49项测试；版本验收记录对应源码 commit、跳过项与 wheel 哈希。v0.2.0 的[六组原生检查也已全部通过](https://github.com/fengjikui/robot-data-pipeline/actions/runs/40422998086)，对应工作台源码提交 `4b7d910`。原生选择器的组件/API 测试不等于各系统 GUI 自动点选，具体范围见[路径选择说明](docs/implementation/07_路径选择与三平台说明.md)。
 
 机器人 Host、PC2、XR 服务和 GPU 训练机可以是不同计算设备。工作台在 Windows 运行，不代表这些厂商工具也支持 Windows。旧 MuJoCo 渲染与报告制作脚本仍有本机资源/字体依赖，未列入基础工作台跨平台承诺。
 

@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-27",
+  "revision": "v18",
+  "status": "verified for upload",
+  "slide_count": 5,
+  "scope": "新版报告前半部分，核心方案部分尚未合并；旧完整版v15保留",
+  "ppt_sha256": "0e89f72ddee7250b28503fd8abbf8282ffe67590a0b1eee5980227a877ac3023",
+  "zip_sha256": "ae1c7646e05cc99be60371208714724055ab572f3665d161d8bdae5a275bd03a",
+  "matches_previous_playback_review": true,
+  "archive_crc": "pass",
+  "archive_embedded_ppt_matches": true,
+  "relative_html_targets_checked": 72,
+  "windows_animation_playback_tested": false,
+  "ppt_changed_this_turn": false
+}

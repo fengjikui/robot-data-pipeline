@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-27",
+  "reviewer": "background_v16_qa",
+  "status": "pass",
+  "scope": "5 页技术背景合并稿；非完整报告；核心 pipeline 方案待用户讨论，本轮不审查或实现产品。",
+  "artifact": "artifacts/report/具身智能数据管线报告_v16.pptx",
+  "artifactSha256": "3fd2660bd1969b18b617aadf6220e045d97d64796d54e68198959448342a222d",
+  "slideCount": 5,
+  "eventualSlideLimit": 8,
+  "methods": [
+    "逐张目视 1920×1080 最终预览",
+    "PPTX XML 检查标题坐标/颜色/页码字段与讲稿",
+    "Pillow 检查底部 1.3cm 纯白区",
+    "相对离线链接与锚点检查"
+  ],
+  "resourceSnapshot": {
+    "loadAverages": [
+      2.13,
+      2.3,
+      2.18
+    ],
+    "systemMemoryFreePercentage": 55,
+    "thermal": "pmset 未记录热警告或性能警告；未取得具体温度",
+    "workload": "只读图片与 XML 检查；单进程，无渲染"
+  },
+  "priorIssues": [
+    {
+      "id": "V16-01",
+      "reportedBy": "root",
+      "slide": 1,
+      "problem": "teleop 脚本 .py 后缀折行",
+      "resolution": "缩放单元格文字以完整单行显示",
+      "verified": "pass"
+    },
+    {
+      "id": "V16-02",
+      "reportedBy": "root",
+      "slide": 2,
+      "problem": "左照片说明溢出并压到链接",
+      "resolution": "缩成两行短说明并保留链接间距",
+      "verified": "pass"
+    },
+    {
+      "id": "V16-03",
+      "reportedBy": "root",
+      "slide": 5,
+      "problem": "数据表长文本跨列",
+      "resolution": "显式分行后重新排版",
+      "verified": "pass"
+    }
+  ],
+  "visualReview": [
+    {
+      "slide": 1,
+      "preview": "artifacts/report/full_v16/page-01.png",
+      "result": "pass",
+      "observations": [
+        "设备、PC2/PC1 功能框、连接关系与五步时间轴完整；脚本名 teleop_hand_and_arm.py 已单行显示。"
+      ]
+    },
+    {
+      "slide": 2,
+      "preview": "artifacts/report/full_v16/page-02.png",
+      "result": "pass",
+      "observations": [
+        "原始图像、真实 JSON 节选与独立 LeRobot 样例分栏清楚；照片说明不再压链接；左右样例非成对转换已标明。"
+      ]
+    },
+    {
+      "slide": 3,
+      "preview": "artifacts/report/full_v16/page-03.png",
+      "result": "pass",
+      "observations": [
+        "质检、训练、仿真、部署表格、训练命令与移动搬箱补充完整，无跨列、裁切。"
+      ]
+    },
+    {
+      "slide": 4,
+      "preview": "artifacts/report/full_v16/page-04.png",
+      "result": "pass",
+      "observations": [
+        "六类增强方法及公开工具完整呈现；表格虽密集，但行列均无溢出、遮挡。"
+      ]
+    },
+    {
+      "slide": 5,
+      "preview": "artifacts/report/full_v16/page-05.png",
+      "result": "pass",
+      "observations": [
+        "三组真实候选、获取范围与采购/归档要点清楚；长字段已受控换行，无跨列。"
+      ]
+    }
+  ],
+  "titleCheck": {
+    "allSlides": true,
+    "leftCm": 1.1,
+    "topCm": 1.1,
+    "color": "B4232A"
+  },
+  "footerCheck": {
+    "allSlides": true,
+    "reservedHeightCm": 1.3,
+    "pngYStart": 1006,
+    "nonWhitePixelsPerSlide": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "pageNumbers": {
+    "pageFields": 0,
+    "visiblePageNumber": false,
+    "stepNumbersRetained": true
+  },
+  "speakerNotes": {
+    "presentOnAllSlides": true,
+    "referenceSourcesPresent": true,
+    "absoluteLocalPathSlides": []
+  },
+  "localLinks": [
+    {
+      "slide": 2,
+      "target": "resources/data_cards.html#raw",
+      "exists": true
+    },
+    {
+      "slide": 2,
+      "target": "resources/data_cards.html#lerobot",
+      "exists": true
+    }
+  ],
+  "missingLocalLinks": [],
+  "htmlAnchors": {
+    "raw": true,
+    "lerobot": true
+  },
+  "unresolvedIssueCount": 0,
+  "limitations": [
+    "未在 Windows PowerPoint 或 WPS 中实际点击离线相对链接；结构与文件存在性已核对。",
+    "技术事实来源复核由主代理与研究任务处理，本证据侧重排版和交付结构。"
+  ],
+  "finalRevisionConfirmedBy": "root",
+  "finalRevisionConfirmation": "主代理确认当前 SHA 为最终待交付技术背景合并稿，后续不再修改 PPT。",
+  "checkedAfterFixes": true
+}

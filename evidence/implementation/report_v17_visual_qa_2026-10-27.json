@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-27",
+  "reviewer": "background_v16_qa",
+  "status": "pass",
+  "scope": "v17五页背景合并稿的独立视觉与结构QA；第2页重点复核旧v15第3/4/5页覆盖。核心数据管线方案尚待用户讨论，本证据不将背景合并稿称为完整产品方案。",
+  "artifact": "artifacts/report/具身智能数据管线报告_v17.pptx",
+  "artifactSha256": "ce3ca387dc2c2158d4c892a6fba74ae942f12aca7ac3ce7e734d7afdb332ea7d",
+  "slideCount": 5,
+  "eventualSlideLimit": 8,
+  "originalSlidesReviewed": [
+    "artifacts/report/full_v15/page-03.png",
+    "artifacts/report/full_v15/page-04.png",
+    "artifacts/report/full_v15/page-05.png"
+  ],
+  "methods": [
+    "逐张目视1920×1080五页预览",
+    "对照旧v15三张设备/数据流/启动页逐项检查",
+    "PPTX XML核对标题/页码字段/讲稿/原生表格",
+    "Pillow单进程核对底部1.3cm留白",
+    "相对本地链接目标存在性检查"
+  ],
+  "resourceSnapshot": {
+    "loadAverages": [
+      2.18,
+      2.24,
+      2.23
+    ],
+    "systemMemoryFreePercentage": 53,
+    "thermal": "pmset未记录热警告或性能警告；没有具体温度读数",
+    "workload": "只读图片与XML；单进程轻量检查，无渲染"
+  },
+  "slides": [
+    {
+      "slide": 1,
+      "preview": "artifacts/report/full_v17/page-01.png",
+      "title": "具身智能数据管线方案",
+      "visualStatus": "pass",
+      "nativeTextShapes": 15,
+      "nativeTables": 0,
+      "animationTimingNodes": 0
+    },
+    {
+      "slide": 2,
+      "preview": "artifacts/report/full_v17/page-02.png",
+      "title": "任务与真机采集",
+      "visualStatus": "pass",
+      "nativeTextShapes": 82,
+      "nativeTables": 0,
+      "animationTimingNodes": 0
+    },
+    {
+      "slide": 3,
+      "preview": "artifacts/report/full_v17/page-03.png",
+      "title": "数据处理、训练与部署",
+      "visualStatus": "pass",
+      "nativeTextShapes": 37,
+      "nativeTables": 0,
+      "animationTimingNodes": 0
+    },
+    {
+      "slide": 4,
+      "preview": "artifacts/report/full_v17/page-04.png",
+      "title": "数据增强的方法与产出",
+      "visualStatus": "pass",
+      "nativeTextShapes": 8,
+      "nativeTables": 1,
+      "animationTimingNodes": 0
+    },
+    {
+      "slide": 5,
+      "preview": "artifacts/report/full_v17/page-05.png",
+      "title": "外部数据与采购",
+      "visualStatus": "pass",
+      "nativeTextShapes": 14,
+      "nativeTables": 1,
+      "animationTimingNodes": 0
+    }
+  ],
+  "coverage": [
+    {
+      "sourceSlide": "旧3",
+      "preservedFact": "Apple Vision Pro、Host、机内PC2、运控PC1与关节均有对应的设备锚点和分工。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧3",
+      "preservedFact": "Wi-Fi/AP标明可访问Host与PC2；Host有线接入机器人交换网络。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧3",
+      "preservedFact": "PC2明确为独立计算单元；机内方框为功能分区，非精确安装位置。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧3",
+      "preservedFact": "头部视角相机与腕部相机分别引线，腕部相机标明选配、近距离视角。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧4",
+      "preservedFact": "红色头手姿态从Vision Pro指向Host。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧4",
+      "preservedFact": "红色目标动作经IK/重定向从Host指向运控PC1/关节。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧4",
+      "preservedFact": "蓝色图像从PC2指向Host，服务显示与记录。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧4",
+      "preservedFact": "蓝色虚线从PC2指向Vision Pro，WebRTC显示路径注明按配置。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧4",
+      "preservedFact": "灰色实际状态反馈从运控/关节侧直接指向Host，不经PC2转发。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧4",
+      "preservedFact": "Host主程序说明组合数据并按回合保存；物理网络底线与逻辑路线视觉区分。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧5",
+      "preservedFact": "PC2旁为teleimager-server；Host旁为teleop_hand_and_arm.py；Vision Pro旁为Safari/WebXR。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧5",
+      "preservedFact": "运控侧厂商运控与状态服务、SDK/DDS，以及执行目标和反馈实际状态保留。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧5",
+      "preservedFact": "Host说明组织图像、追踪、IK与SDK并按回合保存；televuer及详细模块组织在讲稿保留。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧5",
+      "preservedFact": "五步启动timeline：基础检查→PC2图像服务→Host主程序→头显XR会话→随动/录制。",
+      "status": "pass"
+    },
+    {
+      "sourceSlide": "旧5",
+      "preservedFact": "G1_29+Dex3参考配置、首次部署后、启动涉及控制准备、r随动、s开始/结束回合、等保存后退出均保留。",
+      "status": "pass"
+    }
+  ],
+  "layoutChecks": {
+    "allTitles": {
+      "xEMU": 396000,
+      "yEMU": 396000,
+      "leftCm": 1.1,
+      "topCm": 1.1,
+      "color": "B4232A",
+      "status": "pass"
+    },
+    "footer": {
+      "reservedHeightCm": 1.3,
+      "pngYStart": 1006,
+      "nonWhitePixelsPerSlide": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "status": "pass"
+    },
+    "pageNumbers": {
+      "pageFields": 0,
+      "visiblePageNumbers": false,
+      "timelineStepNumbersRetained": true
+    },
+    "nativeTablesPerSlide": [
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    "allExistingTablesNativeEditable": true
+  },
+  "speakerNotes": [
+    {
+      "slide": 1,
+      "characters": 237,
+      "originalSourcesRequired": false,
+      "originalSourceLinksPresent": null
+    },
+    {
+      "slide": 2,
+      "characters": 4721,
+      "originalSourcesRequired": true,
+      "originalSourceLinksPresent": true
+    },
+    {
+      "slide": 3,
+      "characters": 3272,
+      "originalSourcesRequired": true,
+      "originalSourceLinksPresent": true
+    },
+    {
+      "slide": 4,
+      "characters": 4744,
+      "originalSourcesRequired": true,
+      "originalSourceLinksPresent": true
+    },
+    {
+      "slide": 5,
+      "characters": 3259,
+      "originalSourcesRequired": true,
+      "originalSourceLinksPresent": true
+    }
+  ],
+  "localLinks": [
+    {
+      "slide": 3,
+      "target": "resources/data_cards.html#raw",
+      "exists": true
+    },
+    {
+      "slide": 3,
+      "target": "resources/data_cards.html#lerobot",
+      "exists": true
+    },
+    {
+      "slide": 5,
+      "target": "resources/box_case/index.html",
+      "exists": true
+    }
+  ],
+  "minorObservations": [
+    {
+      "slide": 2,
+      "observation": "设备下方两段灰色说明距timeline较紧，但与圆点、连线均不重叠，文字完整可读。",
+      "disposition": "当前信息密度目标下接受，无须修复。"
+    }
+  ],
+  "verifiedFixes": [
+    {
+      "slide": 3,
+      "reportedBy": "root",
+      "problem": "原始样本旁任务一词断行",
+      "result": "复核已正常呈现为完整同行文字。"
+    }
+  ],
+  "unresolvedIssueCount": 0,
+  "limitations": [
+    "未在Windows PowerPoint/WPS中实际打开并点击本地链接；相对路径、目标文件及PPTX结构已核对。",
+    "当前是静态合成，未声称动画已实现或已验证。",
+    "本QA检查信息覆盖与视觉结构，原始技术事实的研究和来源核验由主代理负责。"
+  ]
+}
