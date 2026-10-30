@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-31",
+  "theme": "华为红风格",
+  "accent_srgb": "#CF0A2C",
+  "contrast_ratios": {
+    "primary_button_text": 5.54,
+    "navigation_text": 5.05,
+    "hover_button_text": 7.28,
+    "focus_against_surface": 4.31
+  },
+  "browser": {
+    "primary_navigation_checkbox_match_accent": true,
+    "horizontal_overflow": false,
+    "console_warnings_errors": 0
+  },
+  "scope": "CSS主题与设计基准；不改数据及业务流程",
+  "screenshot": "workbench.png"
+}
