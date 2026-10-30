@@ -86,5 +86,22 @@
     "is_lerobot_dataset": false,
     "official_reader_verified": false,
     "training_ready": false
+  },
+  "visual_review": {
+    "reviewer": "independent product agent",
+    "screenshots": 3,
+    "blocking_issues": 0,
+    "scope": "static visual review, not additional interaction or hardware evidence"
+  },
+  "platform_ci": {
+    "url": "https://github.com/fengjikui/robot-data-pipeline/actions/runs/41100530156",
+    "source_commit": "313261243ac76ed2128d125531d6a5d062b5d3e1",
+    "status": "queued",
+    "note": "交付记录时仍排队；不计为通过，以运行页最终结果为准"
+  },
+  "release": {
+    "url": "https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.3.0",
+    "prerelease": true,
+    "uploaded_wheel_digest_matches_local": true
   }
 }
