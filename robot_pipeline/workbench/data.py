@@ -14,13 +14,16 @@ def finite_vector(value):
 
 def inspect_directory(root: Path):
     entries=sorted(root.rglob('data.json'))
-    frames=0;recognized=False
+    frames=0;recognized=False;synthetic_declared=False
     for p in entries:
         try:
             obj=read_json(p)
-            if isinstance(obj,dict) and isinstance(obj.get('data'),list): frames+=len(obj['data']);recognized=True
+            if isinstance(obj,dict) and isinstance(obj.get('data'),list):
+                frames+=len(obj['data']);recognized=True
+                info=obj.get('info')
+                if isinstance(info,dict) and info.get('synthetic') is True:synthetic_declared=True
         except (ValueError,OSError): pass
-    return {'format':'unitree_raw' if recognized else 'unknown','format_verified':False,'detection_note':'文件布局初步识别；完整结构与动作语义尚未验收','frames':frames,'episodes':len(entries)}
+    return {'format':'unitree_raw' if recognized else 'unknown','format_verified':False,'detection_note':'文件布局初步识别；完整结构与动作语义尚未验收','frames':frames,'episodes':len(entries),'synthetic_declared':synthetic_declared}
 
 def vectors(row):
     state=row.get('states');action=row.get('actions')

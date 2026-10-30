@@ -3,7 +3,7 @@
 (() => {
   const $ = (id) => document.getElementById(id);
   const sourceLabels = {self_capture: "自行采集", open: "开源数据", purchased: "采购交付", simulation: "仿真数据", synthetic: "合成教学样例"};
-  const stageLabels = {check: "质量检查", export: "派生导出", check_export: "检查并导出"};
+  const stageLabels = {check: "质量检查", export: "派生导出", check_export: "检查并导出", prepare: "数据准备"};
   const statusLabels = {queued: "排队中", running: "运行中", cancelling: "正在停止", succeeded: "已完成", failed: "失败", cancelled: "已停止", interrupted: "中断待重试"};
   const policyLabels = {act: "ACT", diffusion: "Diffusion Policy", openpi: "openpi / π0", openvla: "OpenVLA", ppo: "PPO"};
   const guidance = {
@@ -13,7 +13,7 @@
     openvla: "OpenVLA 的参考训练路径需要对应的数据读取器与动作处理；不能把 28 维动作简单截取成 7 维。需要核对数据语义、归一化、训练和控制接口，本版尚未接入。",
     ppo: "在线 PPO 还需要可交互环境、奖励、重置与终止规则。静态遥操作示范可以用于独立的预训练或混合方法，但不能直接替代 PPO 在线采样，本版尚未接入此类环境。"
   };
-  const state = {data: null, assetId: null, jobId: null, panel: "quality", busy: false, messageTimer: null, refreshing: false};
+  const state = {data: null, assetId: null, jobId: null, panel: "quality", busy: false, messageTimer: null, refreshing: false, initialized: false};
 
   function element(tag, text, className) {
     const node = document.createElement(tag);
@@ -62,7 +62,6 @@
     $("import-section").hidden = !visible;
     $("toggle-import").setAttribute("aria-expanded", String(visible));
     if (visible) {
-      $("import-task").value ||= state.data?.project?.task || "";
       $("import-section").scrollIntoView({block: "start", behavior: "instant"});
       $("import-path").focus();
     }
@@ -128,7 +127,10 @@
       status.append(element("span", null, "status-dot"), document.createTextNode(quality ? (quality.valid ? "结构检查通过" : "发现检查问题") : "尚未检查"));
       item.append(status);
       item.addEventListener("click", () => {
-        act(item, () => selectAsset(asset.id));
+        state.assetId = asset.id;
+        state.jobId = null;
+        showPanel("quality");
+        render();
       });
       $("asset-list").append(item);
     }
@@ -194,7 +196,7 @@
     $("asset-tags").replaceChildren();
     for (const tag of asset.tags || []) $("asset-tags").append(element("span", tag, "tag"));
     const jobs = selectedJobs();
-    const busy = jobs.some(active) || state.busy;
+    const busy = state.data.jobs.some(active) || state.busy;
     $("run-check").disabled = busy;
     $("run-export").disabled = busy || !isGood(asset);
     $("auto-chain").disabled = busy;
@@ -269,8 +271,10 @@
     state.refreshing = true;
     try {
       state.data = await api("/api/state");
-      if (Object.hasOwn(state.data.project, "asset_id")) state.assetId = state.data.project.asset_id || null;
-      else if (!(state.data.assets || []).some((asset) => asset.id === state.assetId)) state.assetId = state.data.assets?.[0]?.id || null;
+      if (!state.initialized) {
+        state.assetId = Object.hasOwn(state.data.project, "asset_id") ? state.data.project.asset_id || null : state.data.assets?.[0]?.id || null;
+        state.initialized = true;
+      } else if (state.assetId && !state.data.assets.some((asset) => asset.id === state.assetId)) state.assetId = null;
       $("connection").textContent = "本地服务已连接";
       $("version").textContent = state.data.version || "";
       render();
@@ -330,7 +334,6 @@
       const result = await api("/api/assets/import", payload);
       const asset = result.asset || result;
       state.assetId = asset.id || null;
-      await api("/api/project", {asset_id: state.assetId || ""});
       state.jobId = null;
       $("import-form").reset();
       setImport(false);
@@ -343,7 +346,6 @@
   $("create-demo").addEventListener("click", () => act($("create-demo"), async () => {
     const result = await api("/api/demo", {});
     state.assetId = (result.asset || result).id || null;
-    await api("/api/project", {asset_id: state.assetId || ""});
     state.jobId = null;
     await refresh();
     notify("已生成合成教学样例，用于体验工作流。它不是真机采集数据。", "success");

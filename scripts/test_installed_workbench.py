@@ -8,7 +8,7 @@ import venv
 
 ROOT = Path(__file__).resolve().parents[1]
 SMOKE = r'''
-import json, shutil, threading, time
+import io, json, shutil, threading, time, zipfile
 from importlib.resources import files
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -37,6 +37,8 @@ try:
     assert len(get('/path-picker.js', 'text/javascript')) > 500
     assert len(get('/workbench.js', 'text/javascript')) > 500
     assert len(get('/workbench.css', 'text/css')) > 500
+    assert len(get('/preparation.js', 'text/javascript')) > 500
+    assert len(get('/preparation.css', 'text/css')) > 500
     def post(path, payload):
         data = json.dumps(payload, ensure_ascii=False).encode('utf-8')
         request = Request(base + path, data=data, headers={
@@ -51,7 +53,7 @@ try:
     shutil.copytree(server.workbench.workspace / asset['path'], source)
     choice = post('/api/paths/pick', {'initial_path': str(source)})
     assert choice['cancelled'] is False and choice['path'] == str(source), choice
-    asset = post('/api/assets/import', {'path': choice['path'], 'name': 'Picked fixture', 'source_kind': 'simulation', '_synthetic': True, 'task': 'SYNTHETIC picker smoke test', 'source_reference': 'generated installation fixture'})
+    asset = post('/api/assets/import', {'path': choice['path'], 'name': 'Picked fixture', 'source_kind': 'self_capture', '_synthetic': True, 'embodiment': 'SYNTHETIC_28D', 'task': 'SYNTHETIC picker smoke test', 'source_reference': 'generated installation fixture'})
     post('/api/project', {'asset_id': asset['id']})
     post('/api/capture/config', {'host': 'smoke-host', 'receive_directory': str(source)})
     job = post('/api/jobs', {'asset_id': asset['id'], 'stage': 'check_export'})
@@ -70,7 +72,48 @@ try:
     assert json.loads(get('/api/state'))['capture']['host'] == 'smoke-host'
     for artifact in result['artifacts']:
         assert get(artifact['url']), artifact
-    print('Installed wheel: empty UI + synthetic import + real worker QC/export + artifacts PASS')
+    # A genuinely distinct second source tests the installed episode and preparation APIs.
+    source_b = Path.cwd() / '仿真 synthetic source'
+    shutil.copytree(source, source_b)
+    raw = json.loads((source_b / 'data.json').read_text(encoding='utf-8'))
+    for row in raw['data']:
+        for block in ('states', 'actions'):
+            for part in row[block].values():
+                part['qpos'] = [value + .2 for value in part['qpos']]
+    (source_b / 'data.json').write_text(json.dumps(raw), encoding='utf-8')
+    other = post('/api/assets/import', {'path': str(source_b), 'name': 'Synthetic simulation fixture', 'source_kind': 'simulation', '_synthetic': True, 'embodiment': 'SYNTHETIC_28D', 'task': asset['task']})
+    episodes = json.loads(get('/api/episodes'))['episodes']
+    first = next(e for e in episodes if e['asset_id'] == asset['id'])
+    second = next(e for e in episodes if e['asset_id'] == other['id'])
+    frame = json.loads(get('/api/episodes/' + first['id'] + '/frames/1'))
+    assert frame['index'] == 1 and len(frame['state']) == len(frame['action']) == 28
+    assert get(frame['images'][0]['url'])
+    post('/api/episodes/' + first['id'] + '/annotation', {'result': 'success', 'note': 'SYNTHETIC installation test'})
+    draft = post('/api/datasets/draft', {
+        'name': '安装验证训练选择',
+        'items': [{'episode_id': first['id'], 'start_frame': 1, 'end_frame': 6}, {'episode_id': second['id'], 'start_frame': 2, 'end_frame': 9}],
+        'split': {'train': 100, 'validation': 0, 'test': 0, 'seed': 42},
+        'sampling': {'mode': 'weighted', 'weights': {'self_capture': .5, 'simulation': .5}},
+    })
+    frozen = post('/api/datasets/' + draft['id'] + '/confirm', {'revision': draft['revision']})
+    assert frozen['status'] == 'confirmed'
+    prepared = post('/api/datasets/' + draft['id'] + '/build', {})
+    deadline = time.monotonic() + 20
+    while time.monotonic() < deadline:
+        prepared_detail = json.loads(get('/api/jobs/' + prepared['id']))
+        if prepared_detail['job']['status'] not in ('queued', 'running', 'cancelling'):
+            break
+        time.sleep(.05)
+    assert prepared_detail['job']['status'] == 'succeeded', prepared_detail
+    prepared_result = prepared_detail['result']
+    assert prepared_result['reader_check']['valid'] is True
+    assert prepared_result['contract']['is_lerobot_dataset'] is False
+    package = next(a for a in prepared_result['artifacts'] if a['name'].endswith('.zip'))
+    with zipfile.ZipFile(io.BytesIO(get(package['url']))) as portable:
+        assert portable.testzip() is None
+        assert any(name.endswith('records.jsonl') for name in portable.namelist())
+        assert any(name.endswith('.png') for name in portable.namelist())
+    print('Installed wheel: empty UI + synthetic import + worker QC/export + episode preview + confirmed portable preparation PASS')
 finally:
     server.shutdown()
     thread.join(timeout=5)

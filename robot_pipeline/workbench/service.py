@@ -16,6 +16,7 @@ from .data import inspect_directory
 from .paths import file_hash, native_input, safe_relative, within, read_json, write_json, is_link
 from .store import Store,identity,now
 from .locking import WorkspaceLock
+from .preparation import Preparation, fingerprint
 
 POLICIES=('act','diffusion','openpi','openvla','ppo')
 SOURCE_KINDS=('self_capture','open','purchased','simulation')
@@ -33,14 +34,16 @@ class Workbench:
         try:self.store=Store(self.workspace)
         except BaseException:self.workspace_lock.close();raise
         self.csrf_token=secrets.token_urlsafe(32)
+        self.preparation=Preparation(self.workspace,self.store)
         self.lock=threading.RLock();self.event=threading.Event();self.closed=False
         self.process=None;self.active_id=None;self.cancelled=set()
         self.thread=threading.Thread(target=self._loop,name='pipeline-job-manager',daemon=True);self.thread.start()
     def state(self):
-        return {'version':__version__,'project':self.store.get('project','current'),'capture':self.capture_config(),'assets':self.store.all('asset'),'jobs':self.store.all('job'),'capabilities':[
+        return {'version':__version__,'project':self.store.get('project','current'),'capture':self.capture_config(),'assets':self.store.all('asset'),'datasets':self.preparation.summaries(),'jobs':self.store.all('job'),'capabilities':[
             {'id':'import','name':'来源登记与快照','available':True,'reason':'本机目录、来源与标签，128 MiB / 10000 文件以内'},
             {'id':'check','name':'结构质检','available':True,'reason':'Unitree 原始 JSON 28 维上肢记录；不证明同步或任务成功'},
             {'id':'export','name':'JSONL 导出','available':True,'reason':'项目自有契约；不是官方 LeRobot，尚不能直接训练策略'},
+            {'id':'prepare','name':'回合选择与便携数据包','available':True,'reason':'片段、分组划分、来源采样与项目读取验收；不是官方训练器验收'},
             {'id':'capture','name':'遥操作采集','available':False,'reason':'G1 / Vision Pro 服务与控制权接口待真机验收'},
             {'id':'convert','name':'官方转换','available':False,'reason':'固定版本参数已研究，上游依赖环境和数据契约待接入验收'},
             {'id':'train','name':'模型训练','available':False,'reason':'训练后端、依赖环境和目标策略读取器待接入'},
@@ -111,7 +114,7 @@ class Workbench:
                 manifest.append({'path':rel,'bytes':size,'sha256':file_hash(dest)})
             write_json(base/'manifest.json',{'format':'robot_pipeline.asset_snapshot.v1','files':manifest,'bytes':total})
             info=inspect_directory(raw)
-            asset={'id':aid,'name':text(payload.get('name') or source.name,'name',120),'source_kind':kind,'source_reference':text(payload.get('source_reference',''),'source_reference',1000),'task':text(payload.get('task',''),'task'),'tags':tags,'license':text(payload.get('license','unknown'),'license'),'embodiment':text(payload.get('embodiment','unknown'),'embodiment'),'path':f'assets/{aid}/raw','manifest_path':f'assets/{aid}/manifest.json','manifest_sha256':file_hash(base/'manifest.json'),'created_at':now(),'bytes':total,'file_count':len(entries),'quality':None,'training_ready':False,'synthetic':bool(payload.get('_synthetic',False)),**info}
+            asset={'id':aid,'name':text(payload.get('name') or source.name,'name',120),'source_kind':kind,'source_reference':text(payload.get('source_reference',''),'source_reference',1000),'task':text(payload.get('task',''),'task'),'tags':tags,'license':text(payload.get('license','unknown'),'license'),'embodiment':text(payload.get('embodiment','unknown'),'embodiment'),'path':f'assets/{aid}/raw','manifest_path':f'assets/{aid}/manifest.json','manifest_sha256':file_hash(base/'manifest.json'),'created_at':now(),'bytes':total,'file_count':len(entries),'quality':None,'training_ready':False,'synthetic':bool(payload.get('_synthetic',False) or info.get('synthetic_declared',False)),**info}
             return self.store.put('asset',asset)
         except BaseException:
             shutil.rmtree(base,ignore_errors=True);raise
@@ -145,6 +148,19 @@ class Workbench:
         log=p.read_text(encoding='utf-8',errors='replace')[-100000:] if p.exists() else ''
         snapshot=within(self.workspace,f'jobs/{ident}/input.json')
         return {'job':job,'log':log,'result':job.get('result'),'input':read_json(snapshot) if snapshot.exists() else None}
+    def build_dataset(self,ident):
+        dataset=self.preparation.dataset(ident)
+        if dataset['status']!='confirmed' or fingerprint(dataset.get('manifest'))!=dataset.get('manifest_sha256'):
+            raise ValueError('请先确认当前训练数据版本，再构建数据包')
+        with self.lock:
+            if self.closed:raise ValueError('工作台正在关闭')
+            for job in self.store.all('job'):
+                if job.get('dataset_id')==ident and job['status'] in {'queued','running','cancelling'}:
+                    return job
+            jid=identity();directory=self.workspace/'jobs'/jid;directory.mkdir(parents=True)
+            write_json(directory/'input.json',{'dataset':dataset,'stage':'prepare','project':self.store.get('project','current')})
+            job={'id':jid,'dataset_id':ident,'dataset_name':dataset['name'],'stage':'prepare','status':'queued','created_at':now(),'error':None,'result':None}
+            self.store.put('job',job);self.event.set();return job
     def cancel(self,ident):
         with self.lock:
             job=self.store.get('job',ident)

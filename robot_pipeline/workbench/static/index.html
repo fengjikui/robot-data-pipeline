@@ -7,9 +7,11 @@
   <title>具身智能 · 数据管线工作台</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/workbench.css">
+  <link rel="stylesheet" href="/preparation.css">
   <script defer src="/path-picker.js"></script>
   <script defer src="/app.js"></script>
   <script defer src="/workbench.js"></script>
+  <script defer src="/preparation.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">跳到工作区域</a>
@@ -43,8 +45,10 @@
       </section>
 
 
-      <section id="view-task" class="workspace-view" aria-labelledby="task-title">
-        <div class="view-heading"><div><h2 id="task-title">任务管线</h2><p>选好输入数据，沿同一条流程检查、处理并保留每次结果。</p></div><span class="badge neutral">本地准备阶段</span></div>
+      <section id="view-task" class="workspace-view" aria-label="当前任务">
+        <div id="preparation-root"></div>
+        <details class="legacy-overview"><summary>完整管线与整资产工具 <span>查看整体阶段、导入入口与旧作业</span></summary>
+        <div class="view-heading"><div><h2 id="task-title">完整流程与整资产检查</h2><p>选好输入数据，沿同一条流程检查、处理并保留每次结果。</p></div><span class="badge neutral">本地准备阶段</span></div>
         <div class="source-choices" aria-label="数据获取方式">
           <button class="source-choice" id="source-capture" type="button"><span class="source-index">A</span><span><strong>自己采集</strong><small>配置设备 → 遥操作录制 → 导入回合</small></span><span class="choice-arrow" aria-hidden="true">↗</span></button>
           <button class="source-choice" id="source-external" type="button"><span class="source-index">B</span><span><strong>使用现成数据</strong><small>开源 / 采购交付 → 本地导入 → 检查</small></span><span class="choice-arrow" aria-hidden="true">↗</span></button>
@@ -56,6 +60,7 @@
           <section id="stage-inspector" class="stage-inspector" aria-labelledby="stage-title"><div class="inspector-top"><span id="stage-position" class="eyebrow"></span><span id="stage-status" class="badge neutral"></span></div><h2 id="stage-title"></h2><p id="stage-copy" class="inspector-copy"></p><dl id="stage-contract" class="stage-contract"></dl><div id="stage-actions" class="inspector-actions"></div><p id="stage-note" class="field-note"></p><section class="stage-history"><h3>这个阶段的最近运行</h3><div id="stage-history"></div></section></section>
         </div>
         <div id="task-first-run" class="first-run"><strong>暂时没有数据，也可以走一遍流程</strong><span>主动生成 12 帧合成样例，体验检查、导出与结果追踪。</span><button class="text-button" id="task-demo" type="button">生成合成教学样例 →</button></div>
+        </details>
       </section>
       <section id="view-library" class="workspace-view library-layout" aria-label="数据集库" hidden>
 <aside class="sidebar" aria-label="数据资产目录">

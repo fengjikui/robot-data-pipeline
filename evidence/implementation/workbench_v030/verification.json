@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-31",
+  "version": "0.3.0",
+  "scope": "回合级数据准备软件里程碑，不是第一阶段训练/仿真闭环验收",
+  "automated": {
+    "total": 75,
+    "passed": 74,
+    "skipped": 1,
+    "skip_reason": "本机文件系统不能创建仅大小写不同的文件名",
+    "groups": {
+      "workbench": {
+        "total": 53,
+        "passed": 52,
+        "skipped": 1
+      },
+      "preparation_domain": 8,
+      "preparation_api": 14
+    }
+  },
+  "installed_wheel": {
+    "platform": "macOS Apple Silicon",
+    "python": "3.14.3",
+    "outside_checkout": true,
+    "isolated_interpreter": true,
+    "passed": true,
+    "sha256": "c4bb387fde4bd53c12e32fa7ea9dda7496d54935fa49a5b55e5c7450b8a27b2d"
+  },
+  "browser": {
+    "viewport": [
+      1264,
+      712
+    ],
+    "episode_image_pixels": [
+      640,
+      480
+    ],
+    "official_sample_task": "Pick up the red cup on the table.",
+    "synthetic_selected_groups": 4,
+    "selected_frames": 68,
+    "clip": [
+      2,
+      10
+    ],
+    "weights": {
+      "self_capture": 0.5,
+      "simulation": 0.5
+    },
+    "train_frames": 50,
+    "validation_frames": 18,
+    "draws": 128,
+    "actual_draws": {
+      "self_capture": 62,
+      "simulation": 66
+    },
+    "confirmed_version_restores": true,
+    "frame_enter_jump": 20,
+    "console_errors_warnings_final": 0,
+    "horizontal_overflow": false,
+    "draft_error_recovery": true,
+    "original_confirmed_version_unchanged": true
+  },
+  "artifacts": [
+    {
+      "path": "01-episodes.png",
+      "sha256": "97474a82264b3660d9090cd3a7990695b2de38d9f09b45f9ab810e89af5f8c25"
+    },
+    {
+      "path": "02-composition.png",
+      "sha256": "87ba160b9e6e0b50c39a4d03aab4f1e71b1c04a9dc754673f5d87fcac335ca81"
+    },
+    {
+      "path": "03-confirm-build.png",
+      "sha256": "a3dd85cfef09cae50b72648509d914590a2623f65a4bf30d35a1692b457507c6"
+    }
+  ],
+  "remaining_acceptance": [
+    "原生Windows/Linux GUI点选",
+    "真机及仿真遥操作适配联调",
+    "指定外部来源下载器",
+    "官方LeRobot转换与读取",
+    "真实策略训练",
+    "GPU闭环仿真",
+    "真机部署"
+  ],
+  "contract": {
+    "is_lerobot_dataset": false,
+    "official_reader_verified": false,
+    "training_ready": false
+  }
+}

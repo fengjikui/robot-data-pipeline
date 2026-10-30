@@ -18,7 +18,7 @@
     {id: "deploy", title: "真机部署", subtitle: "模型与设备验收", copy: "将通过评估的策略打包到目标运行环境，核对本体、动作范围与控制接口。", input: "通过验收的模型、设备配置和部署适配器", output: "部署包、设备版本和验收记录", note: "部署服务待接入。当前页面不会连接机器人或下发控制命令。"}
   ];
   const sourceNames = {self_capture: "自行采集", open: "开源数据", purchased: "采购交付", simulation: "仿真数据", synthetic: "合成样例"};
-  const jobNames = {check: "质量检查", export: "JSONL 导出", check_export: "检查 → JSONL 导出"};
+  const jobNames = {prepare: "构建准备包", check: "质量检查", export: "JSONL 导出", check_export: "检查 → JSONL 导出"};
   const statusNames = {queued: "排队中", running: "运行中", cancelling: "停止中", succeeded: "已完成", failed: "失败", cancelled: "已停止", interrupted: "已中断"};
   const active = j => ["queued", "running", "cancelling"].includes(j.status);
   const time = value => value ? new Date(value).toLocaleString("zh-CN", {hour12: false}) : "—";
@@ -144,9 +144,10 @@
     if (!jobs().length) list.append(el("div", "还没有运行记录。选择数据后，从质量检查开始。", "runs-empty"));
     for (const job of jobs()) {
       const asset = state.data.assets.find(a => a.id === job.asset_id);
+      const dataset = (state.data.datasets || []).find(d => d.id === job.dataset_id);
       const row = button("", () => openRun(job.id), "run-row");
       row.dataset.run = job.id; row.setAttribute("aria-current", String(job.id === runId));
-      const info = el("span"); info.append(el("strong", jobNames[job.stage] || job.stage), el("small", asset?.name || job.asset_id));
+      const info = el("span"); info.append(el("strong", jobNames[job.stage] || job.stage), el("small", dataset ? "训练集 · " + dataset.name : asset?.name || job.asset_id || job.dataset_id));
       row.append(info, el("span", statusNames[job.status] || job.status, "badge " + (job.status === "succeeded" ? "good" : job.status === "failed" ? "bad" : "neutral")), el("time", time(job.created_at)));
       list.append(row);
     }
@@ -164,7 +165,8 @@
       $("run-cancel").hidden = !active(job);
       $("run-context").replaceChildren();
       const asset = state.data.assets.find(a => a.id === job.asset_id);
-      for (const [key, value] of [["输入数据", asset?.name || job.asset_id], ["作业编号", job.id], ["创建时间", time(job.created_at)]]) {
+      const dataset = (state.data.datasets || []).find(d => d.id === job.dataset_id);
+      for (const [key, value] of [["输入数据", dataset ? "训练集 · " + dataset.name : asset?.name || job.asset_id || job.dataset_id], ["作业编号", job.id], ["创建时间", time(job.created_at)]]) {
         const node = el("div"); node.append(el("dt", key), el("dd", value)); $("run-context").append(node);
       }
       $("run-error").hidden = !job.error; $("run-error").textContent = job.error || "";
@@ -219,5 +221,6 @@
     catch (error) { app.notify(error.message, "error", true); }
     finally { node.disabled = false; }
   });
+  window.WorkbenchShell = {showView, openRun, importData};
   showView(location.hash.slice(1), false);
 })();

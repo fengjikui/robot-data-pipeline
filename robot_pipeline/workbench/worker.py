@@ -6,11 +6,19 @@ import sys
 from pathlib import Path
 from .paths import within, read_json, write_json, file_hash, is_link, safe_relative
 from .data import check,export
+from .preparation import build_prepared
 
 
 def execute(workspace: Path, job_id: str):
     descriptor=within(workspace,f'jobs/{job_id}/input.json',exists=True)
-    payload=read_json(descriptor);asset=payload['asset'];stage=payload['stage']
+    payload=read_json(descriptor);stage=payload['stage']
+    if stage=='prepare':
+        print('开始构建已确认的数据版本：'+payload['dataset']['name'],flush=True)
+        result=build_prepared(workspace,payload['dataset'],workspace/'jobs'/job_id/'prepared')
+        write_json(workspace/'jobs'/job_id/'result.json',result)
+        print(f"项目读取验收 {result['frames']} 条记录；来源采样已执行，官方LeRobot训练器尚未接入",flush=True)
+        return 0
+    asset=payload['asset']
     root=within(workspace,asset['path'])
     manifest=within(workspace,asset['manifest_path'],exists=True)
     if file_hash(manifest)!=asset['manifest_sha256']:raise ValueError('资产清单被修改，请重新导入数据')
