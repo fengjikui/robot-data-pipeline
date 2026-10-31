@@ -1,0 +1,2 @@
+# Upstream evidence is hashed as original bytes, including on Windows checkouts.
+/evidence/capture_bridge_2026-10-31/* -text

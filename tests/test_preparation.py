@@ -6,6 +6,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import sqlite3
+from unittest.mock import patch
 from robot_pipeline.workbench.preparation import PreparationConflict, build_prepared, read_prepared_records, sample_prepared
 from robot_pipeline.workbench.service import Workbench
 
@@ -47,6 +49,32 @@ class PreparationDomainTests(unittest.TestCase):
 
     def confirm(self, draft):
         return self.app.preparation.confirm(draft['id'], {'revision': draft['revision']})
+
+    def test_build_closes_catalog_handles_on_success_and_failure(self):
+        for invalidate in (False, True):
+            with self.subTest(invalidate=invalidate):
+                asset = self.source('connection-' + str(invalidate))
+                episode = next(e for e in self.app.preparation.episodes() if e['asset_id'] == asset['id'])
+                frozen = self.confirm(self.draft([{'episode_id': episode['id']}]))
+                if invalidate:
+                    self.app.store.put('asset', dict(asset, embodiment='changed after confirmation'))
+                connections, original_connect = [], sqlite3.connect
+                def tracked_connect(*args, **kwargs):
+                    connection = original_connect(*args, **kwargs)
+                    connections.append(connection)
+                    return connection
+                # Keep references alive so the test cannot pass through garbage collection.
+                error = None
+                with patch('sqlite3.connect', tracked_connect):
+                    try:
+                        build_prepared(self.app.workspace, frozen, self.root / ('closed-' + str(invalidate)))
+                    except ValueError as exc:
+                        error = exc
+                self.assertEqual(error is not None, invalidate)
+                self.assertGreaterEqual(len(connections), 2)
+                for connection in connections:
+                    with self.assertRaises(sqlite3.ProgrammingError):
+                        connection.execute('SELECT 1')
 
     def test_success_annotation_is_independent_of_structure_and_raw(self):
         asset = self.source('source')

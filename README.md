@@ -2,7 +2,7 @@
 
 面向单人、单机器人，把数据来源、检查结果、转换计划与运行记录组织到同一个界面。首期以 G1 为研究对象，保留按本体和训练配方逐项接入的边界。
 
-**当前源码版本 v0.4.0：采集接线与任务流程简化。** 日常界面按“采集或导入 → 整理训练数据 → 训练 → 仿真验证”组织。设备设置、来源比例、划分和历史选择按需展开，主流程只保留当前下一步与必要判断。
+**当前源码版本 v0.4.1：采集接线与任务流程简化。** 日常界面按“采集或导入 → 整理训练数据 → 训练 → 仿真验证”组织。设备设置、来源比例、划分和历史选择按需展开，主流程只保留当前下一步与必要判断。补丁版修复数据整理后 Windows 数据库文件占用的问题。
 
 本地/SSH 采集执行器已接线：支持真机和仿真独立配置，启动受控服务、启用随动、开始/停止录制，在记录器确认保存后自动接收、入库并排队质检。没有设备时，可主动选择**合成采集试运行**，真实体验软件链路；合成数据保留标记。Unitree 固定版本接线与软件测试不等于真机、XR 或 GPU 仿真已实测通过，当前工作站仍待配置。
 
@@ -62,7 +62,7 @@ robot-data-workbench --workspace "你的数据工作区目录" --port 8765
 - [最新 PPT：具身智能数据管线报告 v18（前半部分，5张）](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v18)：重新整合技术背景，采集页包含拓扑 / 数据流切换动画。下载 Windows 离线演示 ZIP 并完整解压，可一并获得 PPT、讲稿、预览、原始数据和配套资料；核心方案部分尚未合并进这份新版，旧完整版 v15 继续保留。动画已在 Mac WPS 实播，Windows 仍需目标机试播。
 - [具身智能数据管线报告 v15，PPT 与 Windows 完整演示包](https://github.com/fengjikui/robot-data-pipeline/releases/tag/report-v15)：共26张（目录、23页正文、2页备查），保留前19张，第20张起从10页收束为7页。用真实数据案例讲筛选与采购，重点说明问题、七步整体方案、首期G1搬箱、三阶段路线及企业数据仓库。附公开G1搬箱单回合视频与字段，完整解压后保持相对目录。
 - [转换、增强与训练工具命令备查](docs/report/14_工具命令与参数备查.md)
-- [工作台 v0.4.0 安装包与源码](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.4.0)
+- [工作台 v0.4.1 安装包与源码](https://github.com/fengjikui/robot-data-pipeline/releases/tag/v0.4.1)
 - [下载最新 main 分支代码 ZIP](https://github.com/fengjikui/robot-data-pipeline/archive/refs/heads/main.zip)：代码 ZIP 不含大型 PPT 成品，请从上方报告 Release 下载演示包。
 - [路径选择与三平台说明](docs/implementation/07_路径选择与三平台说明.md)
 - [真机采集接入现状与实施顺序](docs/implementation/08_真机采集接入现状与实施顺序.md)

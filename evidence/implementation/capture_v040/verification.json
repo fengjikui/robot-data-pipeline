@@ -1,5 +1,5 @@
 {
-  "version": "0.4.0",
+  "version": "0.4.1",
   "date": "2026-10-31",
   "local_platform": "macOS / Python 3.14",
   "automated_tests": {
@@ -14,16 +14,16 @@
       "skip_reason": "case-insensitive local filesystem"
     },
     "preparation": {
-      "run": 22,
-      "passed": 22
+      "run": 23,
+      "passed": 23
     },
-    "total": 92,
-    "passed": 91,
+    "total": 93,
+    "passed": 92,
     "skipped": 1
   },
   "installed_wheel": {
-    "file": "robot_data_pipeline-0.4.0-py3-none-any.whl",
-    "sha256": "27d7fd9026a1d63b4950e1ca1774135db4f8407d65bcfa3a38468bb2834ba5a8",
+    "file": "robot_data_pipeline-0.4.1-py3-none-any.whl",
+    "sha256": "a478adb19a45725c256de8663cab828add98c2c6d2a014277198990710ba6361",
     "source_bytes_match": true,
     "clean_venv_outside_checkout": "passed",
     "actual_capture_save_ingest_worker_qc": "passed"
@@ -69,5 +69,12 @@
     "05-capture-complete.png": "three synthetic episodes received and QC passed",
     "06-preserved-workspace.png": "upgraded original workspace, six assets and two existing jobs preserved"
   },
-  "limitations": "The prepared package is a project intermediate format; synthetic capture does not validate physical robot control or GPU simulation."
+  "limitations": "The prepared package is a project intermediate format; synthetic capture does not validate physical robot control or GPU simulation.",
+  "windows_patch": {
+    "old_failure_run": 41146027772,
+    "issue": "unclosed sqlite3 catalog handles retained on Windows",
+    "fix": "explicit closing for success and exception paths",
+    "local_regression": "passed, retained connection and exception references",
+    "Windows_CI": "pending"
+  }
 }

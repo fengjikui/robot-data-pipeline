@@ -11,6 +11,7 @@ import random
 import re
 import threading
 import zipfile
+from contextlib import closing
 from pathlib import Path
 
 from .data import vectors
@@ -481,7 +482,7 @@ def build_prepared(workspace, dataset, output):
     if dataset.get('status') != 'confirmed' or fingerprint(dataset.get('manifest')) != dataset.get('manifest_sha256'):
         raise ValueError('构建需要未改动的已确认数据版本')
     import sqlite3
-    with sqlite3.connect(workspace / 'catalog.sqlite3') as connection:
+    with closing(sqlite3.connect(workspace / 'catalog.sqlite3')) as connection:
         row = connection.execute("SELECT value FROM records WHERE kind='dataset' AND id=?", (dataset['id'],)).fetchone()
     current_dataset = json.loads(row[0]) if row else None
     if not current_dataset or current_dataset.get('status') != 'confirmed' or current_dataset.get('manifest_sha256') != dataset['manifest_sha256'] or fingerprint(current_dataset.get('manifest')) != dataset['manifest_sha256']:
@@ -499,7 +500,7 @@ def build_prepared(workspace, dataset, output):
             if aid not in sources:
                 # A worker checks the current catalog rather than trusting an input descriptor alone.
                 import sqlite3
-                with sqlite3.connect(workspace / 'catalog.sqlite3') as connection:
+                with closing(sqlite3.connect(workspace / 'catalog.sqlite3')) as connection:
                     row = connection.execute("SELECT value FROM records WHERE kind='asset' AND id=?", (aid,)).fetchone()
                 if row is None:
                     raise ValueError('来源资产不存在')
