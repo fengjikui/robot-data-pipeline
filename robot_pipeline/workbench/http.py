@@ -67,6 +67,7 @@ class Handler(BaseHTTPRequestHandler):
             path=unquote(urlsplit(self.path).path)
             if path=='/api/health':return self._send(200,{'status':'ok','version':__version__})
             if path=='/api/state':return self._send(200,app.state())
+            if path=='/api/capture/state':return self._send(200,app.capture_manager.snapshot())
             if path=='/api/episodes':
                 values=parse_qs(urlsplit(self.path).query)
                 filters={k:v[0] for k,v in values.items() if k in {'asset_id','source_kind','result','q'} and v}
@@ -108,6 +109,10 @@ class Handler(BaseHTTPRequestHandler):
             if path=='/api/paths/pick':result=self.server.directory_picker.choose(payload.get('initial_path'))
             elif path=='/api/project':result=app.project(payload)
             elif path=='/api/capture/config':result=app.capture_config(payload)
+            elif path=='/api/capture/connection':result=app.capture_manager.save(payload)
+            elif path=='/api/capture/trial':result=app.capture_manager.trial(payload.get('mode'))
+            elif path=='/api/capture/restore':result=app.capture_manager.restore(payload.get('mode'))
+            elif path=='/api/capture/action':result=app.capture_manager.submit(payload)
             elif path=='/api/datasets/draft':result=app.preparation.draft(payload)
             elif re.fullmatch('/api/episodes/[a-f0-9]{32}/annotation',path):result=app.preparation.annotate(path.split('/')[3],payload)
             elif re.fullmatch('/api/datasets/[a-f0-9]{32}/confirm',path):result=app.preparation.confirm(path.split('/')[3],payload)

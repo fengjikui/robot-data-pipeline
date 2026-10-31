@@ -1,6 +1,7 @@
 """Single-user asset catalog and guarded, serial stage execution."""
 from __future__ import annotations
 import base64
+import hashlib
 import os
 from pathlib import Path
 import secrets
@@ -17,6 +18,7 @@ from .paths import file_hash, native_input, safe_relative, within, read_json, wr
 from .store import Store,identity,now
 from .locking import WorkspaceLock
 from .preparation import Preparation, fingerprint
+from .capture import CaptureManager
 
 POLICIES=('act','diffusion','openpi','openvla','ppo')
 SOURCE_KINDS=('self_capture','open','purchased','simulation')
@@ -37,14 +39,15 @@ class Workbench:
         self.preparation=Preparation(self.workspace,self.store)
         self.lock=threading.RLock();self.event=threading.Event();self.closed=False
         self.process=None;self.active_id=None;self.cancelled=set()
+        self.capture_manager=CaptureManager(self)
         self.thread=threading.Thread(target=self._loop,name='pipeline-job-manager',daemon=True);self.thread.start()
     def state(self):
-        return {'version':__version__,'project':self.store.get('project','current'),'capture':self.capture_config(),'assets':self.store.all('asset'),'datasets':self.preparation.summaries(),'jobs':self.store.all('job'),'capabilities':[
+        return {'version':__version__,'project':self.store.get('project','current'),'capture':self.capture_config(),'capture_session':self.capture_manager.snapshot(),'assets':self.store.all('asset'),'datasets':self.preparation.summaries(),'jobs':self.store.all('job'),'capabilities':[
             {'id':'import','name':'来源登记与快照','available':True,'reason':'本机目录、来源与标签，128 MiB / 10000 文件以内'},
             {'id':'check','name':'结构质检','available':True,'reason':'Unitree 原始 JSON 28 维上肢记录；不证明同步或任务成功'},
             {'id':'export','name':'JSONL 导出','available':True,'reason':'项目自有契约；不是官方 LeRobot，尚不能直接训练策略'},
             {'id':'prepare','name':'回合选择与便携数据包','available':True,'reason':'片段、分组划分、来源采样与项目读取验收；不是官方训练器验收'},
-            {'id':'capture','name':'遥操作采集','available':False,'reason':'G1 / Vision Pro 服务与控制权接口待真机验收'},
+            {'id':'capture','name':'遥操作采集','available':True,'reason':'本地/SSH执行器、真机/仿真配置、录制保存事件与自动入库；实际设备状态和验收以连接结果为准'},
             {'id':'convert','name':'官方转换','available':False,'reason':'固定版本参数已研究，上游依赖环境和数据契约待接入验收'},
             {'id':'train','name':'模型训练','available':False,'reason':'训练后端、依赖环境和目标策略读取器待接入'},
             {'id':'evaluate','name':'仿真评估','available':False,'reason':'任务场景、控制器和评价后端待接入'},
@@ -131,6 +134,52 @@ class Workbench:
                 rows.append({'idx':i,'timestamp':round(i/30,8),'colors':{'color_0':'image.png'},'states':state,'actions':action})
             write_json(root/'data.json',{'info':{'synthetic':True,'image':{'fps':30}},'text':{'goal':'SYNTHETIC 工作台流程测试，不是真机示范'},'data':rows})
             return self.import_asset({'path':str(root),'name':'合成流程样例（非真机）','source_kind':'simulation','task':'SYNTHETIC 工作台流程测试','tags':['合成','仅测试'],'license':'CC0-1.0 (generated fixture)','embodiment':'SYNTHETIC_28D','_synthetic':True})
+    def adopt_capture(self,raw,files,receipt,episode):
+        """Adopt a verified, workspace-owned staging directory without copying it twice."""
+        ident=hashlib.sha256(('capture:'+receipt['id']).encode()).hexdigest()[:32]
+        with self.lock:
+            existing=next((a for a in self.store.all('asset') if a['id']==ident),None)
+            if existing:
+                if existing.get('capture_receipt_id')!=receipt['id']:raise ValueError('采集资产 ID 冲突')
+                shutil.rmtree(raw,ignore_errors=True);return existing
+            raw=Path(raw).resolve()
+            expected=self.workspace/'capture'/'incoming'/receipt['id']/'raw'
+            if raw!=expected or not raw.is_dir() or is_link(raw):raise ValueError('采集暂存目录不受工作台管理')
+            metadata=episode['metadata'];base=self.workspace/'assets'/ident
+            base.mkdir(parents=True,exist_ok=True)
+            destination=base/'raw'
+            if destination.exists():
+                # A crash after the move but before catalog registration can be resumed.
+                for item in files:
+                    if file_hash(within(destination,item['path'],exists=True))!=item['sha256']:
+                        raise ValueError('上次未完成登记的采集快照不匹配')
+                shutil.rmtree(raw)
+            else:raw.replace(destination)
+            write_json(base/'manifest.json',{'format':'robot_pipeline.asset_snapshot.v1','files':files,'bytes':sum(f['bytes'] for f in files)})
+            info=inspect_directory(destination)
+            synthetic=bool(metadata.get('synthetic') or info.get('synthetic_declared'))
+            kind='self_capture' if receipt['mode']=='real' else 'simulation'
+            name=('合成采集样例' if synthetic else '真机采集' if kind=='self_capture' else '仿真采集')+' · '+receipt['id'][:8]
+            asset={'id':ident,'name':name,'source_kind':kind,'source_reference':'capture:'+receipt['session_id']+':'+episode['id'],
+                'task':metadata['task'],'tags':['采集自动入库']+(['合成','仅流程验证'] if synthetic else []),
+                'license':'CC0-1.0 (generated synthetic sample)' if synthetic else 'unknown',
+                'embodiment':'SYNTHETIC_28D' if synthetic else 'Unitree_G1_Dex3',
+                'path':f'assets/{ident}/raw','manifest_path':f'assets/{ident}/manifest.json',
+                'manifest_sha256':file_hash(base/'manifest.json'),'created_at':now(),'bytes':sum(f['bytes'] for f in files),
+                'file_count':len(files),'quality':None,'training_ready':False,'synthetic':synthetic,
+                'capture_receipt_id':receipt['id'],'capture_session_id':receipt['session_id'],**info}
+            return self.store.put('asset',asset)
+
+    def enqueue_capture_check(self,asset,receipt_id):
+        ident=hashlib.sha256(('capture-check:'+receipt_id).encode()).hexdigest()[:32]
+        with self.lock:
+            old=next((j for j in self.store.all('job') if j['id']==ident),None)
+            if old:return old
+            directory=self.workspace/'jobs'/ident;directory.mkdir(parents=True,exist_ok=True)
+            write_json(directory/'input.json',{'asset':asset,'stage':'check','project':self.store.get('project','current')})
+            job={'id':ident,'asset_id':asset['id'],'stage':'check','status':'queued','created_at':now(),
+                 'error':None,'result':None,'capture_receipt_id':receipt_id}
+            self.store.put('job',job);self.event.set();return job
     def submit(self,payload):
         stage=payload.get('stage')
         if stage not in {'check','export','check_export'}:raise ValueError('当前仅接入质检和 JSONL 导出阶段')
@@ -183,6 +232,7 @@ class Workbench:
             self.event.wait(.25);self.event.clear()
             with self.lock:
                 if self.closed:break
+                if self.capture_manager.priority:continue
                 queued=[j for j in self.store.all('job') if j['status']=='queued']
                 if not queued:continue
                 job=queued[-1];ident=job['id'];self.active_id=ident
@@ -239,4 +289,5 @@ class Workbench:
             for job in self.store.all('job'):
                 if job['status']=='queued':job.update(status='cancelled',finished_at=now(),error='工作台关闭');self.store.put('job',job)
         self.thread.join(timeout=5)
+        self.capture_manager.close()
         self.workspace_lock.close()

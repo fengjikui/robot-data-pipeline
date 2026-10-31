@@ -1,0 +1,22 @@
+test_both_modes_capture_auto_ingest_and_real_worker_quality (test_capture.CaptureAPITests.test_both_modes_capture_auto_ingest_and_real_worker_quality) ... ok
+test_interrupted_transfer_is_actionable_after_restart (test_capture.CaptureAPITests.test_interrupted_transfer_is_actionable_after_restart) ... ok
+test_lost_record_ack_reconciles_without_repeating_toggle (test_capture.CaptureAPITests.test_lost_record_ack_reconciles_without_repeating_toggle) ... ok
+test_mode_and_config_changes_blocked_during_session (test_capture.CaptureAPITests.test_mode_and_config_changes_blocked_during_session) ... ok
+test_multiple_episodes_repeated_commands_and_no_manual_import (test_capture.CaptureAPITests.test_multiple_episodes_repeated_commands_and_no_manual_import) ... ok
+test_no_token_and_illegal_transition_rejected (test_capture.CaptureAPITests.test_no_token_and_illegal_transition_rejected) ... ok
+test_prepare_combines_connection_and_start_and_outcome_is_visible (test_capture.CaptureAPITests.test_prepare_combines_connection_and_start_and_outcome_is_visible) ... ok
+test_archive_rejects_mutated_saved_source (test_capture.RecorderBoundaryTests.test_archive_rejects_mutated_saved_source) ... ok
+test_control_endpoint_rejects_missing_token (test_capture.RecorderBoundaryTests.test_control_endpoint_rejects_missing_token) ... ok
+test_duplicate_intents_never_flip_recording_twice (test_capture.RecorderBoundaryTests.test_duplicate_intents_never_flip_recording_twice) ... ok
+test_no_completion_before_closed_json_and_media (test_capture.RecorderBoundaryTests.test_no_completion_before_closed_json_and_media) ... ok
+test_pending_timeout_stays_unknown_until_real_state_arrives (test_capture.RecorderBoundaryTests.test_pending_timeout_stays_unknown_until_real_state_arrives) ... ok
+test_pinned_official_writer_queue_completion_and_timestamp_hook (test_capture.RecorderBoundaryTests.test_pinned_official_writer_queue_completion_and_timestamp_hook) ... ok
+test_pipe_node_launch_and_stop_owned_process (test_capture.RecorderBoundaryTests.test_pipe_node_launch_and_stop_owned_process) ... ok
+test_save_hashing_does_not_block_status_or_allow_next_record (test_capture.RecorderBoundaryTests.test_save_hashing_does_not_block_status_or_allow_next_record) ... ok
+test_ssh_uses_alias_and_quotes_remote_paths (test_capture.RecorderBoundaryTests.test_ssh_uses_alias_and_quotes_remote_paths) ... ok
+test_writer_hook_emits_after_underlying_save_and_reports_write_failure (test_capture.RecorderBoundaryTests.test_writer_hook_emits_after_underlying_save_and_reports_write_failure) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 32.134s
+
+OK

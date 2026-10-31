@@ -9,7 +9,7 @@
     return node;
   };
   const stages = [
-    {id: "input", title: "数据获取", subtitle: "自行采集 / 外部导入", copy: "两种来源汇合为一份可追溯的数据资产。先选数据，再进入处理阶段。", input: "已保存的采集回合，或已下载的开源 / 采购目录", output: "原始文件快照、来源标签、文件清单与校验值", note: "本机导入上限 128 MiB / 10,000 文件。网页搜索、远程下载和采集服务将分批接入。"},
+    {id: "input", title: "数据获取", subtitle: "自行采集 / 外部导入", copy: "两种来源汇合为一份可追溯的数据资产。先选数据，再进入处理阶段。", input: "已保存的采集回合，或已下载的开源 / 采购目录", output: "原始文件快照、来源标签、文件清单与校验值", note: "本机导入上限 128 MiB / 10,000 文件。采集执行器支持保存后自动入库；网页搜索和外部下载待接入。"},
     {id: "check", title: "质量检查", subtitle: "结构、引用、数值与维度", copy: "先确认文件能否正确读取，定位缺失图像、异常数值与状态 / 动作维度问题。", input: "当前数据资产的原始快照", output: "检查报告、问题列表与警告", note: "当前检查器覆盖 Unitree 原始 JSON 的 28 维双臂与双手结构。结构通过不代表搬箱任务质量已经验收。"},
     {id: "convert", title: "数据转换", subtitle: "派生产物与训练格式", copy: "保留原始文件，在独立目录生成派生产物。当前已接入工作台 JSONL 导出，官方 LeRobot 转换器仍待接入。", input: "通过结构质检的数据快照", output: "records.jsonl、contract.json 与来源信息", note: "当前 JSONL 是工作台中间契约，不能直接当成 LeRobot 训练数据。后续转换需明确关节顺序、动作语义、图像通道与采样频率。"},
     {id: "augment", title: "数据增强", subtitle: "按需增强，审查后使用", copy: "为同一份合格数据生成可审查的派生版本，再由训练任务选择使用。增强配方与原始来源一起记录。", input: "已检查的数据与增强配方", output: "增强版本、原件对照和审查结论", note: "待接入图像增强与审查工具。首批可从光照、颜色、轻微噪声开始；改变几何或动作的数据需要单独验证。"},
@@ -211,7 +211,7 @@
     try {
       const config = await app.api("/api/capture/config", Object.fromEntries(new FormData($("capture-form"))));
       $("capture-saved").textContent = "已保存 " + time(config.updated_at);
-      app.notify("采集配置已保存；设备服务尚未启动。", "success"); await app.refresh();
+      app.notify("设备备注已保存；采集服务请使用上方操作区。", "success"); await app.refresh();
     } catch (error) { app.notify(error.message, "error", true); }
     finally { submit.disabled = false; }
   });

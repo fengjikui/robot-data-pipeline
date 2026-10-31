@@ -1,4 +1,29 @@
 /* Dataset preparation: one continuous workspace, with stable editors and real records. */
+.daily-stages { display:grid; grid-template-columns:repeat(4,1fr); list-style:none; padding:0; margin:8px 0 25px; gap:22px; }
+.daily-stages li { border-top:2px solid var(--border); padding-top:12px; color:var(--muted); }
+.daily-stages li.done { border-color:var(--accent); }
+.daily-stages span { font-size:10px; display:block; margin-bottom:5px; }
+.daily-stages strong { font-size:14px; display:block; color:inherit; font-weight:600; }
+.daily-stages small { display:block; font-size:11px; margin-top:4px; }
+.daily-stages li.done strong { color:var(--accent); }
+.daily-next { display:flex; justify-content:space-between; gap:28px; align-items:center; padding:22px 0; border-bottom:1px solid var(--border); }
+.daily-next h2 { font-size:20px; }
+.daily-next p { font-size:12px; color:var(--muted); margin-top:7px; max-width:65ch; }
+.daily-actions { display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end; flex-shrink:0; }
+.daily-help { padding:16px 0; }
+.daily-help summary { font-size:12px; }
+.daily-help p { max-width:75ch; color:var(--muted); font-size:12px; margin-top:12px; }
+.daily-preparation { padding-top:18px; border-top:1px solid var(--border); margin-top:8px; }
+.daily-preparation > summary { font-size:14px; color:inherit; }
+.daily-preparation[open] > summary { margin-bottom:24px; }
+.prep-history { margin:8px 0 12px; }
+.prep-history > summary { font-size:12px; }
+.prep-history .prep-draftbar { margin-top:10px; }
+.prep-advanced-recipe { margin:8px 0 20px; }
+.prep-advanced-recipe summary { font-size:12px; }
+.prep-stepper button[data-prep-step="2"] { display:none; }
+@media(max-width:850px) { .daily-next { align-items:start; flex-direction:column; gap:16px; }.daily-actions { justify-content:flex-start; } }
+@media(max-width:620px) { .daily-stages { gap:10px; }.daily-stages strong { font-size:12px; }.daily-stages small { font-size:10px; } }
 .prep-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:12px; }
 .prep-heading .eyebrow { display:none; }
 .prep-heading-actions { display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end; }
@@ -205,3 +230,6 @@
 @media(prefers-reduced-motion:reduce){ .prep-step * { scroll-behavior:auto!important; } }
 
 .prep-inline-problems { color:var(--error); font-size:12px; padding:12px 12px 12px 29px; border:1px solid oklch(85% .04 25); border-radius:5px; background:oklch(98% .01 25); line-height:1.8; }
+
+.prep-episode-name > span, .prep-preview-path { display:none; }
+.prep-clip-disclosure > .prep-clip { border-top:0; padding-top:12px; margin-top:0; }

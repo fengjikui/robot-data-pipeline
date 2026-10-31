@@ -1,0 +1,36 @@
+{
+  "format": "robot_pipeline.capture.profile.v1",
+  "backend": "unitree",
+  "mode": "real",
+  "label": "G1 EDU + Dex3 真机",
+  "xr_repo": "/opt/robot/xr_teleoperate",
+  "python": "/opt/robot/tv/bin/python",
+  "output_root": "/data/robot/raw/real",
+  "arm": "G1_29",
+  "ee": "dex3",
+  "network_interface": "eth0",
+  "image_server_ip": "192.168.123.164",
+  "frequency": 30,
+  "headless": true,
+  "services": [
+    {
+      "id": "cameras",
+      "label": "PC2 相机服务",
+      "manage": "launch",
+      "transport": "ssh",
+      "ssh_alias": "g1-pc2",
+      "agent_python": "/usr/bin/python3",
+      "argv": [
+        "/opt/robot/teleimager-env/bin/python",
+        "-m",
+        "teleimager.image_server"
+      ],
+      "cwd": "/opt/robot/teleimager",
+      "probe": {
+        "host": "192.168.123.164",
+        "port": 55555
+      },
+      "startup_timeout": 60
+    }
+  ]
+}

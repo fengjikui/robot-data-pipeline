@@ -1,0 +1,54 @@
+test_body_fields_are_explicitly_declared_outside_project_contract (test_preparation.PreparationDomainTests.test_body_fields_are_explicitly_declared_outside_project_contract) ... ok
+test_mark_changed_after_preview_requires_resave_before_confirm (test_preparation.PreparationDomainTests.test_mark_changed_after_preview_requires_resave_before_confirm) ... ok
+test_one_parent_clips_remain_one_group_and_train_only_is_explicit (test_preparation.PreparationDomainTests.test_one_parent_clips_remain_one_group_and_train_only_is_explicit) ... ok
+test_overlapping_and_invalid_ranges_do_not_silently_duplicate_data (test_preparation.PreparationDomainTests.test_overlapping_and_invalid_ranges_do_not_silently_duplicate_data) ... ok
+test_source_metadata_changes_after_confirmation_block_build (test_preparation.PreparationDomainTests.test_source_metadata_changes_after_confirmation_block_build) ... ok
+test_standalone_reader_checks_package_and_weighted_sampling (test_preparation.PreparationDomainTests.test_standalone_reader_checks_package_and_weighted_sampling) ... ok
+test_success_annotation_is_independent_of_structure_and_raw (test_preparation.PreparationDomainTests.test_success_annotation_is_independent_of_structure_and_raw) ... ok
+test_valid_fragment_can_salvage_a_problem_elsewhere_in_episode (test_preparation.PreparationDomainTests.test_valid_fragment_can_salvage_a_problem_elsewhere_in_episode) ... ok
+test_build_rejects_unconfirmed_version_and_requires_csrf (test_preparation_api.PreparationAPITests.test_build_rejects_unconfirmed_version_and_requires_csrf) ... ok
+test_cancelled_build_can_be_retried_without_new_confirmation (test_preparation_api.PreparationAPITests.test_cancelled_build_can_be_retried_without_new_confirmation) ... ok
+test_catalog_preview_annotations_and_csrf_guards (test_preparation_api.PreparationAPITests.test_catalog_preview_annotations_and_csrf_guards) ... ok
+test_confirmed_source_mutation_is_not_silently_used (test_preparation_api.PreparationAPITests.test_confirmed_source_mutation_is_not_silently_used) ... ok
+test_draft_revision_conflict_and_confirmed_version_are_immutable (test_preparation_api.PreparationAPITests.test_draft_revision_conflict_and_confirmed_version_are_immutable) ... ok
+test_duplicate_sources_cannot_cross_splits (test_preparation_api.PreparationAPITests.test_duplicate_sources_cannot_cross_splits) ... ok
+test_failed_worker_keeps_input_and_allows_real_retry (test_preparation_api.PreparationAPITests.test_failed_worker_keeps_input_and_allows_real_retry) ... ok
+test_half_open_clips_preserve_parent_result_alignment_and_portable_media (test_preparation_api.PreparationAPITests.test_half_open_clips_preserve_parent_result_alignment_and_portable_media) ... /opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10413a3e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10413a200>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1041fa7a0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1041fa6b0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1041fbc40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1041fbe20>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10420c040>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10420dd50>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10420de40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_invalid_clip_and_sampling_inputs_are_rejected (test_preparation_api.PreparationAPITests.test_invalid_clip_and_sampling_inputs_are_rejected) ... ok
+test_missing_timestamps_remain_unknown_after_preparation (test_preparation_api.PreparationAPITests.test_missing_timestamps_remain_unknown_after_preparation) ... ok
+test_normal_directory_import_retains_declared_synthetic_provenance (test_preparation_api.PreparationAPITests.test_normal_directory_import_retains_declared_synthetic_provenance) ... ok
+test_preview_rejects_outside_reference_unknown_camera_and_bad_frame (test_preparation_api.PreparationAPITests.test_preview_rejects_outside_reference_unknown_camera_and_bad_frame) ... ok
+test_split_too_few_groups_and_bad_image_are_blocked_at_confirmation (test_preparation_api.PreparationAPITests.test_split_too_few_groups_and_bad_image_are_blocked_at_confirmation) ... ok
+test_weighted_reader_sampling_has_effect_without_deleting_sources (test_preparation_api.PreparationAPITests.test_weighted_reader_sampling_has_effect_without_deleting_sources) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 16.015s
+
+OK

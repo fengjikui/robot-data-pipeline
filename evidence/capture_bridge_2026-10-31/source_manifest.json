@@ -1,0 +1,27 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/unitreerobotics/xr_teleoperate/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/teleop_hand_and_arm.py",
+    "sha256": "41e50227bb6973a7e12d3b5a1f118c2bf5391c06f3bb62b33d710c7cee9c1261",
+    "bytes": 34358
+  },
+  {
+    "url": "https://raw.githubusercontent.com/unitreerobotics/xr_teleoperate/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/teleop/utils/episode_writer.py",
+    "sha256": "664937c5192fcb19cfdd1656af8c88310fc1f8860aee8db806760d8d7a815888",
+    "bytes": 10081
+  },
+  {
+    "url": "https://raw.githubusercontent.com/unitreerobotics/xr_teleoperate/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b/LICENSE",
+    "sha256": "63762ccebdb836cf2bae6b1ae0de526e7499dbf45e554c790ebc45942cce3e36",
+    "bytes": 1151
+  },
+  {
+    "url": "https://raw.githubusercontent.com/unitreerobotics/unitree_sim_isaaclab/e30c25b1dffdf92ada1d6c8c1fe9a47bdde0fecc/LICENSE",
+    "sha256": "c9294c93c8aa7bd5fb18bf0f3db3f8dc3fd4972be79f4227de3fa7e416201d68",
+    "bytes": 927
+  },
+  {
+    "url": "https://raw.githubusercontent.com/unitreerobotics/teleimager/57cf2a40572227273fa001cd17833b755331ec97/LICENSE",
+    "sha256": "a4c75918ad0cd1b978899bece9907b2db9fac527ccf183c1abea6482341191cd",
+    "bytes": 784
+  }
+]

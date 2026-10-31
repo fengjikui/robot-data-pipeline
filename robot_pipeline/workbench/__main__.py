@@ -14,7 +14,7 @@ def configure_stdio():
 
 def main(argv=None):
     configure_stdio()
-    p=argparse.ArgumentParser(description='具身智能数据管线工作台，单人本地运行，不控制机器人')
+    p=argparse.ArgumentParser(description='具身智能数据管线工作台，单人本地运行，可接入已配置的采集执行器')
     p.add_argument('--workspace',type=Path,default=Path.cwd()/'workspace',help='资产与作业存储目录，可移动到其他系统')
     p.add_argument('--port',type=int,default=8765)
     args=p.parse_args(argv)

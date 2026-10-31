@@ -1,2 +1,2 @@
-"""Local, dependency-free data workbench; no robot control or model training."""
-__version__ = '0.3.0'
+"""Local data workbench with explicit, user-operated capture adapters."""
+__version__ = '0.4.0'

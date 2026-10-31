@@ -39,6 +39,9 @@ try:
     assert len(get('/workbench.css', 'text/css')) > 500
     assert len(get('/preparation.js', 'text/javascript')) > 500
     assert len(get('/preparation.css', 'text/css')) > 500
+    assert len(get('/capture.js', 'text/javascript')) > 500
+    assert len(get('/capture.css', 'text/css')) > 500
+    assert len(get('/daily.js', 'text/javascript')) > 500
     def post(path, payload):
         data = json.dumps(payload, ensure_ascii=False).encode('utf-8')
         request = Request(base + path, data=data, headers={
@@ -113,7 +116,39 @@ try:
         assert portable.testzip() is None
         assert any(name.endswith('records.jsonl') for name in portable.namelist())
         assert any(name.endswith('.png') for name in portable.namelist())
-    print('Installed wheel: empty UI + synthetic import + worker QC/export + episode preview + confirmed portable preparation PASS')
+    post('/api/capture/trial', {'mode': 'simulation'})
+    def capture_action(name):
+        operation = post('/api/capture/action', {'mode': 'simulation', 'action': name, 'operator_ready': True})
+        deadline = time.monotonic() + 20
+        while time.monotonic() < deadline:
+            current = json.loads(get('/api/capture/state'))
+            done = next((o for o in current['operations'] if o['id'] == operation['id'] and o['status'] not in ('queued', 'running')), None)
+            if done:
+                assert done['status'] == 'accepted', done
+                return
+            time.sleep(.05)
+        raise AssertionError('capture action timeout')
+    def capture_wait(predicate):
+        deadline = time.monotonic() + 20
+        while time.monotonic() < deadline:
+            value = json.loads(get('/api/capture/state'))
+            if predicate(value):
+                return value
+            time.sleep(.05)
+        raise AssertionError('capture observed-state timeout')
+    capture_action('prepare')
+    capture_wait(lambda s: s['runtime']['state'] == 'ready')
+    capture_action('follow')
+    capture_wait(lambda s: s['runtime']['state'] == 'following')
+    capture_action('record_start')
+    capture_wait(lambda s: s['runtime']['state'] == 'recording')
+    capture_action('record_stop')
+    captured = capture_wait(lambda s: any(e.get('quality_status') == 'succeeded' for e in s['episodes']))
+    assert captured['episodes'][0]['synthetic'] is True
+    assert captured['episodes'][0]['asset_id']
+    capture_action('stop_services')
+    capture_wait(lambda s: s['runtime']['state'] == 'stopped')
+    print('Installed wheel: UI + data preparation + synthetic capture/save/auto-ingest/worker-QC PASS')
 finally:
     server.shutdown()
     thread.join(timeout=5)

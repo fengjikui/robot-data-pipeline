@@ -8,16 +8,19 @@
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/workbench.css">
   <link rel="stylesheet" href="/preparation.css">
+  <link rel="stylesheet" href="/capture.css">
   <script defer src="/path-picker.js"></script>
   <script defer src="/app.js"></script>
   <script defer src="/workbench.js"></script>
   <script defer src="/preparation.js"></script>
+  <script defer src="/capture.js"></script>
+  <script defer src="/daily.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">跳到工作区域</a>
   <header class="topbar">
     <a class="brand" href="/" aria-label="数据管线工作台首页"><span class="brand-mark" aria-hidden="true">D</span><span>数据管线<span class="brand-detail">工作台</span></span></a>
-    <div class="top-status"><span class="local-dot" aria-hidden="true"></span><span id="connection">正在连接本地服务</span><span class="version" id="version"></span></div>
+    <div class="top-status"><button id="capture-global-status" class="text-button" type="button" hidden>返回采集</button><span class="local-dot" aria-hidden="true"></span><span id="connection">正在连接本地服务</span><span class="version" id="version"></span></div>
   </header>
   <div id="message" class="message" role="status" aria-live="polite" hidden></div>
   <div class="app-shell">
@@ -25,7 +28,7 @@
       <span class="nav-caption">工作区</span>
       <button type="button" data-view="task" aria-current="page"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg>当前任务</button>
       <button type="button" data-view="library"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7h7l2-3h9v15H3zM3 10h18"/></svg>数据集库<span id="nav-asset-count" class="nav-count">0</span></button>
-      <button type="button" data-view="capture"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5h14v10H5zM9 20h6M12 15v5M2 9h3m14 0h3"/></svg>设备与采集</button>
+      <button type="button" data-view="capture"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5h14v10H5zM9 20h6M12 15v5M2 9h3m14 0h3"/></svg>采集数据</button>
       <button type="button" data-view="runs"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 3h12v18H6zM9 8h6m-6 4h6m-6 4h4"/></svg>运行记录<span id="nav-job-count" class="nav-count">0</span></button>
       <div class="nav-foot"><span class="local-dot" aria-hidden="true"></span><span>单人 · 单机器人<br>文件保存在本机</span></div>
     </nav>
@@ -46,11 +49,16 @@
 
 
       <section id="view-task" class="workspace-view" aria-label="当前任务">
-        <div id="preparation-root"></div>
-        <details class="legacy-overview"><summary>完整管线与整资产工具 <span>查看整体阶段、导入入口与旧作业</span></summary>
+        <section class="daily-workflow" aria-label="这次任务的完整流程">
+          <ol class="daily-stages"><li id="daily-stage-acquire"><span>01</span><strong>采集或导入</strong><small id="daily-acquire-state">先准备数据</small></li><li id="daily-stage-prepare"><span>02</span><strong>整理训练数据</strong><small id="daily-prepare-state">检查、筛选与自动整理</small></li><li><span>03</span><strong>训练模型</strong><small>训练器待接入</small></li><li><span>04</span><strong>仿真验证</strong><small>评估环境待接入</small></li></ol>
+          <div class="daily-next"><div><h2 id="daily-next-title">先为这个任务准备数据</h2><p id="daily-next-copy">自己采集，或导入已有数据。入库和检查由工作台处理。</p></div><div class="daily-actions"><button id="daily-main" class="button primary" type="button">开始采集</button><button id="daily-capture" class="button" type="button">采集数据</button><button id="daily-import" class="text-button" type="button">导入已有数据</button><button id="daily-result" class="text-button" type="button" hidden>查看上次整理结果</button></div></div>
+          <details class="daily-help"><summary>工作台做什么，我需要做什么？</summary><p>你负责确定任务、操作机器人、判断回合结果和确认采用哪些数据。工作台自动接收、入库、排队检查和保存选择。来源比例、文件格式与版本记录放在详情中，通常不用调整。</p><p>训练与仿真后端仍待接入；当前不会把合成试运行或数据预览当成真实训练效果。</p></details>
+        </section>
+        <details id="data-preparation-panel" class="daily-preparation"><summary>查看和整理本轮数据</summary><div id="preparation-root"></div></details>
+        <details class="legacy-overview"><summary>技术详情与已有工具 <span>通常无需操作</span></summary>
         <div class="view-heading"><div><h2 id="task-title">完整流程与整资产检查</h2><p>选好输入数据，沿同一条流程检查、处理并保留每次结果。</p></div><span class="badge neutral">本地准备阶段</span></div>
         <div class="source-choices" aria-label="数据获取方式">
-          <button class="source-choice" id="source-capture" type="button"><span class="source-index">A</span><span><strong>自己采集</strong><small>配置设备 → 遥操作录制 → 导入回合</small></span><span class="choice-arrow" aria-hidden="true">↗</span></button>
+          <button class="source-choice" id="source-capture" type="button"><span class="source-index">A</span><span><strong>自己采集</strong><small>连接执行器 → 录制 → 自动入库</small></span><span class="choice-arrow" aria-hidden="true">↗</span></button>
           <button class="source-choice" id="source-external" type="button"><span class="source-index">B</span><span><strong>使用现成数据</strong><small>开源 / 采购交付 → 本地导入 → 检查</small></span><span class="choice-arrow" aria-hidden="true">↗</span></button>
         </div>
         <div class="input-selection"><div class="field"><label for="task-asset">本次处理的数据</label><select id="task-asset"><option value="">先导入或选择一份数据</option></select></div><button type="button" class="button" id="task-library">查看数据详情</button><button type="button" class="text-button" id="task-import">导入目录</button></div>
@@ -120,7 +128,28 @@
 </div></section>
 
       <section id="view-capture" class="workspace-view" aria-labelledby="capture-title" hidden>
-        <div class="view-heading"><div><h2 id="capture-title">设备与采集</h2><p>先保存一套设备配置。后续由采集适配器统一接管启动、录制和保存。</p></div><span class="badge neutral">配置可保存 · 服务待接入</span></div>
+        <div class="view-heading"><div><h2 id="capture-title">采集数据</h2><p>选择真机或仿真，逐回合录制；保存、入库和检查由工作台处理。</p></div><span id="capture-runtime-badge" class="badge neutral">未连接</span></div>
+        <section id="capture-session-root" class="capture-session" aria-label="采集会话">
+          <div class="capture-modebar"><div class="field"><label for="capture-mode">采集模式</label><select id="capture-mode"><option value="real">真机采集</option><option value="simulation">仿真采集</option></select></div><p id="capture-backend-note" class="field-note">首次使用先配置执行机；也可以用合成数据试运行整条流程。</p><button id="capture-trial" class="button" type="button">没有设备？用合成数据试运行</button><button id="capture-settings" class="text-button" type="button">设备设置</button></div>
+          <details id="capture-connect-details" class="capture-connect"><summary>执行机与连接配置</summary>
+            <form id="capture-connection-form"><div class="form-grid">
+              <div class="field"><label for="capture-transport">执行位置</label><select id="capture-transport"><option value="local">本机执行器</option><option value="ssh">SSH 工作站</option></select></div>
+              <div class="field"><label for="capture-ssh">SSH 别名</label><input id="capture-ssh" maxlength="120" placeholder="例如 robot-gpu（使用免密登录）" disabled></div>
+              <div class="field full-width"><label for="capture-agent-python">执行机 Python 路径或本机环境目录</label><div class="path-input"><input id="capture-agent-python" required placeholder="已安装本工作台的 Python；本机也可选虚拟环境目录"><button id="capture-python-picker" class="button" type="button" data-path-input="capture-agent-python">选择环境目录…</button></div></div>
+              <div class="field full-width"><label for="capture-profile-directory">采集配置目录</label><div class="path-input"><input id="capture-profile-directory" required placeholder="包含 capture-profile.json 的执行机绝对路径"><button id="capture-profile-picker" class="button" type="button" data-path-input="capture-profile-directory">选择文件夹…</button></div><p id="capture-path-note" class="field-note">配置文件固定设备、依赖服务与输出目录；浏览器不传入任意命令。</p></div>
+            </div><div class="form-actions"><button class="button" type="submit" id="capture-connect">保存并连接预检</button><button class="text-button" type="button" id="capture-restore-connection" hidden>恢复原设备配置</button><span class="field-note">真机与仿真配置分别保存</span></div></form>
+          </details>
+          <p id="capture-session-message" class="capture-notice" role="status" aria-live="polite">尚未启动采集服务。</p>
+          <section class="capture-control-panel"><div class="capture-stage-heading"><div><span class="eyebrow">当前会话</span><h3 id="capture-state-title">未连接执行器</h3></div><span id="capture-record-detail" class="muted"></span></div>
+            <ol class="capture-progress" aria-label="采集阶段"><li data-capture-stage="services">01 服务</li><li data-capture-stage="following">02 随动</li><li data-capture-stage="recording">03 录制</li><li data-capture-stage="saving">04 保存</li><li data-capture-stage="ingest">05 入库与质检</li></ol>
+            <label id="capture-ready-label" class="capture-ready-label"><input id="capture-operator-ready" type="checkbox"><span id="capture-ready-text">已核对头显、控制模式与动作范围；本次启动包含控制初始化</span></label>
+            <div class="capture-live-actions"><button class="button" data-capture-action="start_services" type="button">准备采集</button><button class="button" data-capture-action="follow" type="button">启用随动</button><button class="button primary" data-capture-action="record_start" type="button">开始录制</button><button class="button primary" data-capture-action="record_stop" type="button">停止并保存回合</button><button class="text-button" data-capture-action="stop_services" type="button">结束采集服务</button><button class="button danger" data-capture-action="cleanup" type="button" hidden>清理本次失败进程</button></div>
+            <p id="capture-action-note" class="field-note">连接预检不启动控制程序。停止录制后，等待记录器完成写入再登记回合。</p>
+          </section>
+          <section class="capture-receipts"><div class="section-title"><div><h3>本次采集与最近回合</h3><p class="field-note">自动接收、入库和质检分别显示；录制优先，后台工作可等待。</p></div><span id="capture-receipt-count" class="muted">0 个回合</span></div><div id="capture-episode-list"><p class="quality-empty">尚无已保存回合。结束一次录制后，这里会显示接收进度。</p></div></section>
+          <details class="capture-logs"><summary>服务状态与日志</summary><div id="capture-service-list"></div><pre id="capture-session-log" tabindex="0">连接执行器后显示实际日志。</pre></details>
+        </section>
+        <details class="capture-legacy-notes"><summary>设备信息与手工接入备查</summary>
         <div class="capture-equipment"><div><span>操作端</span><strong>Vision Pro</strong><small>浏览器提供头、手追踪输入</small></div><span class="equipment-link">Wi-Fi →</span><div><span>计算主机</span><strong>Host</strong><small>遥操作、逆解、回合记录</small></div><span class="equipment-link">有线网络 ⇄</span><div class="robot-equipment"><span>机器人本体</span><strong>机内 PC2 / 相机 / 关节</strong><small>PC2 提供图像；Host 通过 DDS 读状态、发目标</small></div></div>
         <div class="capture-layout"><form id="capture-form" class="capture-form"><h3>采集配置</h3><div class="form-grid">
           <div class="field"><label for="capture-robot">机器人型号</label><input id="capture-robot" name="robot_model" maxlength="120" placeholder="例如 Unitree G1 EDU"></div>
@@ -132,6 +161,7 @@
           </div><div class="form-actions"><button class="button primary" type="submit">保存采集配置</button><span id="capture-saved" class="muted">尚未保存</span></div><p class="field-note">本页只保存配置，尚未连接设备或执行任何控制命令。</p></form>
           <section class="capture-sequence"><h3>一次采集的操作顺序</h3><ol><li><strong>检查设备与网络</strong><span>核对相机、控制模式和 Host ↔ 机器人的网络。</span></li><li><strong>启动图像与遥操作服务</strong><span>PC2 启动图像服务，Host 启动遥操作；Vision Pro 打开 XR 页面。</span></li><li><strong>开始跟随，再录制回合</strong><span>以实际 SDK 操作为准，记录图像、状态、目标动作和任务信息。</span></li><li><strong>结束回合并等待保存</strong><span>完成保存后，把目录交给数据管线继续处理。</span></li></ol><button class="button" id="capture-import" type="button">导入已保存的回合 →</button></section>
         </div>
+        </details>
       </section>
 
       <section id="view-runs" class="workspace-view" aria-labelledby="runs-title" hidden>
